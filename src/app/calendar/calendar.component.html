@@ -1,0 +1,28 @@
+<div class="calendar">
+  <div class="controls">
+    <button (click)="navigate('prev')">Previous</button>
+    <button (click)="toggleView('day')">Day View</button>
+    <button (click)="toggleView('week')">Week View</button>
+    <button (click)="navigate('next')">Next</button>
+  </div>
+
+  <div class="calendar-header">
+    <h2>{{ format(currentDate, 'MMMM yyyy') }}</h2>
+  </div>
+
+  <!-- Day View -->
+  <div *ngIf="currentView === 'day'" class="day-view">
+    <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
+    <!-- You can add more content for the day view here -->
+  </div>
+
+  <!-- Week View -->
+  <div *ngIf="currentView === 'week'" class="week-view">
+    <div *ngFor="let day of updateWeekView()">
+      <div class="day">
+        <h4>{{ day }}</h4>
+        <!-- You can add more details for the week here -->
+      </div>
+    </div>
+  </div>
+</div>
