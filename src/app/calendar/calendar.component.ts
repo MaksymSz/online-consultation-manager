@@ -1,6 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { format, addDays, subDays, startOfWeek, addWeeks, subWeeks, eachDayOfInterval, startOfDay, addMinutes } from 'date-fns';
+import {Component, OnInit} from '@angular/core';
+import {
+  format,
+  addDays,
+  subDays,
+  startOfWeek,
+  addWeeks,
+  subWeeks,
+  eachDayOfInterval,
+  startOfDay,
+  addMinutes
+} from 'date-fns';
 import {CommonModule} from '@angular/common';
+import {Reservation} from '../models/reservation';
+import {ReservationService} from '../services/reservations';
 
 @Component({
   selector: 'app-calendar',
@@ -11,11 +23,12 @@ import {CommonModule} from '@angular/common';
 export class CalendarComponent implements OnInit {
   currentView: string = 'week'; // Can be 'week' or 'day'
   currentDate: Date = new Date(); // Initial date is the current date
-  availableSlots: string[] = []; // Stores available slots for the day
+  availableSlots: Record<string, Reservation | null> = {}; // Stores available slots for the day
   reservedSlots: Set<string> = new Set(); // Set to track reserved slots
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor() { }
+  constructor(private reservationService: ReservationService,) {
+  }
 
   ngOnInit(): void {
     this.updateCalendar();
@@ -24,8 +37,6 @@ export class CalendarComponent implements OnInit {
   // Toggle between week and day views
   toggleView(view: string): void {
     this.currentView = view;
-    console.log('toggleView');
-    console.log(this.currentView);
 
     this.updateCalendar();
   }
@@ -51,27 +62,25 @@ export class CalendarComponent implements OnInit {
 
   // Show day view (only the current date)
   updateDayView(): void {
-    console.log('update day view')
-    console.log(this.currentView);
     const startOfCurrentDay = startOfDay(this.currentDate);
-    console.log(startOfCurrentDay);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
-    // this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
-    console.log(this.availableSlots.length);
-    console.log(`Available slots for ${format(this.currentDate, 'yyyy-MM-dd')}:`, this.availableSlots);
+    let reservedSlots = this.reservationService.getPatientReservationsByDay(101, this.currentDate);
+    reservedSlots.forEach((reservation: Reservation) => {
+      let reservedSlotsKey = format(reservation.date, 'HH:mm');
+      this.availableSlots[reservedSlotsKey] = reservation;
+    })
   }
 
   // Generate 30-minute time slots for the whole day
-  generateTimeSlots(startDate: Date, intervalMinutes: number): string[] {
-    let slots: string[] = [];
+  generateTimeSlots(startDate: Date, intervalMinutes: number) {
+    let slots: Record<string, Reservation | null> = {};
     let slotTime = startDate;
 
     const endOfDay = new Date(startDate);
     endOfDay.setHours(23, 59, 59, 999);
     // Generate slots until the end of the day
     while (slotTime <= endOfDay) {
-      console.log(slotTime);
-      slots.push(format(slotTime, 'HH:mm'));
+      slots[format(slotTime, 'HH:mm')] = null;
       slotTime = addMinutes(slotTime, intervalMinutes); // Move to the next slot
     }
 
@@ -90,10 +99,14 @@ export class CalendarComponent implements OnInit {
 
   // Show week view (current week based on the current date)
   updateWeekView(): Date[] {
-    const startOfCurrentWeek = startOfWeek(this.currentDate, { weekStartsOn: 0 }); // Assuming Sunday is the start of the week
-    const weekDays = eachDayOfInterval({ start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6) });
+    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 0}); // Assuming Sunday is the start of the week
+    const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
 
     return weekDays;
+  }
+
+  objectKeys(slots: {}) {
+    return Object.keys(slots);
   }
 
   protected readonly format = format;

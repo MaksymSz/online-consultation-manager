@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ReservationService } from './services/reservations';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -12,9 +15,10 @@ import { CalendarComponent } from './calendar/calendar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CalendarComponent
+    CalendarComponent,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ReservationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

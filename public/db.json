@@ -1,0 +1,70 @@
+{
+  "consultants": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "specialization": "reserved"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "specialization": "reserved"
+    },
+    {
+      "id": 3,
+      "name": "Mike Johnson",
+      "specialization": "reserved"
+    },
+    {
+      "id": 4,
+      "name": "Emily Davis",
+      "specialization": "reserved"
+    }
+  ],
+  "consultations": [
+    {
+      "id": 0,
+      "name": null,
+      "consultant": null,
+      "slotTime": "14:30",
+      "repeatFrom": null,
+      "repeatTo": null,
+      "price": null
+    }
+  ],
+  "reservations": [
+    {
+      "id": 1,
+      "patientId": 101,
+      "patientFullName": "John Doe",
+      "date": "2025-01-01T14:30:00Z",
+      "genre": "General",
+      "gender": "Male",
+      "age": 30,
+      "additionalInfo": "None",
+      "canceled": false
+    },
+    {
+      "id": 2,
+      "patientId": 102,
+      "patientFullName": "Jane Smith",
+      "date": "2025-01-02T09:00:00Z",
+      "genre": "General",
+      "gender": "Female",
+      "age": 25,
+      "additionalInfo": "None",
+      "canceled": false
+    },
+    {
+      "id": 3,
+      "patientId": 101,
+      "patientFullName": "John Doe",
+      "date": "2025-01-01T11:00:00Z",
+      "genre": "Cardiology",
+      "gender": "Male",
+      "age": 30,
+      "additionalInfo": "Follow-up visit",
+      "canceled": false
+    }
+  ]
+}
