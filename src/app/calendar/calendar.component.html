@@ -13,14 +13,18 @@
   <!-- Day View -->
   <div *ngIf="currentView === 'day'" class="day-view">
     <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
-    <!-- You can add more content for the day view here -->
+    <div *ngFor="let slot of availableSlots" class="slot" (click)="toggleSlot(slot)">
+      <div [ngClass]="{'reserved': reservedSlots.has(slot), 'available': !reservedSlots.has(slot)}">
+        {{ slot }}
+      </div>
+    </div>
   </div>
 
   <!-- Week View -->
   <div *ngIf="currentView === 'week'" class="week-view">
     <div *ngFor="let day of updateWeekView()">
       <div class="day">
-        <h4>{{ day }}</h4>
+        <h4>{{ format(day, 'eee, MMM dd') }}</h4>
         <!-- You can add more details for the week here -->
       </div>
     </div>

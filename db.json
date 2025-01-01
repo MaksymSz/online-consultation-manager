@@ -1,0 +1,48 @@
+{
+  "consultants": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "specialization": "reserved"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "specialization": "reserved"
+    },
+    {
+      "id": 3,
+      "name": "Mike Johnson",
+      "specialization": "reserved"
+    },
+    {
+      "id": 4,
+      "name": "Emily Davis",
+      "specialization": "reserved"
+    }
+  ],
+  "consultations": [
+    {
+      "id": 0,
+      "name": null,
+      "consultant": null,
+      "slotTime": "14:30",
+      "repeatFrom": null,
+      "repeatTo": null,
+      "price": null
+    }
+  ],
+  "reservations": [
+    {
+      "id": null,
+      "patientId": null,
+      "patientFullName": null,
+      "date": null,
+      "genre": null,
+      "gender": null,
+      "age": null,
+      "additionalInfo": null,
+      "canceled": null
+    }
+  ]
+}
