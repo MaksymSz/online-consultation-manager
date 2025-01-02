@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {Reservation} from '../models/reservation';
-import {format} from 'date-fns';
-import {ReservationService} from './reservation-service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import { format } from 'date-fns';
+import { Reservation } from '../models/reservation';
+import { ReservationService } from './reservation-service';
 
 export interface ApiResponse {
   consultants: any[];
@@ -12,38 +11,44 @@ export interface ApiResponse {
   reservations: Reservation[]; // Assuming you have a `Reservation` interface for the reservations
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ReservationsLocalJson implements ReservationService {
+export class ReservationsLocalJson{
+  private apiUrl = 'http://localhost:3000'; // JSON Server base URL
 
-  private jsonDataUrl = 'db.json';  // Path to your mock JSON file
-  private reservations: Reservation[] = [];
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.getReservations().subscribe({
-      next: (data) => {
-        this.reservations = data.reservations;
-      },
-      error: (error) => {
-        console.error('Error fetching reservations:', error);
-      }
-    });
-
+  // Fetch all reservations
+  getReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/reservations`);
   }
 
-
-  getReservations(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.jsonDataUrl);
+  // Fetch reservations for a specific patient on a specific day
+  getPatientReservationsByDay(patientId: number, date: Date): Observable<Reservation[]> {
+    const dateTime = format(date, 'yyyy-MM-dd');
+    return this.http.get<Reservation[]>(`${this.apiUrl}/reservations`).pipe(
+      map((reservations) =>
+        reservations.filter((reservation) => {
+          const reservationDate = format(new Date(reservation.date), 'yyyy-MM-dd'); // Extract just the date
+          return reservation.patientId === patientId && reservationDate === dateTime;
+        })
+      )
+    );
   }
 
+  // Delete a reservation by ID
+  deleteReservation(reservationId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/reservations/${reservationId}`);
+  }
 
-  getPatientReservationsByDay(patientId: number, date: Date): Reservation[] {
-    let dateTime = format(date, 'yyyy-MM-dd');
-    return this.reservations.filter(reservation => {
-      const reservationDate = format(reservation.date, 'yyyy-MM-dd');  // Extract just the date (YYYY-MM-DD)
-      return reservation.patientId === patientId && reservationDate === dateTime;
-    });
+  // Create a new reservation
+  createReservation(reservation: Reservation): Observable<Reservation> {
+    return this.http.post<Reservation>(`${this.apiUrl}/reservations`, reservation);
+  }
+
+  // Update an existing reservation
+  updateReservation(reservation: Reservation): Observable<Reservation> {
+    return this.http.put<Reservation>(`${this.apiUrl}/reservations/${reservation.id}`, reservation);
   }
 }

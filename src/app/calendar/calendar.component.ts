@@ -14,6 +14,9 @@ import {CommonModule} from '@angular/common';
 import {Reservation} from '../models/reservation';
 import {ReservationsLocalJson} from '../services/reservations-local-json';
 
+import {MatDialog} from '@angular/material/dialog';
+import {SlotDialogComponent} from '../components/slot-dialog/slot-dialog.component';
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -27,7 +30,7 @@ export class CalendarComponent implements OnInit {
   reservedSlots: Set<string> = new Set(); // Set to track reserved slots
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(private reservationService: ReservationsLocalJson,) {
+  constructor(private reservationService: ReservationsLocalJson, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -64,11 +67,14 @@ export class CalendarComponent implements OnInit {
   updateDayView(): void {
     const startOfCurrentDay = startOfDay(this.currentDate);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
-    let reservedSlots = this.reservationService.getPatientReservationsByDay(101, this.currentDate);
-    reservedSlots.forEach((reservation: Reservation) => {
-      let reservedSlotsKey = format(reservation.date, 'HH:mm');
-      this.availableSlots[reservedSlotsKey] = reservation;
-    })
+    let serviceResponse = this.reservationService.getPatientReservationsByDay(101, this.currentDate);
+    // let reservedSlots: Reservation[] = [];
+    serviceResponse.forEach((reservation) => {
+      reservation.forEach((res) => {
+        let reservedSlotsKey = format(res.date, 'HH:mm');
+        this.availableSlots[reservedSlotsKey] = res;
+      })
+    });
   }
 
   // Generate 30-minute time slots for the whole day
@@ -87,15 +93,23 @@ export class CalendarComponent implements OnInit {
     return slots;
   }
 
-  // Toggle the reserved status of a slot
   toggleSlot(slot: string): void {
-    if (this.reservedSlots.has(slot)) {
-      this.reservedSlots.delete(slot); // Unreserve
-    } else {
-      this.reservedSlots.add(slot); // Reserve
-    }
-    console.log(`Reserved slots:`, Array.from(this.reservedSlots));
+    const reservation = this.availableSlots[slot];
+    const dialogRef = this.dialog.open(SlotDialogComponent, {
+      data: {time: slot, reservation},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.action === 'delete') {
+        console.log(`Deleted ${result.reservationId}`)
+        this.reservationService.deleteReservation(result.reservationId).subscribe({
+          next: (reservations) => this.updateCalendar(),
+          error: (err) => console.error('Error:', err),
+        })
+      }
+    });
   }
+
 
   // Show week view (current week based on the current date)
   updateWeekView(): Date[] {
@@ -110,4 +124,6 @@ export class CalendarComponent implements OnInit {
   }
 
   protected readonly format = format;
+
+
 }

@@ -13,4 +13,5 @@ export interface ReservationService {
 
   getPatientReservationsByDay(patientId: number, date: Date): Reservation[];
 
+  deleteReservation(reservationId: number): void;
 }
