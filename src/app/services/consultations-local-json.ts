@@ -15,8 +15,16 @@ export class ConsultationsLocalJson {
   }
 
   // Fetch all reservations
-  getConsultations(): Observable<Consultation[]> {
-    return this.http.get<Consultation[]>(`${this.apiUrl}/consultations`);
+  getConsultations(consultantId: number): Observable<Consultation[]> {
+    return this.http.get<Consultation[]>(`${this.apiUrl}/consultations`).pipe(
+      map((consultations) =>
+        consultations.filter((consultation) => {
+          const repeatFrom = new Date(consultation.repeatFrom);
+          const repeatTo = new Date(consultation.repeatTo);
+          return consultation.consultantId === consultantId;
+        })
+      )
+    );
   }
 
   // Fetch reservations for a specific patient on a specific day
@@ -39,7 +47,7 @@ export class ConsultationsLocalJson {
   }
 
   // Create a new reservation
-  createConsultation(consultation: Consultation): Observable<Consultation> {
+  createConsultation(consultation: {}): Observable<Consultation> {
     return this.http.post<Consultation>(`${this.apiUrl}/consultations`, consultation);
   }
 

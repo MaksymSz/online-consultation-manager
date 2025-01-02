@@ -32,20 +32,40 @@
       "price": 123.45
     },
     {
-      "id": 0,
-      "name": "",
+      "id": 1,
+      "name": "1234",
+      "consultantId": 1,
+      "slotTime": "00:30",
       "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-01T23:00:00.000Z",
-      "price": 100,
-      "consultantId": 1
+      "repeatTo": "2025-01-22T23:00:00.000Z",
+      "price": 123
     },
     {
-      "id": 0,
-      "name": "",
+      "id": 2,
+      "name": "asdasdas",
+      "consultantId": 1,
+      "slotTime": "00:00",
       "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-01T23:00:00.000Z",
-      "price": 100,
-      "consultantId": 1
+      "repeatTo": "2025-01-16T23:00:00.000Z",
+      "price": 3423
+    },
+    {
+      "id": "ba90",
+      "name": "hgfhgghf",
+      "consultantId": 101,
+      "slotTime": "00:30",
+      "repeatFrom": "2025-01-01T23:00:00.000Z",
+      "repeatTo": "2025-01-15T23:00:00.000Z",
+      "price": 4
+    },
+    {
+      "id": "42ff",
+      "name": "kkk",
+      "consultantId": 101,
+      "slotTime": "01:30",
+      "repeatFrom": "2025-01-01T23:00:00.000Z",
+      "repeatTo": "2025-01-04T22:59:59.999Z",
+      "price": 3
     }
   ],
   "reservations": [

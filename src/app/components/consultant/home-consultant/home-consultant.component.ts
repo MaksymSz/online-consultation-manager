@@ -21,7 +21,7 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, provideNativeDateAdapter} from '@angular/material/core';
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
@@ -48,7 +48,7 @@ export class HomeConsultantComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.consultationService.getConsultations().subscribe({
+    this.consultationService.getConsultations(101).subscribe({
       next: data => {
         this.consultations = data;
         // Add position index to each consultation (optional)
@@ -75,33 +75,29 @@ export class HomeConsultantComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
-        console.log(result.campaignOne.start);
-        console.log(result.campaignOne.end);
-        // const newConsultation: Consultation = {
-        //   id: 0, // JSON Server will auto-generate this if using auto-increment
-        //   name: result.name, // Set default or dynamic name
-        //   slotTime: result.minutesP, // Use selected date or fallback
-        //   repeatFrom: result.campaignOne.start, // Use start date from campaignOne
-        //   repeatTo: result.campaignOne.end, // Use end date from campaignOne
-        //   price: 100, // Set a default or dynamic price
-        //   consultantId: 1 // Set the consultantId dynamically if needed
-        // };
-        //
-        // this.consultationService.createConsultation(newConsultation).subscribe({
-        //   next: createdConsultation => {
-        //     console.log('Consultation created:', createdConsultation);
-        //     // Update the dataSource to reflect new data
-        //     this.dataSource.data = [...this.dataSource.data, createdConsultation];
-        //   },
-        //   error: err => {
-        //     console.error('Error creating consultation:', err);
-        //   }
-        // });
+        result.end.setHours(23, 59, 59, 999);
+        const newConsultation = {
+          // id: 0, // JSON Server will auto-generate this if using auto-increment
+          name: result.name, // Set default or dynamic name
+          consultantId: 101, // Set the consultantId dynamically if needed
+          slotTime: format(result.minutes, 'HH:mm'), // Use selected date or fallback
+          repeatFrom: result.start, // Use start date from campaignOne
+          repeatTo: result.end, // Use end date from campaignOne
+          price: result.amount // Set a default or dynamic price
+        };
+
+        this.consultationService.createConsultation(newConsultation).subscribe({
+          next: createdConsultation => {
+            console.log('Consultation created:', createdConsultation);
+            // Update the dataSource to reflect new data
+            this.dataSource.data = [...this.dataSource.data, createdConsultation];
+          },
+          error: err => {
+            console.error('Error creating consultation:', err);
+          }
+        });
       }
 
-      // this.selectedDate.set(result);
-      // console.log(result);
     });
   }
 
@@ -142,6 +138,7 @@ export class DatepickerDialog {
     MatDialogRef<DatepickerDialog>,
   );
   data = inject(MAT_DIALOG_DATA);
+  campaignForm: FormGroup;
 
   today = new Date();
   month = this.today.getMonth();
@@ -149,32 +146,25 @@ export class DatepickerDialog {
 
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
 
-  readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(this.year, this.month, this.today.getDate())),
-    end: new FormControl(new Date(this.year, this.month, this.today.getDate())),
-  });
-  // readonly date = new FormControl(new Date());
-  // FormGroup to capture all inputs
-  // consultationForm = new FormGroup({
-  //   name: new FormControl(''), // For name input
-  //   time: new FormControl(new Date()), // For time picker
-  //   price: new FormControl(0), // For price input
-  //   campaignOne: new FormGroup({
-  //     start: new FormControl(new Date(this.year, this.month, this.today.getDate())),
-  //     end: new FormControl(new Date(this.year, this.month, this.today.getDate())),
-  //   }),
-  // });
 
-
-  constructor() {
+  constructor(private fb: FormBuilder,) {
     this._adapter.setLocale('pl-PL');
+    this.campaignForm = this.fb.group({
+      name: ['', Validators.required],  // Name field
+      minutes: ['', Validators.required],  // Timepicker field
+      start: ['', Validators.required],  // Start date
+      end: ['', Validators.required],  // End date
+      amount: [0, Validators.required],  // Amount field
+    });
   }
-  //
-  // onSave(): void {
-  //   this.dialogRef.close(this.consultationForm.value); // Return all form data
-  // }
-  //
-  // onCancel(): void {
-  //   this.dialogRef.close();
-  // }
+
+  onSave(): void {
+    if (this.campaignForm.valid) {
+      this.dialogRef.close(this.campaignForm.value);
+    }// Return all form data
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

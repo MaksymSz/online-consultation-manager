@@ -1,51 +1,50 @@
 <h2 mat-dialog-title>Datepicker in a Dialog</h2>
 <mat-dialog-content align="center">
-  <p>
-    <mat-form-field appearance="fill">
-      <mat-label>Fill form field</mat-label>
-      <input matInput name="name">
-      <mat-hint>Hint</mat-hint>
-    </mat-form-field>
-  </p>
+  <form [formGroup]="campaignForm">
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Fill form field</mat-label>
+        <input matInput formControlName="name">
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-  <p>
-    <mat-form-field>
-      <mat-label>Every 30 minutes</mat-label>
-      <input matInput [matTimepicker]="minutesPicker">
-      <mat-timepicker-toggle matIconSuffix [for]="minutesPicker"/>
-      <mat-timepicker interval="30min" #minutesPicker/>
-    </mat-form-field>
-  </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Every 30 minutes</mat-label>
+        <input matInput [matTimepicker]="minutesPicker" formControlName="minutes">
+        <mat-timepicker-toggle matIconSuffix [for]="minutesPicker"/>
+        <mat-timepicker interval="30min" #minutesPicker/>
+      </mat-form-field>
+    </p>
 
-  <p>
-    <mat-form-field class="example-form-field">
-      <mat-label>First campaign</mat-label>
-      <mat-date-range-input
-        [formGroup]="campaignOne"
-        [rangePicker]="campaignOnePicker">
-        <input matStartDate placeholder="Start date" formControlName="start">
-        <input matEndDate placeholder="End date" formControlName="end">
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-    </mat-form-field>
-  </p>
+    <p>
+      <mat-form-field class="example-form-field">
+        <mat-label>First campaign</mat-label>
+        <mat-date-range-input
+          [formGroup]="campaignForm"
+          [rangePicker]="campaignOnePicker">
+          <input matStartDate placeholder="Start date" formControlName="start">
+          <input matEndDate placeholder="End date" formControlName="end">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+    </p>
 
-
-  <p>
-    <mat-form-field floatLabel="always">
-      <mat-label>Amount</mat-label>
-      <input matInput type="number" class="example-right-align" placeholder="0"/>
-      <span matTextPrefix>$&nbsp;</span>
-      <span matTextSuffix>.00</span>
-    </mat-form-field>
-  </p>
-
-
+    <p>
+      <mat-form-field floatLabel="always">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" class="example-right-align" formControlName="amount" placeholder="0"/>
+        <span matTextPrefix>$&nbsp;</span>
+        <span matTextSuffix>.00</span>
+      </mat-form-field>
+    </p>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Clear</button>
-  <button mat-button [mat-dialog-close]="campaignOne" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>
