@@ -10,7 +10,7 @@ import {MatButton} from '@angular/material/button';
 import {CommonModule, NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-slot-dialog',
+  selector: 'app-create-dialog',
   templateUrl: './slot-dialog.component.html',
   imports: [
     MatDialogTitle,

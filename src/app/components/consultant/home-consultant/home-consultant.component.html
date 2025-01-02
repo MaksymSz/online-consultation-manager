@@ -1,0 +1,46 @@
+<div>
+  <a routerLink="/consultant/schedule" routerLinkActive="active">Schedule</a>
+</div>
+
+<div>
+  Welcome XXX
+</div>
+
+<div>
+  <div>
+    <button mat-flat-button color="primary" (click)="openDialog()">New consultation</button>
+  </div>
+
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="slotTime">
+        <th mat-header-cell *matHeaderCellDef> Time</th>
+        <td mat-cell *matCellDef="let element"> {{ element.slotTime }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="repeatFrom">
+        <th mat-header-cell *matHeaderCellDef> From</th>
+        <td mat-cell *matCellDef="let element"> {{ format(element.repeatFrom, 'dd-MM-yyyy') }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="repeatTo">
+        <th mat-header-cell *matHeaderCellDef> To</th>
+        <td mat-cell *matCellDef="let element"> {{ format(element.repeatTo, 'dd-MM-yyyy') }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price</th>
+        <td mat-cell *matCellDef="let element"> ${{ element.price }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+</div>

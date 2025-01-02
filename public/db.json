@@ -23,13 +23,29 @@
   ],
   "consultations": [
     {
-      "id": "0",
-      "name": null,
-      "consultant": null,
+      "id": 0,
+      "name": "General",
+      "consultantId": 101,
       "slotTime": "14:30",
-      "repeatFrom": null,
-      "repeatTo": null,
-      "price": null
+      "repeatFrom": "2025-01-01T00:00:00Z",
+      "repeatTo": "2025-01-05T00:00:00Z",
+      "price": 123.45
+    },
+    {
+      "id": 0,
+      "name": "",
+      "repeatFrom": "2025-01-01T23:00:00.000Z",
+      "repeatTo": "2025-01-01T23:00:00.000Z",
+      "price": 100,
+      "consultantId": 1
+    },
+    {
+      "id": 0,
+      "name": "",
+      "repeatFrom": "2025-01-01T23:00:00.000Z",
+      "repeatTo": "2025-01-01T23:00:00.000Z",
+      "price": 100,
+      "consultantId": 1
     }
   ],
   "reservations": [
