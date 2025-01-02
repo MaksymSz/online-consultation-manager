@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Reservation} from '../models/reservation';
 import {format} from 'date-fns';
+import {ReservationService} from './reservation-service';
 
 export interface ApiResponse {
   consultants: any[];
@@ -15,7 +16,7 @@ export interface ApiResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class ReservationService {
+export class ReservationsLocalJson implements ReservationService {
 
   private jsonDataUrl = 'db.json';  // Path to your mock JSON file
   private reservations: Reservation[] = [];

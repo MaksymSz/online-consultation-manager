@@ -12,7 +12,7 @@ import {
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
 import {Reservation} from '../models/reservation';
-import {ReservationService} from '../services/reservations';
+import {ReservationsLocalJson} from '../services/reservations-local-json';
 
 @Component({
   selector: 'app-calendar',
@@ -27,7 +27,7 @@ export class CalendarComponent implements OnInit {
   reservedSlots: Set<string> = new Set(); // Set to track reserved slots
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(private reservationService: ReservationService,) {
+  constructor(private reservationService: ReservationsLocalJson,) {
   }
 
   ngOnInit(): void {

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ReservationService } from './services/reservations';
+import { ReservationsLocalJson } from './services/reservations-local-json';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { ReservationService } from './services/reservations';
     CalendarComponent,
     HttpClientModule,
   ],
-  providers: [ReservationService],
+  providers: [ReservationsLocalJson],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
