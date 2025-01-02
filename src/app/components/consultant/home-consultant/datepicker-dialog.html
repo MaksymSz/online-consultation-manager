@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Datepicker in a Dialog</h2>
 <mat-dialog-content align="center">
-  <form [formGroup]="campaignForm">
+  <form [formGroup]="form">
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Fill form field</mat-label>
@@ -22,7 +22,7 @@
       <mat-form-field class="example-form-field">
         <mat-label>First campaign</mat-label>
         <mat-date-range-input
-          [formGroup]="campaignForm"
+          [formGroup]="form"
           [rangePicker]="campaignOnePicker">
           <input matStartDate placeholder="Start date" formControlName="start">
           <input matEndDate placeholder="End date" formControlName="end">
@@ -41,10 +41,23 @@
         <span matTextSuffix>.00</span>
       </mat-form-field>
     </p>
+
+    <!-- Weekdays Section without Select All -->
+      <mat-label>Weekdays</mat-label>
+    <div formGroupName="weekdays">
+      <mat-checkbox formControlName="monday">Monday</mat-checkbox>
+      <mat-checkbox formControlName="tuesday">Tuesday</mat-checkbox>
+      <mat-checkbox formControlName="wednesday">Wednesday</mat-checkbox>
+      <mat-checkbox formControlName="thursday">Thursday</mat-checkbox>
+      <mat-checkbox formControlName="friday">Friday</mat-checkbox>
+      <mat-checkbox formControlName="saturday">Saturday</mat-checkbox>
+      <mat-checkbox formControlName="sunday">Sunday</mat-checkbox>
+    </div>
+
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Clear</button>
-  <button mat-button (click)="onSave()" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Add</button>
 </mat-dialog-actions>

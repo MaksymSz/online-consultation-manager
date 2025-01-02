@@ -101,15 +101,6 @@ export class ScheduleComponent implements OnInit {
       data: {time: slot, reservation},
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result?.action === 'delete') {
-    //     console.log(`Deleted ${result.reservationId}`)
-    //     this.consultationService.deleteReservation(result.reservationId).subscribe({
-    //       next: (reservations) => this.updateCalendar(),
-    //       error: (err) => console.error('Error:', err),
-    //     })
-    //   }
-    // });
   }
 
 
