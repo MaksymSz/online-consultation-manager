@@ -1,5 +1,5 @@
 export interface Reservation {
-  id: number;
+  id: string;
   patientId: number;
   consultantId: number;
   patientFullName: string;

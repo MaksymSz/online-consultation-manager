@@ -26,6 +26,17 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable
 } from '@angular/material/table';
+import { BasketComponent } from './components/patient/basket/basket.component';
+import { SchedulePatientComponent } from './components/patient/schedule-patient/schedule-patient.component';
+import { HomePatientComponent } from './components/patient/home-patient/home-patient.component';
+import { ConsultantsListComponent } from './components/patient/consultants-list/consultants-list.component';
+import {MatList, MatListItem} from "@angular/material/list";
+import {MatLine} from '@angular/material/core';
+
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIcon} from '@angular/material/icon';
+import {MatDivider} from '@angular/material/divider';
+import { ReservationDialogComponent } from './components/patient/reservation-dialog/reservation-dialog.component';
 
 
 @NgModule({
@@ -34,7 +45,10 @@ import {
     HomeComponent,
     PatientsComponent,
     HomeConsultantComponent,
-
+    BasketComponent,
+    SchedulePatientComponent,
+    HomePatientComponent,
+    ConsultantsListComponent,
 
   ],
   imports: [
@@ -57,6 +71,9 @@ import {
     MatRow,
     MatHeaderRowDef,
     MatRowDef,
+    MatList,
+    MatListItem,
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent
   ],
   exports: [
     MatDialogModule,

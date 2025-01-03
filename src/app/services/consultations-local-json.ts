@@ -15,6 +15,9 @@ export class ConsultationsLocalJson {
 
   constructor(private http: HttpClient) {
   }
+  getAllConsultations(): Observable<Consultation[]> {
+    return this.http.get<Consultation[]>(`${this.apiUrl}/consultations`);
+  }
 
   // Fetch all reservations
   getConsultations(consultantId: number): Observable<Consultation[]> {
@@ -41,6 +44,24 @@ export class ConsultationsLocalJson {
         })
       )
     );
+  }
+
+  addAbsence(consultantId: number, date: Date) {
+    const newAbsence = {
+      "consultantId": consultantId,
+      "date": date,
+    }
+    this.http.post<Absence>(`${this.apiUrl}/absences`, newAbsence).subscribe({
+      next: (response) => {
+        console.log('Absence added successfully', response);
+        // After the absence is successfully added, update consultations' status
+        this.updateConsultationsStatusAndPatch(consultantId, date);
+      },
+      error: (err) => {
+        console.error('Error adding absence:', err);
+      }
+    });
+
   }
 
   // Your method to update the status field and send PATCH requests:

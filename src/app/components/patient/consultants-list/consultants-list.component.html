@@ -1,0 +1,26 @@
+<p>consultants-list works!</p>
+
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel *ngFor="let consultant of consultants">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>account_circle</mat-icon>
+        {{ consultant.name }}
+      </mat-panel-title>
+      <mat-panel-description> {{ consultant.specialization }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-divider></mat-divider>
+    <div>
+      <div *ngFor="let consultation of filterConsultations(consultant.id)">
+        <mat-divider></mat-divider>
+        <div>
+          <div matLine>{{ consultation.name }} {{ consultation.price }}</div>
+          <button mat-button (click)="openDialog()">Open Form Dialog</button>
+
+        </div>
+      </div>
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>

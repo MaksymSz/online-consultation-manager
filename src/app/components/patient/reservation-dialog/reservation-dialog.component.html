@@ -1,0 +1,109 @@
+<h2 mat-dialog-title>Fill out the form</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="example-form">
+    <p>
+      <mat-form-field class="custom-form-input">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="name"/>
+        <mat-error *ngIf="form.get('name')">
+          Name is required.
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="custom-form-input">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="name"/>
+        <mat-error *ngIf="form.get('name')">
+          Name is required.
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+
+    <!-- Type of consultation   -->
+    <p>
+      <mat-form-field>
+        <mat-label>Choose a car</mat-label>
+        <mat-select formControlName="car" required>
+          <mat-option value="volvo">Volvo</mat-option>
+          <mat-option value="saab">Saab</mat-option>
+          <mat-option value="mercedes">Mercedes</mat-option>
+          <mat-option value="audi">Audi</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('car')">
+          Car is required.
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('gender')">
+          Gender is required.
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+
+    <!-- Integer Number Input -->
+    <mat-form-field>
+      <mat-label>Enter a number</mat-label>
+      <input matInput formControlName="number" type="number" required min="0" />
+      <mat-error *ngIf="form.get('number')">
+        Number is required.
+      </mat-error>
+      <mat-error *ngIf="form.get('number')">
+        Number must be a positive integer.
+      </mat-error>
+      <mat-error *ngIf="form.get('number')">
+        Please enter a valid integer number.
+      </mat-error>
+    </mat-form-field>
+
+
+<!--    <mat-form-field class="example-full-width">-->
+<!--      <mat-label>Choose a date</mat-label>-->
+<!--      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datePicker">-->
+<!--      <mat-hint>MM/DD/YYYY</mat-hint>-->
+<!--      <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>-->
+<!--      <mat-datepicker #datePicker></mat-datepicker>-->
+<!--    </mat-form-field>-->
+
+
+
+    <div class="custom-time-form">
+      <mat-form-field>
+        <mat-label>Pick a time</mat-label>
+        <input matInput [matTimepicker]="timePicker">
+        <mat-timepicker-toggle matIconSuffix [for]="timePicker">
+          <mat-icon matTimepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-timepicker-toggle>
+        <mat-timepicker #timePicker/>
+      </mat-form-field>
+
+    </div>
+
+    <!-- Custom text -->
+    <p>
+      <mat-form-field class="custom-form-input">
+        <mat-label>Message</mat-label>
+        <input matInput #message maxlength="256" placeholder="Ex. I need help with...">
+        <mat-hint align="start"><strong>Don't disclose personal info</strong></mat-hint>
+        <mat-hint align="end">{{ message.value.length }} / 256</mat-hint>
+      </mat-form-field>
+    </p>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onClose()">Cancel</button>
+      <button mat-button [disabled]="form.invalid" type="submit">Submit</button>
+    </div>
+  </form>
+
+
+</mat-dialog-content>

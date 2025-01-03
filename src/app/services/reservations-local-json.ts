@@ -43,9 +43,9 @@ export class ReservationsLocalJson {
   getReservationsByConsultant(consultantId: number, date: Date): Observable<Reservation[]> {
     const dateTime = format(date, 'yyyy-MM-dd');
     return this.http.get<Reservation[]>(`${this.apiUrl}/reservations`).pipe(
-      map((consultations) =>
-        consultations.filter((reservation) => {
-          const reservationDate = format(new Date(reservation.date), 'yyyy-MM-dd');
+      map((reservations) =>
+        reservations.filter((reservation) => {
+          const reservationDate = format(new Date(reservation.date), 'yyyy-MM-dd'); // Extract just the date
           return reservation.consultantId === consultantId && reservationDate === dateTime;
         })
       )
@@ -60,11 +60,19 @@ export class ReservationsLocalJson {
       "date": date,
     }
     console.log(newAbsence);
+
+
     this.http.post<Absence>(`${this.apiUrl}/absences`, newAbsence).subscribe({
       next: (response) => {
         console.log('Absence added successfully', response);
-        // After the absence is successfully added, update consultations' status
-        // this.updateReservationsStatusAndPatch(consultantId, date);
+        this.updateReservationsStatusAndPatch(consultantId, date).subscribe({
+          next: (response) => {
+            console.log('Reservations status updated successfully.');
+          },
+          error: (err) => {
+            console.error('Error updating reservations status:', err);
+          }
+        })
       },
       error: (err) => {
         console.error('Error adding absence:', err);
@@ -74,11 +82,12 @@ export class ReservationsLocalJson {
 
   // Your method to update the status field and send PATCH requests:
   updateReservationsStatusAndPatch(consultantId: number, date: Date): Observable<void> {
+    console.log(`Updating reservations on day ${date}`);
     return this.getReservationsByConsultant(consultantId, date).pipe(
       map(reservations => {
         reservations.forEach(reservation => {
           reservation.canceled = true;
-
+          console.log('Reservation updated:', reservation);
           this.updateReservationStatus(reservation);
         });
       })
@@ -87,8 +96,8 @@ export class ReservationsLocalJson {
 
 // Method to send PATCH request to update the status of each consultation in the database
   updateReservationStatus(reservation: Reservation): void {
-    this.http.patch(`${this.apiUrl}/consultations/${reservation.id}`, {
-      status: reservation.canceled
+    this.http.patch(`${this.apiUrl}/reservations/${reservation.id}`, {
+      canceled: reservation.canceled
     }).subscribe(response => {
       console.log('Reservation status updated successfully', response);
     });
