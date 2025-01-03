@@ -7,6 +7,7 @@ import {ConsultationsLocalJson} from '../../../services/consultations-local-json
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
+import {ReservationsLocalJson} from '../../../services/reservations-local-json';
 
 @Component({
   selector: 'app-consultants-list',
@@ -22,6 +23,7 @@ export class ConsultantsListComponent implements OnInit {
 
   constructor(private consultantsService: PatientReservationsLocalJson,
               private consultationsService: ConsultationsLocalJson,
+              private reservationsService: ReservationsLocalJson,
               private dialog: MatDialog) {
   }
 
@@ -43,9 +45,29 @@ export class ConsultantsListComponent implements OnInit {
   }
 
 
-  openDialog(): void {
+  // availableSlots(consultationId:number): Consultation[] {
+  //   this.reservationsService.getReservationsByConsultant()
+  //
+  //   return [];
+  // }
+
+  openDialog(consultation: Consultation): void {
+    console.log(consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
+      data: {
+        consultation: consultation,
+        timeSlots: [
+          {slot: '9:00 AM', maxValue: 1},
+          {slot: '10:00 AM', maxValue: 2},
+          {slot: '11:00 AM', maxValue: 3},
+          {slot: '12:00 PM', maxValue: 4},
+          {slot: '1:00 PM', maxValue: 5},
+          {slot: '2:00 PM', maxValue: 6},
+          {slot: '3:00 PM', maxValue: 7},
+          {slot: '4:00 PM', maxValue: 8}
+        ],
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {

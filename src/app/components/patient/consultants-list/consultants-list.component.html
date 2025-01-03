@@ -1,5 +1,3 @@
-<p>consultants-list works!</p>
-
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel *ngFor="let consultant of consultants">
     <mat-expansion-panel-header>
@@ -16,7 +14,7 @@
         <mat-divider></mat-divider>
         <div>
           <div matLine>{{ consultation.name }} {{ consultation.price }}</div>
-          <button mat-button (click)="openDialog()">Open Form Dialog</button>
+          <button mat-button (click)="openDialog(consultation)">Zapisz się</button>
 
         </div>
       </div>
@@ -24,3 +22,5 @@
 
   </mat-expansion-panel>
 </mat-accordion>
+
+

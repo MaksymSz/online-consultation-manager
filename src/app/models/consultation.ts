@@ -3,6 +3,7 @@ export interface Consultation {
   name: string,
   consultantId: number,
   slotTime: string,
+  repeat: number,
   repeatFrom: string,
   repeatTo: string,
   price: number,

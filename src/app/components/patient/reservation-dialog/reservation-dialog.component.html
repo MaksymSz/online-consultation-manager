@@ -1,5 +1,6 @@
-<h2 mat-dialog-title>Fill out the form</h2>
 <mat-dialog-content>
+  <h2 mat-dialog-title> Formularz rejestracji </h2>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="example-form">
     <p>
       <mat-form-field class="custom-form-input">
@@ -13,8 +14,8 @@
     <p>
       <mat-form-field class="custom-form-input">
         <mat-label>Last Name</mat-label>
-        <input matInput formControlName="name"/>
-        <mat-error *ngIf="form.get('name')">
+        <input matInput formControlName="surname"/>
+        <mat-error *ngIf="form.get('surname')">
           Name is required.
         </mat-error>
       </mat-form-field>
@@ -24,14 +25,15 @@
     <!-- Type of consultation   -->
     <p>
       <mat-form-field>
-        <mat-label>Choose a car</mat-label>
-        <mat-select formControlName="car" required>
+        <mat-label>Type of consultation</mat-label>
+        <mat-select formControlName="genre" required>
+          <input matInput formControlName="genre"/>
           <mat-option value="volvo">Volvo</mat-option>
           <mat-option value="saab">Saab</mat-option>
           <mat-option value="mercedes">Mercedes</mat-option>
           <mat-option value="audi">Audi</mat-option>
         </mat-select>
-        <mat-error *ngIf="form.get('car')">
+        <mat-error *ngIf="form.get('genre')">
           Car is required.
         </mat-error>
       </mat-form-field>
@@ -40,6 +42,7 @@
     <p>
       <mat-form-field>
         <mat-label>Gender</mat-label>
+        <input matInput formControlName="gender"/>
         <mat-select formControlName="gender" required>
           <mat-option value="Male">Male</mat-option>
           <mat-option value="Female">Female</mat-option>
@@ -50,43 +53,56 @@
       </mat-form-field>
     </p>
 
-
     <!-- Integer Number Input -->
     <mat-form-field>
-      <mat-label>Enter a number</mat-label>
-      <input matInput formControlName="number" type="number" required min="0" />
-      <mat-error *ngIf="form.get('number')">
-        Number is required.
+      <mat-label>Enter an age</mat-label>
+      <input matInput formControlName="age" type="number" required min="0"/>
+      <mat-error *ngIf="form.get('age')">
+        Age is required.
       </mat-error>
-      <mat-error *ngIf="form.get('number')">
-        Number must be a positive integer.
+      <mat-error *ngIf="form.get('age')">
+        Age must be a positive integer.
       </mat-error>
-      <mat-error *ngIf="form.get('number')">
-        Please enter a valid integer number.
+      <mat-error *ngIf="form.get('age')">
+        Please enter a valid age.
       </mat-error>
     </mat-form-field>
 
+    <p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose a date</mat-label>
+        <input matInput formControlName="datePicker" [matDatepickerFilter]="myFilter" [matDatepicker]="datePicker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+    </p>
 
-<!--    <mat-form-field class="example-full-width">-->
-<!--      <mat-label>Choose a date</mat-label>-->
-<!--      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datePicker">-->
-<!--      <mat-hint>MM/DD/YYYY</mat-hint>-->
-<!--      <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>-->
-<!--      <mat-datepicker #datePicker></mat-datepicker>-->
-<!--    </mat-form-field>-->
-
-
-
+    <!-- Time Input -->
     <div class="custom-time-form">
       <mat-form-field>
-        <mat-label>Pick a time</mat-label>
-        <input matInput [matTimepicker]="timePicker">
-        <mat-timepicker-toggle matIconSuffix [for]="timePicker">
-          <mat-icon matTimepickerToggleIcon>keyboard_arrow_down</mat-icon>
-        </mat-timepicker-toggle>
-        <mat-timepicker #timePicker/>
+        <mat-label>Choose time slot</mat-label>
+        <input matInput formControlName="timeSlot"/>
+        <mat-select formControlName="timeSlot" required>
+          <mat-option *ngFor="let slot of data.timeSlots" [value]="slot.slot">{{ slot.slot }}</mat-option>
+        </mat-select>
       </mat-form-field>
+      <div>Number of slots</div>
 
+      <mat-form-field>
+        <mat-label>Enter a number</mat-label>
+        <input matInput formControlName="duration" type="number" required
+               [max]="maxNumberValue"/>
+        <mat-error *ngIf="form.get('duration')?.hasError('required')">
+          Number is required.
+        </mat-error>
+        <mat-error *ngIf="form.get('duration')?.hasError('min')">
+          Number must be a positive integer.
+        </mat-error>
+        <mat-error *ngIf="form.get('duration')?.hasError('max')">
+          Number must be less than or equal to {{ maxNumberValue }}.
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <!-- Custom text -->
@@ -104,6 +120,4 @@
       <button mat-button [disabled]="form.invalid" type="submit">Submit</button>
     </div>
   </form>
-
-
 </mat-dialog-content>

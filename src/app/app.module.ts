@@ -37,6 +37,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIcon} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
 import { ReservationDialogComponent } from './components/patient/reservation-dialog/reservation-dialog.component';
+import {MatFormField} from "@angular/material/form-field";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatInput} from '@angular/material/input';
 
 
 @NgModule({
@@ -73,7 +76,7 @@ import { ReservationDialogComponent } from './components/patient/reservation-dia
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput
   ],
   exports: [
     MatDialogModule,
