@@ -29,6 +29,10 @@ import {
 import {DatepickerDialog} from '../../consultant/home-consultant/home-consultant.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {WeekdaysMap} from '../../../utils/weekdays';
+import {ReservationsLocalJson} from '../../../services/reservations-local-json';
+import {Reservation} from '../../../models/reservation';
+import {addMinutes, format} from 'date-fns';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-reservation-dialog',
@@ -76,6 +80,7 @@ export class ReservationDialogComponent {
 
   constructor(
     private fb: FormBuilder,
+    private reservationsService: ReservationsLocalJson,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this._adapter.setLocale('pl-PL');
@@ -91,6 +96,10 @@ export class ReservationDialogComponent {
       duration: ['', [Validators.required, Validators.min(1)]],
       message: ['', Validators.maxLength(256)],
     });
+    this.form.get('datePicker')?.valueChanges.subscribe((selectedDate: Date) => {
+      this.onDateChange(selectedDate);
+    });
+
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -101,12 +110,45 @@ export class ReservationDialogComponent {
 
   get maxNumberValue() {
     const selectedSlot = this.form.get('timeSlot')?.value;
-    const selectedTimeSlot = this.data.timeSlots.find((slot: { slot: any; }) => slot.slot === selectedSlot);
-    return selectedTimeSlot ? selectedTimeSlot.maxValue : 0;
+    const selectedTimeSlot = this.availableSlots.find(s => s[0] === selectedSlot);
+    return selectedTimeSlot ? selectedTimeSlot[1] : 0;
   }
 
-  getAvailableSlotForDate(date: Date): string[] {
-    return 'A B C'.split(' ');
+  async getAvailableSlotForDate(date: Date): Promise<[string, number][]> {
+    let yy = this.data.consultation.slotTime.split(':');
+
+    let slots: Record<string, number> = {};
+    let slotTime = date;
+    slotTime.setHours(yy[0], yy[1]);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    for (let i = 0; i < this.data.consultation.repeat; i++) {
+      slots[format(slotTime, 'HH:mm')] = 1;
+      slotTime = addMinutes(slotTime, 30); // Move to the next slot
+    }
+
+    const data = await firstValueFrom(this.reservationsService.getReservationsByConsultant(this.data.consultation.consultantId, date));
+
+    data.forEach((reservation: Reservation) => {
+      if (reservation.consultationId === this.data.consultation.id) {
+        slots[format(reservation.date, 'HH:mm')] = -1;
+      }
+    });
+
+    const slotsArray = Object.entries(slots);
+
+    let dd = 1;
+    for (let i = slotsArray.length - 1; i >= 0; i--) {
+      if (slotsArray[i][1] === -1) dd = 1;
+      else {
+        slotsArray[i][1] = dd;
+        ++dd;
+      }
+    }
+
+    return slotsArray.filter(ss => ss[1] > 0)
   }
 
   onDateChange(selectedDate: Date): void {
@@ -115,8 +157,11 @@ export class ReservationDialogComponent {
       this.availableSlots = []
       return;
     }
+    (async () => {
+      this.availableSlots = await this.getAvailableSlotForDate(selectedDate);
+      console.log(this.availableSlots);
+    })();
 
-    this.availableSlots = this.getAvailableSlotForDate(selectedDate);
   }
 
   onSubmit(): void {

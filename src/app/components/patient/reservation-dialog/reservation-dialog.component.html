@@ -68,6 +68,7 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Date Input -->
     <p>
       <mat-form-field class="example-full-width">
         <mat-label>Choose a date</mat-label>
@@ -80,11 +81,11 @@
 
     <!-- Time Input -->
     <div class="custom-time-form">
-      <mat-form-field>
+      <mat-form-field *ngIf="availableSlots.length > 0">
         <mat-label>Choose time slot</mat-label>
         <input matInput formControlName="timeSlot"/>
         <mat-select formControlName="timeSlot" required>
-          <mat-option *ngFor="let slot of data.timeSlots" [value]="slot.slot">{{ slot.slot }}</mat-option>
+          <mat-option *ngFor="let slot of availableSlots" [value]="slot[0]">{{ slot[0] }}</mat-option>
         </mat-select>
       </mat-form-field>
       <div>Number of slots</div>
