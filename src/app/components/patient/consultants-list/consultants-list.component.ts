@@ -44,15 +44,8 @@ export class ConsultantsListComponent implements OnInit {
     return this.consultations.filter(consultation => consultation.consultantId === consultantId);
   }
 
-
-  // availableSlots(consultationId:number): Consultation[] {
-  //   this.reservationsService.getReservationsByConsultant()
-  //
-  //   return [];
-  // }
-
   openDialog(consultation: Consultation): void {
-    console.log(consultation);
+    // console.log(consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
       data: {
@@ -72,8 +65,12 @@ export class ConsultantsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Dialog data:', result);
-        // You can use the form data (result) here
+        // console.log('Dialog data:', result);
+        const retrievedBasket = JSON.parse(localStorage.getItem('basket') || '[]');
+        retrievedBasket.push(result);
+        localStorage.setItem('basket', JSON.stringify(retrievedBasket));
+        //
+        console.log(retrievedBasket);
       }
     });
   }

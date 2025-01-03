@@ -159,7 +159,7 @@ export class ReservationDialogComponent {
     }
     (async () => {
       this.availableSlots = await this.getAvailableSlotForDate(selectedDate);
-      console.log(this.availableSlots);
+      // console.log(this.availableSlots);
     })();
 
   }
