@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import { format } from 'date-fns';
-import { Reservation } from '../models/reservation';
-import { ReservationService } from './reservation-service';
+import {format} from 'date-fns';
+import {Reservation} from '../models/reservation';
+import {ReservationService} from './reservation-service';
+import {Absence} from '../models/absence';
+import {Consultation} from '../models/consultation';
 
 export interface ApiResponse {
   consultants: any[];
@@ -14,10 +16,11 @@ export interface ApiResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class ReservationsLocalJson{
+export class ReservationsLocalJson {
   private apiUrl = 'http://localhost:3000'; // JSON Server base URL
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   // Fetch all reservations
   getReservations(): Observable<Reservation[]> {
@@ -35,6 +38,60 @@ export class ReservationsLocalJson{
         })
       )
     );
+  }
+
+  getReservationsByConsultant(consultantId: number, date: Date): Observable<Reservation[]> {
+    const dateTime = format(date, 'yyyy-MM-dd');
+    return this.http.get<Reservation[]>(`${this.apiUrl}/reservations`).pipe(
+      map((consultations) =>
+        consultations.filter((reservation) => {
+          const reservationDate = format(new Date(reservation.date), 'yyyy-MM-dd');
+          return reservation.consultantId === consultantId && reservationDate === dateTime;
+        })
+      )
+    );
+  }
+
+
+  addAbsence(consultantId: number, date: Date) {
+    date.setHours(date.getHours() + 1);
+    const newAbsence = {
+      "consultantId": consultantId,
+      "date": date,
+    }
+    console.log(newAbsence);
+    this.http.post<Absence>(`${this.apiUrl}/absences`, newAbsence).subscribe({
+      next: (response) => {
+        console.log('Absence added successfully', response);
+        // After the absence is successfully added, update consultations' status
+        // this.updateReservationsStatusAndPatch(consultantId, date);
+      },
+      error: (err) => {
+        console.error('Error adding absence:', err);
+      }
+    });
+  }
+
+  // Your method to update the status field and send PATCH requests:
+  updateReservationsStatusAndPatch(consultantId: number, date: Date): Observable<void> {
+    return this.getReservationsByConsultant(consultantId, date).pipe(
+      map(reservations => {
+        reservations.forEach(reservation => {
+          reservation.canceled = true;
+
+          this.updateReservationStatus(reservation);
+        });
+      })
+    );
+  }
+
+// Method to send PATCH request to update the status of each consultation in the database
+  updateReservationStatus(reservation: Reservation): void {
+    this.http.patch(`${this.apiUrl}/consultations/${reservation.id}`, {
+      status: reservation.canceled
+    }).subscribe(response => {
+      console.log('Reservation status updated successfully', response);
+    });
   }
 
   // Delete a reservation by ID

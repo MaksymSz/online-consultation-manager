@@ -1,6 +1,7 @@
 export interface Reservation {
   id: number;
   patientId: number;
+  consultantId: number;
   patientFullName: string;
   date: string;  // Date as string in ISO format (e.g., "2025-01-01T14:30:00Z")
   genre: string;

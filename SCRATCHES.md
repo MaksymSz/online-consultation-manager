@@ -23,3 +23,16 @@ Jedna strona dla obu funkcjonalności
 
 ## Klasy do wyświetlania elementów kalendarza
 - przeszłe spotkania wyszarzone, i bez możliwości ich usunięcia, ale z możliwością podglądu szczegółów
+
+
+# Kolory konsultacji:
+- szare: przeszłe
+- czerwone: odwołane
+- zielone: aktualny slot czasowy
+- niebieski, fioletowy, żółty, pomarańczowy dla różnych typów konsultacji
+
+
+// TODO: zamienić kod tak aby operował nie na consultations tylko reservations
+//  następnie dodać mozliwość rezerwacji konsultacji przez klienta
+//  dodać całą logikę związaną z dodawaniem do koszyka, oraz symulowanie płatności
+//  odwołanie rezerwacji -- w kalendarzu po kliknięciu w spotkanie wyskakuje dialog ze szczegółami i tam przycisk do odwołania spotkania

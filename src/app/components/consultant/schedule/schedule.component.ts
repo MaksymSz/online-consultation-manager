@@ -17,6 +17,8 @@ import {ConsultationsLocalJson} from '../../../services/consultations-local-json
 import {MatDialog} from '@angular/material/dialog';
 import {CreateDialogComponent} from '../create-dialog/create-dialog.component';
 
+import {WeekdaysMap} from '../../../utils/weekdays';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-schedule',
@@ -70,11 +72,14 @@ export class ScheduleComponent implements OnInit {
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
     let serviceResponse = this.consultationService.getConsultantConsultationsByDay(101, this.currentDate);
     // let reservedSlots: Reservation[] = [];
-    serviceResponse.forEach((reservation) => {
-      reservation.forEach((res) => {
+    serviceResponse.forEach((consultation) => {
+      consultation.forEach((con) => {
         // let reservedSlotsKey = format(res.slotTime, 'HH:mm');
-        let reservedSlotsKey = res.slotTime;
-        this.availableSlots[reservedSlotsKey] = res;
+        let reservedSlotsKey = con.slotTime;
+        console.log(con.weekdays);
+        const xx = WeekdaysMap[this.currentDate.getDay()];
+        // @ts-ignore
+        if (con.weekdays[xx]) this.availableSlots[reservedSlotsKey] = con;
       })
     });
   }
@@ -106,7 +111,7 @@ export class ScheduleComponent implements OnInit {
 
   // Show week view (current week based on the current date)
   updateWeekView(): Date[] {
-    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 0}); // Assuming Sunday is the start of the week
+    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Sunday is the start of the week
     const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
 
     return weekDays;

@@ -4,6 +4,8 @@ import {map, Observable} from 'rxjs';
 import {format} from 'date-fns';
 import {Consultation} from '../models/consultation';
 import {ApiResponse} from '../models/api-response';
+import {Absence} from '../models/absence';
+import {Reservation} from '../models/reservation';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +41,28 @@ export class ConsultationsLocalJson {
         })
       )
     );
+  }
+
+  // Your method to update the status field and send PATCH requests:
+  updateConsultationsStatusAndPatch(consultantId: number, date: Date): Observable<void> {
+    return this.getConsultantConsultationsByDay(consultantId, date).pipe(
+      map(consultations => {
+        consultations.forEach(consultation => {
+          consultation.canceled = true;
+
+          this.updateConsultationStatus(consultation);
+        });
+      })
+    );
+  }
+
+// Method to send PATCH request to update the status of each consultation in the database
+  updateConsultationStatus(consultation: Consultation): void {
+    this.http.patch(`${this.apiUrl}/consultations/${consultation.id}`, {
+      status: consultation.canceled
+    }).subscribe(response => {
+      console.log('Consultation status updated successfully', response);
+    });
   }
 
   // Delete a reservation by ID

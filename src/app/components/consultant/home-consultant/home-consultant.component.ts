@@ -27,6 +27,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, provideNativeDat
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {NgForOf} from '@angular/common';
+import {ReservationsLocalJson} from '../../../services/reservations-local-json';
 
 export interface DialogData {
   selectedDate: Date;
@@ -46,7 +47,8 @@ export class HomeConsultantComponent implements OnInit {
   selectedDate = model<Date | null>(null);
 
 
-  constructor(private consultationService: ConsultationsLocalJson, private dialog: MatDialog) {
+  constructor(private consultationService: ConsultationsLocalJson, private dialog: MatDialog,
+              private reservationService: ReservationsLocalJson) {
   }
 
   ngOnInit(): void {
@@ -112,24 +114,9 @@ export class HomeConsultantComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      // if (result) {
-      //   result.end.setHours(23, 59, 59, 999);
-      //   const newConsultation = {
-      //     consultantId: 101,
-      //     date: result
-      //   };
-      //
-      //   this.consultationService.createConsultation(newConsultation).subscribe({
-      //     next: createdConsultation => {
-      //       console.log('Consultation created:', createdConsultation);
-      //       // Update the dataSource to reflect new data
-      //       this.dataSource.data = [...this.dataSource.data, createdConsultation];
-      //     },
-      //     error: err => {
-      //       console.error('Error creating consultation:', err);
-      //     }
-      //   });
-      // }
+      if (result) {
+        this.reservationService.addAbsence(101, result)
+      }
 
     });
   }

@@ -1,86 +1,71 @@
 {
   "consultants": [
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "specialization": "reserved"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Jane Smith",
       "specialization": "reserved"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Mike Johnson",
       "specialization": "reserved"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Emily Davis",
       "specialization": "reserved"
     }
   ],
   "consultations": [
     {
-      "id": 0,
+      "id": "0",
       "name": "General",
       "consultantId": 101,
-      "slotTime": "14:30",
+      "slotTime": "02:30",
       "repeatFrom": "2025-01-01T00:00:00Z",
-      "repeatTo": "2025-01-05T00:00:00Z",
-      "price": 123.45
+      "repeatTo": "2025-01-25T00:00:00Z",
+      "price": 123.45,
+      "canceled": false,
+      "weekdays": {
+        "monday": false,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": false,
+        "friday": true,
+        "saturday": false,
+        "sunday": true
+      }
     },
     {
-      "id": 1,
+      "id": "1",
       "name": "1234",
-      "consultantId": 1,
+      "consultantId": 101,
       "slotTime": "00:30",
       "repeatFrom": "2025-01-01T23:00:00.000Z",
       "repeatTo": "2025-01-22T23:00:00.000Z",
-      "price": 123
-    },
-    {
-      "id": 2,
-      "name": "asdasdas",
-      "consultantId": 1,
-      "slotTime": "00:00",
-      "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-16T23:00:00.000Z",
-      "price": 3423
-    },
-    {
-      "id": 3,
-      "name": "hgfhgghf",
-      "consultantId": 101,
-      "slotTime": "00:30",
-      "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-15T23:00:00.000Z",
-      "price": 4
-    },
-    {
-      "id": 4,
-      "name": "kkk",
-      "consultantId": 101,
-      "slotTime": "01:30",
-      "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-04T22:59:59.999Z",
-      "price": 3
-    },
-    {
-      "id": 5,
-      "name": "asd",
-      "consultantId": 101,
-      "slotTime": "00:00",
-      "repeatFrom": "2025-01-01T23:00:00.000Z",
-      "repeatTo": "2025-01-10T22:59:59.999Z",
-      "price": 3
+      "price": 123,
+      "canceled": false,
+      "weekdays": {
+        "monday": true,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": true,
+        "sunday": true
+      }
     }
   ],
   "reservations": [
     {
-      "id": 1,
+      "id": "1",
       "patientId": 102,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T09:00:00Z",
       "genre": "General",
@@ -90,8 +75,9 @@
       "canceled": false
     },
     {
-      "id": 2,
+      "id": "2",
       "patientId": 101,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T09:00:00Z",
       "genre": "General",
@@ -101,8 +87,9 @@
       "canceled": false
     },
     {
-      "id": 3,
+      "id": "3",
       "patientId": 101,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T10:00:00Z",
       "genre": "General",
@@ -112,8 +99,9 @@
       "canceled": false
     },
     {
-      "id": 4,
+      "id": "4",
       "patientId": 101,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T00:30:00Z",
       "genre": "General",
@@ -123,8 +111,9 @@
       "canceled": false
     },
     {
-      "id": 5,
+      "id": "5",
       "patientId": 101,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T02:00:00Z",
       "genre": "General",
@@ -134,8 +123,9 @@
       "canceled": false
     },
     {
-      "id": 6,
+      "id": "6",
       "patientId": 101,
+      "consultantId": 101,
       "patientFullName": "Jane Smith",
       "date": "2025-01-02T07:30:00Z",
       "genre": "General",
@@ -148,7 +138,18 @@
   "absences": [
     {
       "consultantId": 101,
-      "date": "2025-01-05T00:00:00Z"
+      "date": "2025-01-05T00:00:00Z",
+      "id": "93f8"
+    },
+    {
+      "id": "9de5",
+      "consultantId": 101,
+      "date": "2025-01-09T23:00:00.000Z"
+    },
+    {
+      "id": "39c7",
+      "consultantId": 101,
+      "date": "2025-01-05T00:00:00.000Z"
     }
   ]
 }
