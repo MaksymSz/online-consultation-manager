@@ -9,8 +9,14 @@
     </div>
 
     <div class="calendar-header">
-      <h2>{{ format(currentDate, 'MMMM yyyy') }}</h2>
-      <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
+      <div *ngIf="currentView === 'day'">
+        <h2>{{ format(currentDate, 'MMMM yyyy') }}</h2>
+        <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
+      </div>
+
+      <div *ngIf="currentView === 'week'">
+        <h2>{{ weekHeader() }}</h2>
+      </div>
 
     </div>
   </div>
@@ -34,10 +40,32 @@
 
     <!-- Week View -->
     <div *ngIf="currentView === 'week'" class="week-view">
-      <div *ngFor="let day of updateWeekView()">
+      <div *ngFor="let day of dayWeekSlots">
         <div class="day">
-          <h4>{{ format(day, 'eee, MMM dd') }}</h4>
-          <!-- You can add more details for the week here -->
+          <h4>{{ format(day[0], 'eee, MMM dd') }}</h4>
+          <div *ngFor="let slot of day[1]" class="slot"
+               [ngClass]="getSlotClass(slot[0], slot[1], day[0])">
+            <div *ngIf="slot[1]" (click)="toggleSlot(slot[0], slot[1])">
+              <div>
+                {{ slot[0] }}
+              </div>
+
+              <div>
+              <span *ngIf="slot[1] as reservation">
+                                {{ reservation.genre }}
+              </span>
+              </div>
+            </div>
+
+            <div *ngIf="!slot[1]">
+              <div>
+                {{ slot[0] }}
+              </div>
+            </div>
+
+          </div>
+
+
         </div>
       </div>
     </div>

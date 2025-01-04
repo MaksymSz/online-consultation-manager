@@ -1,6 +1,6 @@
 .calendar {
   text-align: center;
-  margin: 20px 100px;
+  margin: 20px 50px;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 100px); /* Full viewport height minus margin */
@@ -19,17 +19,29 @@
   margin-bottom: 20px;
 }
 
-.day-view, .week-view {
+.day-view {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: row;
+  /*flex-wrap: wrap;*/
+  /*justify-content: center;*/
+}
+
+.week-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 98%;
 }
 
 .day, .week-view div {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  width: 100%;
+}
+
+
+.day {
+  flex: 1 0 12%; /* Each day will take 14% of the container's width */
+  /*margin: 20px; !* Add space between days *!*/
 }
 
 button {
@@ -37,6 +49,7 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+
 .day-view {
   display: flex;
   flex-direction: column;
@@ -68,36 +81,40 @@ button {
 .canceled {
   background-color: #F94144;
   color: white;
+  border: 1px solid #F94144;
 }
 
 .available {
   background-color: #f7f5fb;
   color: #333;
   border: 1px solid #ccc;
-
 }
 
-.first-visit{
+.first-visit {
   background-color: #90BE6D;
+  border: 1px solid #90BE6D;
 }
 
-.control-visit{
+.control-visit {
   background-color: #F9C74F;
+  border: 1px solid #F9C74F;
 }
 
-.prescription{
+.prescription {
   background-color: #4D908E;
+  border: 1px solid #4D908E;
 }
 
-.chronic-disease{
+.chronic-disease {
   background-color: #F8961E;
+  border: 1px solid #F8961E;
 }
 
-.past{
+.past {
   opacity: 0.2;
 }
 
-.present{
+.present {
   border: 1px solid red;
 }
 
@@ -116,13 +133,12 @@ button {
   background-color: white; /* Ensure it covers content while scrolling */
   z-index: 10; /* Make sure it stays above the scrollable content */
   /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); !* Optional: Add a shadow for separation *!*/
-  /*border: 2px solid #4361ee;*/
 }
 
 .scrollable-area {
   flex-grow: 1; /* Allow it to take remaining space */
   overflow-y: auto; /* Enable vertical scrolling */
-  padding: 10px;
+  /*padding: 10px;*/
   height: 0; /* Necessary for some browsers to make flex-grow work */
   width: 100%;
   display: flex;
@@ -131,10 +147,25 @@ button {
   align-items: center;
 }
 
-.custom-button{
+.custom-button {
   background-color: #4361ee;
 }
 
-body{
+body {
   height: calc(100vh - 300px);
 }
+
+
+/* Optionally add some colors for visibility */
+.item-1 {
+  background-color: #ff9999;
+}
+
+.item-2 {
+  background-color: #99ccff;
+}
+
+.item-3 {
+  background-color: #99ff99;
+}
+

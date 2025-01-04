@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  format,
   addDays,
-  subDays,
-  startOfWeek,
+  addMinutes,
   addWeeks,
-  subWeeks,
   eachDayOfInterval,
+  format,
   startOfDay,
-  addMinutes, subSeconds
+  startOfWeek,
+  subDays,
+  subSeconds,
+  subWeeks
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
 import {Reservation} from '../models/reservation';
@@ -17,6 +18,7 @@ import {ReservationsLocalJson} from '../services/reservations-local-json';
 import {MatDialog} from '@angular/material/dialog';
 import {SlotDialogComponent} from '../components/slot-dialog/slot-dialog.component';
 import {MatButton} from '@angular/material/button';
+import {forkJoin, map, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -31,10 +33,13 @@ export class CalendarComponent implements OnInit {
   reservedSlots: Set<string> = new Set(); // Set to track reserved slots
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+  dayWeekSlots: any;
+
   constructor(private reservationService: ReservationsLocalJson, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
+    this.updateWeekView();
     this.updateCalendar();
   }
 
@@ -51,6 +56,7 @@ export class CalendarComponent implements OnInit {
       this.currentDate = direction === 'next' ? addDays(this.currentDate, 1) : subDays(this.currentDate, 1);
     } else if (this.currentView === 'week') {
       this.currentDate = direction === 'next' ? addWeeks(this.currentDate, 1) : subWeeks(this.currentDate, 1);
+      this.updateWeekView();
     }
     this.updateCalendar();
   }
@@ -60,7 +66,7 @@ export class CalendarComponent implements OnInit {
     if (this.currentView === 'day') {
       this.updateDayView();
     } else if (this.currentView === 'week') {
-      this.updateWeekView();
+      // this.updateWeekView();
     }
   }
 
@@ -94,8 +100,13 @@ export class CalendarComponent implements OnInit {
     return slots;
   }
 
-  toggleSlot(slot: string): void {
-    const reservation = this.availableSlots[slot];
+  toggleSlot(slot: string, reservation_ = null): void {
+    let reservation: Reservation | null = null;
+    if (!reservation_) {
+      reservation = this.availableSlots[slot];
+    } else {
+      reservation = reservation_;
+    }
     const dialogRef = this.dialog.open(SlotDialogComponent, {
       data: {time: slot, reservation},
     });
@@ -111,22 +122,32 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  getSlotClass(slot: any): string {
-    const xx = this.availableSlots[slot];
+  getSlotClass(slot: any, xx_ = null, day_ = null): string {
+    let xx;
+    if (!xx_) {
+      xx = this.availableSlots[slot];
+    } else {
+      xx = xx_;
+    }
+
     let className = '';
     const now = new Date();
 
     const yy = slot.split(':');
     let rangeLow = this.currentDate;
+    if(day_){
+      rangeLow = day_;
+    }
     rangeLow.setHours(yy[0], yy[1], 0);
 
-    const rangeHigh = subSeconds(addMinutes(this.currentDate, 30), 1);
+    const rangeHigh = subSeconds(addMinutes(rangeLow, 30), 1);
 
     if (rangeHigh < now) {
       className += 'past ';
     } else if (rangeLow <= now && now < rangeHigh) {
       className += 'present '
     }
+    // console.log(className, rangeLow, now, rangeHigh);
 
     if (!xx) {
       className += 'available';
@@ -143,14 +164,81 @@ export class CalendarComponent implements OnInit {
     return className;
   }
 
+  test() {
 
-  // Show week view (current week based on the current date)
-  updateWeekView(): Date[] {
-    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Sunday is the start of the week
-    const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
-
-    return weekDays;
   }
+  weekHeader(): string {
+    const weekDays = this.dayWeekSlots;
+    const format_format = 'MMMM dd, yyyy';
+    const from = format(weekDays[0][0], format_format);
+    const to = format(weekDays[6][0], format_format);
+
+    return 'from ' + from + ' to ' + to;
+  }
+
+  //
+  // // Show week view (current week based on the current date)
+  // updateWeekView() {
+  //   const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Sunday is the start of the week
+  //   const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
+  //   // @ts-ignore
+  //   let xx = [];
+  //   weekDays.forEach(day => {
+  //     xx.push([day, this.weekDayInfo(day)]);
+  //   })
+  //   // @ts-ignore
+  //   this.dayWeekSlots = xx;
+  // }
+
+  updateWeekView() {
+    const startOfCurrentWeek = startOfWeek(this.currentDate, { weekStartsOn: 1 }); // Assuming Monday is the start of the week
+    const weekDays = eachDayOfInterval({ start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6) });
+
+    const weekDayObservables = weekDays.map((day) => this.weekDayInfo(day).pipe(map((slots) => [day, slots])));
+
+    forkJoin(weekDayObservables).subscribe({
+      next: (results) => {
+        this.dayWeekSlots = results; // Each result is [day, slots]
+      },
+      error: (err) => {
+        console.error("Failed to fetch week data:", err);
+      },
+    });
+  }
+
+
+  weekDayInfo(day: Date): Observable<[string, Reservation | null][]> {
+    const startOfCurrentDay = startOfDay(day);
+    let availableSlots: Record<string, Reservation | null> = {};
+    availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
+
+    return this.reservationService.getPatientReservationsByDay(101, day).pipe(
+      map((response) => {
+        response.forEach((res) => {
+          const reservedSlotsKey = format(res.date, 'HH:mm');
+          availableSlots[reservedSlotsKey] = res;
+        });
+        return Object.entries(availableSlots); // Return processed data
+      })
+    );
+  }
+
+
+  // weekDayInfo(day: Date) {
+  //   const startOfCurrentDay = startOfDay(day);
+  //   let availableSlots: Record<string, Reservation | null> = {};
+  //   availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
+  //   this.reservationService.getPatientReservationsByDay(101, day).subscribe({
+  //     next: (response) => {
+  //       response.forEach((res) => {
+  //         let reservedSlotsKey = format(res.date, 'HH:mm');
+  //         availableSlots[reservedSlotsKey] = res;
+  //       });
+  //       console.log(Object.entries(availableSlots));
+  //       return Object.entries(availableSlots);
+  //     }
+  //   });
+  // }
 
   objectKeys(slots: {}) {
     return Object.keys(slots);
@@ -159,4 +247,5 @@ export class CalendarComponent implements OnInit {
   protected readonly format = format;
 
 
+  protected readonly addDays = addDays;
 }
