@@ -8,6 +8,9 @@ import {MatList, MatListItem} from '@angular/material/list';
 import {NgForOf, NgIf} from '@angular/common';
 import {MatDivider} from '@angular/material/divider';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {Reservation} from '../../../models/reservation';
+import {ReservationsLocalJson} from '../../../services/reservations-local-json';
+import {addMinutes} from 'date-fns';
 
 @Component({
   selector: 'app-basket',
@@ -53,6 +56,9 @@ export class BasketComponent implements OnInit {
     })
   }
 
+  constructor(private reservationsService: ReservationsLocalJson,) {
+  }
+
   private _formBuilder = inject(FormBuilder);
 
   firstFormGroup = this._formBuilder.group({
@@ -80,7 +86,46 @@ export class BasketComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 5000);
+
+    // add new reservations
+    this.basket.forEach((item: any) => {
+      console.log(item);
+      let slotTime = item.timeSlot.split(':');
+      let slotDate = new Date(item.datePicker);
+      slotDate.setHours(slotTime[0], slotTime[1]);
+
+      let reservation = {
+        patientId: 101,
+        consultantId: item.consultantId,
+        consultationId: item.consultationId,
+        patientFullName: item.name + ' ' + item.surname,
+        date: slotDate.toISOString(),
+        genre: item.genre,
+        gender: item.gender,
+        age: item.age,
+        additionalInfo: item.message,
+        canceled: false,
+      }
+
+      for (let i = 0; i < item.duration; i++) {
+        console.log(reservation)
+        this.reservationsService.createReservation(reservation).subscribe({
+          next: (response) => {
+            console.log('Reservation created successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error creating reservation:', error);
+          },
+        });
+        slotDate = addMinutes(slotDate, 30);
+        reservation.date = slotDate.toISOString();
+      }
+    })
+    // localStorage.setItem('basket', JSON.stringify([]));
   }
+
 
   isEditable = false;
 }
+
+// id, consultantId, consultationId

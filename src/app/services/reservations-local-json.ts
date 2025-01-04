@@ -95,7 +95,7 @@ export class ReservationsLocalJson {
   }
 
 // Method to send PATCH request to update the status of each consultation in the database
-  updateReservationStatus(reservation: Reservation): void {
+  updateReservationStatus(reservation: any): void {
     this.http.patch(`${this.apiUrl}/reservations/${reservation.id}`, {
       canceled: reservation.canceled
     }).subscribe(response => {
@@ -109,7 +109,7 @@ export class ReservationsLocalJson {
   }
 
   // Create a new reservation
-  createReservation(reservation: Reservation): Observable<Reservation> {
+  createReservation(reservation: any): Observable<Reservation> {
     return this.http.post<Reservation>(`${this.apiUrl}/reservations`, reservation);
   }
 

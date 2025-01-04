@@ -28,6 +28,7 @@ export class ConsultantsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // localStorage.setItem('basket', JSON.stringify([]));
     this.consultantsService.getConsultants().subscribe({
       next: data => {
         this.consultants = data;
@@ -48,6 +49,7 @@ export class ConsultantsListComponent implements OnInit {
 
   openDialog(consultation: Consultation): void {
     // console.log(consultation);
+    console.log(consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
       data: {

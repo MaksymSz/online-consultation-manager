@@ -96,6 +96,8 @@ export class ReservationDialogComponent {
       duration: ['', [Validators.required, Validators.min(1)]],
       message: ['', Validators.maxLength(256)],
       price: this.data.consultation.price,
+      consultantId: this.data.consultation.consultantId,
+      consultationId: this.data.consultation.id,
     });
     this.form.get('datePicker')?.valueChanges.subscribe((selectedDate: Date) => {
       this.onDateChange(selectedDate);
