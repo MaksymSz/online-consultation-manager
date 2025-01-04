@@ -1,9 +1,37 @@
-<nav>
-  <a routerLink="/" routerLinkActive="active">Home</a>
-  <a routerLink="/calendar" routerLinkActive="active">Calendar</a>
-  <a routerLink="/consultant" routerLinkActive="active">Consultant</a>
-  <a routerLink="/patient" routerLinkActive="active">Patient</a>
-</nav>
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>home</mat-icon>
+    <div class="custom-button">
+      Home
+    </div>
+  </button>
+  <button mat-button routerLink="/calendar" routerLinkActive="active" class="custom-button">
+    <mat-icon>calendar_today</mat-icon>
+    <div class="custom-button">
+      Calendar
+    </div>
+  </button>
+  <button mat-button routerLink="/consultant" routerLinkActive="active">
+    <mat-icon>person</mat-icon>
+    <div class="custom-button">
+      Consultant
+    </div>
+  </button>
+  <button mat-button routerLink="/patient" routerLinkActive="active">
+    <mat-icon>health_and_safety</mat-icon>
+    <div class="custom-button">
+      Patient
+    </div>
+  </button>
+</mat-toolbar>
+
+
+<!--<nav>-->
+<!--  <a routerLink="/" routerLinkActive="active">Home</a>-->
+<!--  <a routerLink="/calendar" routerLinkActive="active">Calendar</a>-->
+<!--  <a routerLink="/consultant" routerLinkActive="active">Consultant</a>-->
+<!--  <a routerLink="/patient" routerLinkActive="active">Patient</a>-->
+<!--</nav>-->
 
 <!-- Tu zostaną wyświetlone komponenty stron -->
 <router-outlet></router-outlet>

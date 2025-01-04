@@ -8,7 +8,7 @@ import {
   subWeeks,
   eachDayOfInterval,
   startOfDay,
-  addMinutes
+  addMinutes, subSeconds
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
 import {Reservation} from '../models/reservation';
@@ -16,12 +16,13 @@ import {ReservationsLocalJson} from '../services/reservations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';
 import {SlotDialogComponent} from '../components/slot-dialog/slot-dialog.component';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
-  imports: [CommonModule],
+  imports: [CommonModule, MatButton],
 })
 export class CalendarComponent implements OnInit {
   currentView: string = 'week'; // Can be 'week' or 'day'
@@ -108,6 +109,38 @@ export class CalendarComponent implements OnInit {
         })
       }
     });
+  }
+
+  getSlotClass(slot: any): string {
+    const xx = this.availableSlots[slot];
+    let className = '';
+    const now = new Date();
+
+    const yy = slot.split(':');
+    let rangeLow = this.currentDate;
+    rangeLow.setHours(yy[0], yy[1], 0);
+
+    const rangeHigh = subSeconds(addMinutes(this.currentDate, 30), 1);
+
+    if (rangeHigh < now) {
+      className += 'past ';
+    } else if (rangeLow <= now && now < rangeHigh) {
+      className += 'present '
+    }
+
+    if (!xx) {
+      className += 'available';
+      return className;
+    }
+    // @ts-ignore
+    if (xx.canceled) {
+      className += 'canceled';
+      return className;
+    }
+    // console.log(xx.genre.toLowerCase().replace(' ', '-'));
+    // @ts-ignore
+    className += xx.genre.toLowerCase().replace(' ', '-');
+    return className;
   }
 
 

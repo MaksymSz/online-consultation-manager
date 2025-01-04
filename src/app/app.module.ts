@@ -49,6 +49,7 @@ import {
   MatStepperPrevious
 } from "@angular/material/stepper";
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatToolbar} from "@angular/material/toolbar";
 
 
 @NgModule({
@@ -84,7 +85,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar
   ],
   exports: [
     MatDialogModule,

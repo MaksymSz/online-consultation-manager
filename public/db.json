@@ -124,7 +124,7 @@
       "consultationId": 0,
       "patientFullName": "Jane Smith",
       "date": "2025-01-10T05:30:00Z",
-      "genre": "General",
+      "genre": "chronic disease",
       "gender": "Female",
       "age": 25,
       "additionalInfo": "None",
@@ -137,7 +137,7 @@
       "consultationId": "0",
       "patientFullName": "asd asd",
       "date": "2025-01-03T02:00:00.000Z",
-      "genre": "volvo",
+      "genre": "first visit",
       "gender": "Male",
       "age": 3,
       "additionalInfo": "",
@@ -150,7 +150,7 @@
       "consultationId": "0",
       "patientFullName": "asd asd",
       "date": "2025-01-03T02:30:00.000Z",
-      "genre": "volvo",
+      "genre": "first visit",
       "gender": "Male",
       "age": 3,
       "additionalInfo": "",
@@ -163,7 +163,7 @@
       "consultationId": "0",
       "patientFullName": "asd asd",
       "date": "2025-01-03T03:00:00.000Z",
-      "genre": "volvo",
+      "genre": "control visit",
       "gender": "Male",
       "age": 3,
       "additionalInfo": "",
@@ -176,7 +176,7 @@
       "consultationId": "0",
       "patientFullName": "asd asd",
       "date": "2025-01-03T03:30:00.000Z",
-      "genre": "volvo",
+      "genre": "control visit",
       "gender": "Male",
       "age": 3,
       "additionalInfo": "",
@@ -189,11 +189,11 @@
       "consultationId": "0",
       "patientFullName": "zxczxc zxczxc",
       "date": "2025-01-05T01:30:00.000Z",
-      "genre": "mercedes",
+      "genre": "chronic disease",
       "gender": "Male",
       "age": 2,
       "additionalInfo": "",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "75ae",
@@ -202,11 +202,11 @@
       "consultationId": "0",
       "patientFullName": "zxczxc zxczxc",
       "date": "2025-01-05T02:00:00.000Z",
-      "genre": "mercedes",
+      "genre": "prescription",
       "gender": "Male",
       "age": 2,
       "additionalInfo": "",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "de0b",
@@ -215,7 +215,7 @@
       "consultationId": "0",
       "patientFullName": "zxczxc zxczxc",
       "date": "2025-01-05T02:30:00.000Z",
-      "genre": "mercedes",
+      "genre": "prescription",
       "gender": "Male",
       "age": 2,
       "additionalInfo": "",
@@ -228,11 +228,11 @@
       "consultationId": "0",
       "patientFullName": "zxczxc zxczxc",
       "date": "2025-01-05T03:00:00.000Z",
-      "genre": "mercedes",
+      "genre": "control visit",
       "gender": "Male",
       "age": 2,
       "additionalInfo": "",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "1eeb",
@@ -241,11 +241,11 @@
       "consultationId": "1",
       "patientFullName": "xzcxzc zxcxzc",
       "date": "2025-01-04T23:30:00.000Z",
-      "genre": "saab",
+      "genre": "first visit",
       "gender": "Female",
       "age": 3,
       "additionalInfo": "",
-      "canceled": true
+      "canceled": false
     }
   ],
   "absences": [
