@@ -108,6 +108,8 @@ export class ReservationDialogComponent {
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     // Prevent Saturday and Sunday from being selected.
+    const today = new Date();
+    if (d && d < today) return false;
     return this.data.consultation.weekdays[WeekdaysMap[day]];
   };
 

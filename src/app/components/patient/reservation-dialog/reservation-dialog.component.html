@@ -88,9 +88,8 @@
           <mat-option *ngFor="let slot of availableSlots" [value]="slot[0]">{{ slot[0] }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div>Number of slots</div>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="availableSlots.length > 0 && form.get('timeSlot')?.value">
         <mat-label>Enter a number</mat-label>
         <input matInput formControlName="duration" type="number" required
                [max]="maxNumberValue"/>

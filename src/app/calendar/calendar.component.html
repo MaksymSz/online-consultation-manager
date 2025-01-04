@@ -17,7 +17,7 @@
       <div [ngClass]="{'reserved': availableSlots[slot], 'available': !availableSlots[slot]}">
         <!-- If the slot is reserved, display the patient's name -->
         <span *ngIf="availableSlots[slot] as reservation">
-          {{ reservation.genre }}
+          {{ reservation.genre}}
         </span>
         <!-- Otherwise, display the time -->
         <span *ngIf="!availableSlots[slot]">
