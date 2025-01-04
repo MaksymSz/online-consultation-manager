@@ -40,6 +40,15 @@ import { ReservationDialogComponent } from './components/patient/reservation-dia
 import {MatFormField} from "@angular/material/form-field";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatInput} from '@angular/material/input';
+import {
+  MatStep,
+  MatStepLabel,
+  MatStepper,
+  MatStepperIcon,
+  MatStepperNext,
+  MatStepperPrevious
+} from "@angular/material/stepper";
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -48,7 +57,6 @@ import {MatInput} from '@angular/material/input';
     HomeComponent,
     PatientsComponent,
     HomeConsultantComponent,
-    BasketComponent,
     SchedulePatientComponent,
     HomePatientComponent,
     ConsultantsListComponent,
@@ -76,7 +84,7 @@ import {MatInput} from '@angular/material/input';
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent
   ],
   exports: [
     MatDialogModule,

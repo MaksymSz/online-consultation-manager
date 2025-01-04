@@ -1,1 +1,62 @@
 <p>basket works!</p>
+
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Order summary</ng-template>
+      <mat-list>
+        <mat-list-item *ngFor="let item of basket; let i = index">
+          <button mat-raised-button color="warn" (click)="deleteItem(i)">
+            Delete
+          </button>
+          {{ item.name }} (Age: {{ item.age }})
+        </mat-list-item>
+      </mat-list>
+
+      <div *ngIf="totalPrice != 0">
+        <mat-divider></mat-divider>
+        <div>
+          Total: ${{ totalPrice }}
+        </div>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </div>
+      <div *ngIf="totalPrice == 0">
+        Your basket is empty
+      </div>
+
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out BLIK code</ng-template>
+      <mat-form-field>
+        <mat-label>BLIK code</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="BLIK code"
+               required>
+      </mat-form-field>
+      <div>
+        <!--        <button mat-button matStepperPrevious>Back</button>-->
+        <button mat-button matStepperNext (click)="handleNextClick()">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+
+    <div *ngIf="isLoading">
+      <div>Confirm payment in your bank application</div>
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading">
+      <div>WHITE GREEN CONFIRMATION ICON</div>
+      <div>The payment process was successful</div>
+    </div>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <!--      <button mat-button (click)="stepper.reset()">Reset</button>-->
+    </div>
+  </mat-step>
+</mat-stepper>

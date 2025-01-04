@@ -31,17 +31,19 @@ export class ConsultantsListComponent implements OnInit {
     this.consultantsService.getConsultants().subscribe({
       next: data => {
         this.consultants = data;
+        // console.log(this.consultants);
       },
     });
     this.consultationsService.getAllConsultations().subscribe({
       next: data => {
         this.consultations = data;
+        // console.log(this.consultations);
       },
     });
   }
 
   filterConsultations(consultantId: number): Consultation[] {
-    return this.consultations.filter(consultation => consultation.consultantId === consultantId);
+    return this.consultations.filter(consultation => consultation.consultantId === Number(consultantId));
   }
 
   openDialog(consultation: Consultation): void {

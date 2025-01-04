@@ -95,6 +95,7 @@ export class ReservationDialogComponent {
       timeSlot: ['', Validators.required],
       duration: ['', [Validators.required, Validators.min(1)]],
       message: ['', Validators.maxLength(256)],
+      price: this.data.consultation.price,
     });
     this.form.get('datePicker')?.valueChanges.subscribe((selectedDate: Date) => {
       this.onDateChange(selectedDate);
