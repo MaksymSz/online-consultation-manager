@@ -13,22 +13,24 @@
         Calendar
       </div>
     </button>
-    <div *ngIf="userRole === 'patient'">
-      <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">
-        <mat-icon>shopping_basket</mat-icon>
-        <div class="custom-button">
-          Basket
-        </div>
-      </button>
+  </div>
 
-      <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">
-        <mat-icon>people_alt</mat-icon>
-        <div class="custom-button">
-          Consultants
-        </div>
-      </button>
-    </div>
+  <div *ngIf="userRole === 'patient'">
+    <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">
+      <mat-icon>shopping_basket</mat-icon>
+      <div class="custom-button">
+        Basket
+      </div>
+    </button>
+    <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">
+      <mat-icon>people_alt</mat-icon>
+      <div class="custom-button">
+        Consultants
+      </div>
+    </button>
+  </div>
 
+  <div *ngIf="userRole !== ''">
     <!--    LOGOUT   -->
     <button mat-button routerLink="/" routerLinkActive="active" (click)="onLogout()">
       <mat-icon>logout</mat-icon>
@@ -37,7 +39,6 @@
       </div>
     </button>
   </div>
-
 
   <!--  GUEST  -->
   <div *ngIf="userRole === ''">
@@ -54,10 +55,8 @@
       </div>
     </button>
   </div>
-  <div>
-    {{ userRole }}
-  </div>
-</mat-toolbar>
 
+</mat-toolbar>
+{{ userRole }}
 
 <router-outlet></router-outlet>

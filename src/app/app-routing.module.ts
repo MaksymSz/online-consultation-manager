@@ -7,7 +7,6 @@ import {HomeConsultantComponent} from './components/consultant/home-consultant/h
 import {HomePatientComponent} from './components/patient/home-patient/home-patient.component';
 import {ConsultantsListComponent} from './components/patient/consultants-list/consultants-list.component';
 import {BasketComponent} from './components/patient/basket/basket.component';
-import {SchedulePatientComponent} from './components/patient/schedule-patient/schedule-patient.component';
 import {ItemListComponent} from './components/item-list/item-list.component';
 import {AuthGuard} from './services/auth.guard';
 import {LoginComponent} from './login/login.component';
@@ -69,11 +68,6 @@ const routes: Routes = [
     path: 'patient/consultants',
     component: ConsultantsListComponent
   },
-  {
-    path: 'patient/schedule',
-    component: SchedulePatientComponent
-  },
-
 
 ];
 

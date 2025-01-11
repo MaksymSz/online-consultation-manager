@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {PatientReservationsLocalJson} from '../../../services/old/patient-reservations-local-json';
-import {Consultant} from '../../../models/old/consultant';
+import {Consultant} from '../../../models/consultant';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {Consultation} from '../../../models/old/consultation';
-import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
+import {Consultation} from '../../../models/consultation';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
-import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
+import {ConsultantsService} from '../../../services/consultants.service';
 
 @Component({
   selector: 'app-consultants-list',
@@ -19,32 +17,37 @@ import {ReservationsLocalJson} from '../../../services/old/reservations-local-js
 export class ConsultantsListComponent implements OnInit {
 
   consultants: Consultant[] = [];
-  consultations: Consultation[] = [];
+  consultations = {};
 
-  constructor(private consultantsService: PatientReservationsLocalJson,
-              private consultationsService: ConsultationsLocalJson,
-              private reservationsService: ReservationsLocalJson,
+  constructor(private consultantsService: ConsultantsService,
               private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     // localStorage.setItem('basket', JSON.stringify([]));
+
     this.consultantsService.getConsultants().subscribe({
       next: data => {
         this.consultants = data;
-        // console.log(this.consultants);
-      },
-    });
-    this.consultationsService.getAllConsultations().subscribe({
-      next: data => {
-        this.consultations = data;
-        // console.log(this.consultations);
+
+        this.consultants.forEach(consultant => {
+          if (consultant.id) {
+            this.consultantsService.getConsultations(consultant.id).subscribe({
+              next: data => {
+                // @ts-ignore
+                this.consultations[consultant.id] = data;
+              }
+            })
+          }
+        })
       },
     });
   }
 
-  filterConsultations(consultantId: number): Consultation[] {
-    return this.consultations.filter(consultation => consultation.consultantId === Number(consultantId));
+  //@ts-ignore
+  filterConsultations(consultantId) {
+    // @ts-ignore
+    return this.consultations[consultantId];
   }
 
   openDialog(consultation: Consultation): void {
