@@ -11,4 +11,5 @@ export class PatientsService {
   constructor(private firestore: AngularFirestore,
               private authService: AuthService) {
   }
+
 }
