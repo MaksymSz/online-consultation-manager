@@ -9,18 +9,81 @@ import {ConsultantsListComponent} from './components/patient/consultants-list/co
 import {BasketComponent} from './components/patient/basket/basket.component';
 import {SchedulePatientComponent} from './components/patient/schedule-patient/schedule-patient.component';
 import {ItemListComponent} from './components/item-list/item-list.component';
+import {AuthGuard} from './services/auth.guard';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent}, // Default route
-  {path: 'calendar', component: CalendarComponent}, // Route to CalendarComponent
-  {path: 'consultant/schedule', component: ScheduleComponent},
-  {path: 'consultant', component: HomeConsultantComponent},
-  {path: 'patient/consultants', component: ConsultantsListComponent},
-  {path: 'patient/schedule', component: SchedulePatientComponent},
-  {path: 'patient/basket', component: BasketComponent},
-  {path: 'patient', component: HomePatientComponent},
-  {path: 'test', component: ItemListComponent},
-  {path: '**', redirectTo: 'calendar'} // Wildcard route for 404 (optional)
+  {
+    path: '',
+    component: HomeComponent,
+  }, // Default route
+  //guest subpages
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  //calendar
+  {
+    path: 'calendar',
+    canActivate: [AuthGuard],
+    data: {roles: ['consultant', 'patient']},
+    component: CalendarComponent
+  },
+  {
+    path: 'basket',
+    component: BasketComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['patient']},
+  },
+  {
+    path: 'consultants',
+    component: ConsultantsListComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['patient']},
+  },
+  // {
+  //   path: 'patient',
+  //   component: HomePatientComponent,
+  //   canActivate: [AuthGuard],
+  //   data: {roles: ['patient']},
+  //   children: [
+  //     {path: 'basket', component: BasketComponent},
+  //   ]
+  // },
+  {
+    path: '**',
+    redirectTo: ''
+  },
+
+  // {path: 'calendar', component: CalendarComponent}, // Route to CalendarComponent
+  //consultant subpages
+  {
+    path: 'consultant',
+    component: HomeConsultantComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['consultant']},
+  },
+  {
+    path: 'consultant/schedule',
+    component: ScheduleComponent
+  },
+  //patient subpages
+  {
+    path: 'patient/consultants',
+    component: ConsultantsListComponent
+  },
+  {
+    path: 'patient/schedule',
+    component: SchedulePatientComponent
+  },
+
+
 ];
 
 @NgModule({

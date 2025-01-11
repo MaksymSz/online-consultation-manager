@@ -55,6 +55,10 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {environment} from '../environments/environment'
 import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import { ItemListComponent } from './components/item-list/item-list.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 @NgModule({
   declarations: [
@@ -65,8 +69,8 @@ import { ItemListComponent } from './components/item-list/item-list.component';
     SchedulePatientComponent,
     HomePatientComponent,
     ConsultantsListComponent,
-
-
+    AdminPanelComponent,
+    WelcomePageComponent,
   ],
   imports: [
     AngularFirestoreModule,
@@ -92,7 +96,7 @@ import { ItemListComponent } from './components/item-list/item-list.component';
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent
   ],
   exports: [
     MatDialogModule,

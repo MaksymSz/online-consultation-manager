@@ -5,33 +5,64 @@
       Home
     </div>
   </button>
-  <button mat-button routerLink="/calendar" routerLinkActive="active" class="custom-button">
-    <mat-icon>calendar_today</mat-icon>
-    <div class="custom-button">
-      Calendar
-    </div>
-  </button>
-  <button mat-button routerLink="/consultant" routerLinkActive="active">
-    <mat-icon>person</mat-icon>
-    <div class="custom-button">
-      Consultant
-    </div>
-  </button>
-  <button mat-button routerLink="/patient" routerLinkActive="active">
-    <mat-icon>health_and_safety</mat-icon>
-    <div class="custom-button">
-      Patient
-    </div>
-  </button>
+  <!--  LOGGED USER-->
+  <div *ngIf="userRole !== ''">
+    <button mat-button routerLink="/calendar" routerLinkActive="active" class="custom-button">
+      <mat-icon>calendar_today</mat-icon>
+      <div class="custom-button">
+        Calendar
+      </div>
+    </button>
+    <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">
+      <mat-icon>shopping_basket</mat-icon>
+      <div class="custom-button">
+        Basket
+      </div>
+    </button>
+    <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">
+      <mat-icon>people_alt</mat-icon>
+      <div class="custom-button">
+        Consultants
+      </div>
+    </button>
+    <!--    LOGOUT   -->
+    <button mat-button routerLink="/" routerLinkActive="active" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      <div class="custom-button">
+        Logout
+      </div>
+    </button>
+    <!--    <button mat-button routerLink="/consultant" routerLinkActive="active">-->
+    <!--      <mat-icon>person</mat-icon>-->
+    <!--      <div class="custom-button">-->
+    <!--        Consultant-->
+    <!--      </div>-->
+    <!--    </button>-->
+    <!--    <button mat-button routerLink="/patient" routerLinkActive="active">-->
+    <!--      <mat-icon>health_and_safety</mat-icon>-->
+    <!--      <div class="custom-button">-->
+    <!--        Patient-->
+    <!--      </div>-->
+    <!--    </button>-->
+  </div>
+
+
+  <!--  GUEST  -->
+  <div *ngIf="userRole === ''">
+    <button mat-button routerLink="/login" routerLinkActive="active">
+      <mat-icon>login</mat-icon>
+      <div class="custom-button">
+        Login
+      </div>
+    </button>
+    <button mat-button routerLink="/register" routerLinkActive="active">
+      <mat-icon>add_curcle</mat-icon>
+      <div class="custom-button">
+        Register
+      </div>
+    </button>
+  </div>
 </mat-toolbar>
 
 
-<!--<nav>-->
-<!--  <a routerLink="/" routerLinkActive="active">Home</a>-->
-<!--  <a routerLink="/calendar" routerLinkActive="active">Calendar</a>-->
-<!--  <a routerLink="/consultant" routerLinkActive="active">Consultant</a>-->
-<!--  <a routerLink="/patient" routerLinkActive="active">Patient</a>-->
-<!--</nav>-->
-
-<!-- Tu zostaną wyświetlone komponenty stron -->
 <router-outlet></router-outlet>
