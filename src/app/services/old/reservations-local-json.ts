@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {format} from 'date-fns';
-import {Reservation} from '../../models/reservation';
+import {Reservation} from '../../models/old/reservation';
 import {ReservationService} from './reservation-service';
-import {Absence} from '../../models/absence';
-import {Consultation} from '../../models/consultation';
+import {Absence} from '../../models/old/absence';
+import {Consultation} from '../../models/old/consultation';
 
 export interface ApiResponse {
   consultants: any[];

@@ -8,7 +8,7 @@ import {MatList, MatListItem} from '@angular/material/list';
 import {NgForOf, NgIf} from '@angular/common';
 import {MatDivider} from '@angular/material/divider';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {Reservation} from '../../../models/reservation';
+import {Reservation} from '../../../models/old/reservation';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 import {addMinutes} from 'date-fns';
 

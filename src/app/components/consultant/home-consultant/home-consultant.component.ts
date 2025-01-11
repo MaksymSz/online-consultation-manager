@@ -10,7 +10,7 @@ import {
   MatDialogModule, MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {Consultation} from '../../../models/consultation';
+import {Consultation} from '../../../models/old/consultation';
 import {Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatButton, MatButtonModule} from '@angular/material/button';

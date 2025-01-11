@@ -11,7 +11,7 @@ import {
   addMinutes
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
-import {Consultation} from '../../../models/consultation';
+import {Consultation} from '../../../models/old/consultation';
 import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';

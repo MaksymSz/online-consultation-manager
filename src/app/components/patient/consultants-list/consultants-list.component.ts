@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PatientReservationsLocalJson} from '../../../services/old/patient-reservations-local-json';
-import {Consultant} from '../../../models/consultant';
+import {Consultant} from '../../../models/old/consultant';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {Consultation} from '../../../models/consultation';
+import {Consultation} from '../../../models/old/consultation';
 import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';

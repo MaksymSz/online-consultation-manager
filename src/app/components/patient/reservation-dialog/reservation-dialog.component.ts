@@ -30,7 +30,7 @@ import {DatepickerDialog} from '../../consultant/home-consultant/home-consultant
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {WeekdaysMap} from '../../../utils/weekdays';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
-import {Reservation} from '../../../models/reservation';
+import {Reservation} from '../../../models/old/reservation';
 import {addMinutes, format} from 'date-fns';
 import {firstValueFrom} from 'rxjs';
 

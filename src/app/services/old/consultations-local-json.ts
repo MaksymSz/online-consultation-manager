@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {format} from 'date-fns';
-import {Consultation} from '../../models/consultation';
-import {ApiResponse} from '../../models/api-response';
-import {Absence} from '../../models/absence';
-import {Reservation} from '../../models/reservation';
+import {Consultation} from '../../models/old/consultation';
+import {ApiResponse} from '../../models/old/api-response';
+import {Absence} from '../../models/old/absence';
+import {Reservation} from '../../models/old/reservation';
 
 @Injectable({
   providedIn: 'root',

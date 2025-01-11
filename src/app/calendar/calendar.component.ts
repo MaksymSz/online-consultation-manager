@@ -12,7 +12,7 @@ import {
   subWeeks
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
-import {Reservation} from '../models/reservation';
+import {Reservation} from '../models/old/reservation';
 import {ReservationsLocalJson} from '../services/old/reservations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';

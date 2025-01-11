@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {Router} from '@angular/router';
 import firebase from 'firebase/compat/app';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class AuthService {
   user$: Observable<firebase.User | null>;
   private userRole = new BehaviorSubject<string>(''); // Stores the user role
+  public userId = new BehaviorSubject<string>(''); // Stores the user role
   currentUserRole$ = this.userRole.asObservable(); // Expose role as observable
 
   constructor(
@@ -33,6 +34,7 @@ export class AuthService {
         // @ts-ignore
         const role = userRoleDoc?.data()?.role || ''; // Safely fetch the role
         this.userRole.next(role); // Update the role in BehaviorSubject
+        this.userId.next(user.uid); // Update the role in BehaviorSubject
       } else {
         // User is logged out
         this.userRole.next(''); // Clear the role
@@ -110,5 +112,10 @@ export class AuthService {
   // Get the current user (optional utility function)
   getCurrentUser() {
     return this.afAuth.currentUser;
+  }
+
+  async getUserId() {
+    const user = await this.afAuth.currentUser;
+    return user?.uid || null;
   }
 }
