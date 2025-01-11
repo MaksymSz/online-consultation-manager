@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
 import {ConsultantsService} from '../../../services/consultants.service';
+import {BasketService} from '../../../services/basket.service';
 
 @Component({
   selector: 'app-consultants-list',
@@ -17,9 +18,11 @@ import {ConsultantsService} from '../../../services/consultants.service';
 export class ConsultantsListComponent implements OnInit {
 
   consultants: Consultant[] = [];
-  consultations = {};
+  consultations: { [key: string]: Consultation[] } = {};
+
 
   constructor(private consultantsService: ConsultantsService,
+              private basketService: BasketService,
               private dialog: MatDialog) {
   }
 
@@ -29,17 +32,21 @@ export class ConsultantsListComponent implements OnInit {
     this.consultantsService.getConsultants().subscribe({
       next: data => {
         this.consultants = data;
+        // console.log(data);
 
-        this.consultants.forEach(consultant => {
+        data.forEach(consultant => {
           if (consultant.id) {
             this.consultantsService.getConsultations(consultant.id).subscribe({
-              next: data => {
-                // @ts-ignore
-                this.consultations[consultant.id] = data;
+              next: consultations => {
+                if (consultant.id && consultations) {
+                  // @ts-ignore
+                  this.consultations[consultant.id] = consultations;
+                }
               }
             })
           }
         })
+
       },
     });
   }
@@ -51,7 +58,6 @@ export class ConsultantsListComponent implements OnInit {
   }
 
   openDialog(consultation: Consultation): void {
-    // console.log(consultation);
     console.log(consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
@@ -73,11 +79,12 @@ export class ConsultantsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // console.log('Dialog data:', result);
-        const retrievedBasket = JSON.parse(localStorage.getItem('basket') || '[]');
-        retrievedBasket.push(result);
-        localStorage.setItem('basket', JSON.stringify(retrievedBasket));
-        //
-        console.log(retrievedBasket);
+        this.basketService.appendBasket(result);
+        // const retrievedBasket = JSON.parse(localStorage.getItem('basket') || '[]');
+        // retrievedBasket.push(result);
+        // localStorage.setItem('basket', JSON.stringify(retrievedBasket));
+
+        // console.log(retrievedBasket);
       }
     });
   }

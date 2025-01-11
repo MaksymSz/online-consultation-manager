@@ -23,6 +23,7 @@ export class ConsultantsService {
   }
 
   getConsultations(consultantId: string) {
+    console.log("getConsultations",consultantId);
     return this.firestore
       .collection('consultants')
       .doc(consultantId)

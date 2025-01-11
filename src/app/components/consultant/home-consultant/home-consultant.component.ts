@@ -191,7 +191,7 @@ export class DatepickerDialog {
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
 
   constructor(private fb: FormBuilder,) {
-    this._adapter.setLocale('en-EN');
+    this._adapter.setLocale('pl-PL');
     this.form = this.fb.group({
       name: ['', Validators.required],  // Name field
       minutes: ['', Validators.required],  // Timepicker field
