@@ -1,6 +1,5 @@
 import {Component, computed, inject, model, OnInit} from '@angular/core';
-import {format, startOfDay} from 'date-fns';
-import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
+import {addHours, format, startOfDay, addMinutes} from 'date-fns';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -10,7 +9,8 @@ import {
   MatDialogModule, MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {Consultation} from '../../../models/old/consultation';
+
+import {Consultation} from '../../../models/consultation';
 import {Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatButton, MatButtonModule} from '@angular/material/button';
@@ -27,10 +27,10 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, provideNativeDat
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {NgForOf} from '@angular/common';
-import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
 
 import {ConsultantsService} from '../../../services/consultants.service';
+import {AuthService} from '../../../services/auth.service';
 
 export interface DialogData {
   selectedDate: Date;
@@ -50,12 +50,14 @@ export class HomeConsultantComponent implements OnInit {
   selectedDate = model<Date | null>(null);
 
 
-  constructor(private consultationService: ConsultationsLocalJson, private dialog: MatDialog,
-              private reservationService: ConsultantsService) {
+  constructor(private authService: AuthService,
+              private consultationService: ConsultantsService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.consultationService.getConsultations(101).subscribe({
+
+    this.consultationService.getConsultations(this.authService.userId.value).subscribe({
       next: data => {
         this.consultations = data;
         // Add position index to each consultation (optional)
@@ -69,9 +71,6 @@ export class HomeConsultantComponent implements OnInit {
         console.log('Error fetching consultations:', err);
       }
     })
-
-    // console.log(this.consultations.length);
-    // console.log(this.consultations);
   }
 
   openDialog() {
@@ -82,28 +81,18 @@ export class HomeConsultantComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        result.end.setHours(23, 59, 59, 999);
+        // result.end.setHours(23, 59, 59, 999);
         const newConsultation = {
           // id: 0, // JSON Server will auto-generate this if using auto-increment
           name: result.name, // Set default or dynamic name
           consultantId: 101, // Set the consultantId dynamically if needed
           slotTime: format(result.minutes, 'HH:mm'), // Use selected date or fallback
-          repeatFrom: result.start, // Use start date from campaignOne
-          repeatTo: result.end, // Use end date from campaignOne
+          repeatFrom: addHours(result.start, 1).toISOString(), // Use start date from campaignOne
+          repeatTo: addHours(startOfDay(result.end), 1).toISOString(), // Use end date from campaignOne
           price: result.amount, // Set a default or dynamic price
           weekdays: result.weekdays,
         };
-
-        this.consultationService.createConsultation(newConsultation).subscribe({
-          next: createdConsultation => {
-            console.log('Consultation created:', createdConsultation);
-            // Update the dataSource to reflect new data
-            this.dataSource.data = [...this.dataSource.data, createdConsultation];
-          },
-          error: err => {
-            console.error('Error creating consultation:', err);
-          }
-        });
+        this.consultationService.createConsultation(newConsultation);
       }
 
     });
@@ -118,7 +107,7 @@ export class HomeConsultantComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result) {
-        this.reservationService.addAbsence(result)
+        this.consultationService.addAbsence(result)
       }
 
     });
@@ -202,7 +191,7 @@ export class DatepickerDialog {
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
 
   constructor(private fb: FormBuilder,) {
-    this._adapter.setLocale('pl-PL');
+    this._adapter.setLocale('en-EN');
     this.form = this.fb.group({
       name: ['', Validators.required],  // Name field
       minutes: ['', Validators.required],  // Timepicker field
