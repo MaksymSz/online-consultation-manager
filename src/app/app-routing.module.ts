@@ -47,15 +47,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: ['patient']},
   },
-  // {
-  //   path: 'patient',
-  //   component: HomePatientComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {roles: ['patient']},
-  //   children: [
-  //     {path: 'basket', component: BasketComponent},
-  //   ]
-  // },
   {
     path: '**',
     redirectTo: ''

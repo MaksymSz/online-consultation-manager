@@ -13,18 +13,22 @@
         Calendar
       </div>
     </button>
-    <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">
-      <mat-icon>shopping_basket</mat-icon>
-      <div class="custom-button">
-        Basket
-      </div>
-    </button>
-    <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">
-      <mat-icon>people_alt</mat-icon>
-      <div class="custom-button">
-        Consultants
-      </div>
-    </button>
+    <div *ngIf="userRole === 'patient'">
+      <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">
+        <mat-icon>shopping_basket</mat-icon>
+        <div class="custom-button">
+          Basket
+        </div>
+      </button>
+
+      <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">
+        <mat-icon>people_alt</mat-icon>
+        <div class="custom-button">
+          Consultants
+        </div>
+      </button>
+    </div>
+
     <!--    LOGOUT   -->
     <button mat-button routerLink="/" routerLinkActive="active" (click)="onLogout()">
       <mat-icon>logout</mat-icon>
@@ -32,18 +36,6 @@
         Logout
       </div>
     </button>
-    <!--    <button mat-button routerLink="/consultant" routerLinkActive="active">-->
-    <!--      <mat-icon>person</mat-icon>-->
-    <!--      <div class="custom-button">-->
-    <!--        Consultant-->
-    <!--      </div>-->
-    <!--    </button>-->
-    <!--    <button mat-button routerLink="/patient" routerLinkActive="active">-->
-    <!--      <mat-icon>health_and_safety</mat-icon>-->
-    <!--      <div class="custom-button">-->
-    <!--        Patient-->
-    <!--      </div>-->
-    <!--    </button>-->
   </div>
 
 
@@ -61,6 +53,9 @@
         Register
       </div>
     </button>
+  </div>
+  <div>
+    {{ userRole }}
   </div>
 </mat-toolbar>
 

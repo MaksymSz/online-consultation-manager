@@ -1,43 +1,66 @@
-import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/compat/auth';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   user$: Observable<firebase.User | null>;
-  private userRole = new BehaviorSubject<string>('');
-  currentUserRole$ = this.userRole.asObservable();
+  private userRole = new BehaviorSubject<string>(''); // Stores the user role
+  currentUserRole$ = this.userRole.asObservable(); // Expose role as observable
 
-  constructor(private afAuth: AngularFireAuth,
-              private firestore: AngularFirestore,
-              private router: Router) {
-    this.user$ = afAuth.authState;  // Observable of the current user state
+  constructor(
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore,
+    private router: Router
+  ) {
+    this.user$ = afAuth.authState;
+
+    // Automatically fetch the role on session restoration
+    this.afAuth.authState.subscribe(async (user) => {
+      if (user) {
+        // User is logged in, fetch their role
+        const userRoleDoc = await this.firestore
+          .collection('users')
+          .doc(user.uid)
+          .get()
+          .toPromise();
+
+        // @ts-ignore
+        const role = userRoleDoc?.data()?.role || ''; // Safely fetch the role
+        this.userRole.next(role); // Update the role in BehaviorSubject
+      } else {
+        // User is logged out
+        this.userRole.next(''); // Clear the role
+      }
+    });
   }
 
   // Register user with email and password
   async register(email: string, password: string, nickname: string, role: string = 'patient') {
-    const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-    const user = userCredential.user;
+    try {
+      const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
 
-    if (user) {
-      // Add role to Firestore user document
-      await this.firestore.collection('users').doc(user.uid).set({
-        role: role,
-        nickname: nickname,
-      }).catch(err => {
-        if (err.code === 'auth/email-already-in-use') {
-          console.error('The email address is already in use by another account.');
-          return throwError('The email address is already in use. Please choose another email address.');
-        }
-        return throwError(err.message);
-      })
+      if (user) {
+        // Add role to Firestore user document
+        await this.firestore.collection('users').doc(user.uid).set({
+          role: role,
+          nickname: nickname,
+        });
+      }
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        console.error('The email address is already in use.');
+        return throwError('The email address is already in use.');
+      }
+      return throwError(error.message);
     }
-
+    return null;
   }
 
   // Login user with email and password
@@ -48,17 +71,19 @@ export class AuthService {
 
       if (user) {
         // Fetch the user's role from Firestore
-        const userRoleDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
+        const userRoleDoc = await this.firestore
+          .collection('users')
+          .doc(user.uid)
+          .get()
+          .toPromise();
 
         if (userRoleDoc && userRoleDoc.exists) {
-          const userData = userRoleDoc.data(); // The document data is expected to have the 'role' field
+          const userData = userRoleDoc.data(); // Document data
           // @ts-ignore
-          const role = userData?.role || '';  // Safely access the role, default to empty string if not found
-          // console.log('Fetched role:', role); // Ensure we are getting the role
-          this.userRole.next(role);  // Update the role in the BehaviorSubject
+          const role = userData?.role || ''; // Safely access role
+          this.userRole.next(role); // Update BehaviorSubject
         } else {
-          // console.log('User role not found in Firestore');
-          this.userRole.next(''); // Set an empty role if no data exists
+          this.userRole.next(''); // Default to empty role if not found
         }
       }
     } catch (error) {
@@ -66,31 +91,24 @@ export class AuthService {
     }
   }
 
-
   // Logout user
   async logout() {
     try {
-      await this.afAuth.signOut();  // Signs out the user
-      this.userRole.next('');  // Clears the role from the BehaviorSubject
-      this.router.navigate(['/login']); // Redirect to the login page after logging out
+      await this.afAuth.signOut();
+      this.userRole.next(''); // Clear role
+      this.router.navigate(['/login']); // Redirect to login
     } catch (error) {
       console.error('Logout failed:', error);
     }
   }
 
-  // logout() {
-  //   this.afAuth.signOut().then(() => {
-  //     this.userRole.next('');  // Clear role on logout
-  //   });
-  // }
-
-  // Get the current user
-  getCurrentUser() {
-    return this.afAuth.currentUser;
+  // Set Firebase Authentication persistence
+  setPersistence(): Promise<void> {
+    return this.afAuth.setPersistence('local'); // 'local', 'session', or 'none'
   }
 
-  // Get the user role from Firestore
-  getUserRole(userId: string) {
-    return this.firestore.collection('users').doc(userId).get();
+  // Get the current user (optional utility function)
+  getCurrentUser() {
+    return this.afAuth.currentUser;
   }
 }

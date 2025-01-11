@@ -12,16 +12,18 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(
-    next: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     return this.authService.currentUserRole$.pipe(
       take(1),
       map(role => {
-        const requiredRole = next.data['roles'];  // Role specified in route
+        const requiredRole = route.data['roles'];  // Role specified in route
+        const returnUrl = this.router.routerState.snapshot.root.queryParams['returnUrl'] || '/';
+        console.log(returnUrl);
         if (requiredRole.includes(role)) {
           return true;  // User has the required role, so allow access
-        }else if (requiredRole.includes('any') && role){
+        } else if (requiredRole.includes('any') && role) {
           return true;
         }
 
