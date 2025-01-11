@@ -8,6 +8,7 @@ import {HomePatientComponent} from './components/patient/home-patient/home-patie
 import {ConsultantsListComponent} from './components/patient/consultants-list/consultants-list.component';
 import {BasketComponent} from './components/patient/basket/basket.component';
 import {SchedulePatientComponent} from './components/patient/schedule-patient/schedule-patient.component';
+import {ItemListComponent} from './components/item-list/item-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}, // Default route
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'patient/schedule', component: SchedulePatientComponent},
   {path: 'patient/basket', component: BasketComponent},
   {path: 'patient', component: HomePatientComponent},
+  {path: 'test', component: ItemListComponent},
   {path: '**', redirectTo: 'calendar'} // Wildcard route for 404 (optional)
 ];
 
