@@ -29,6 +29,9 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {NgForOf} from '@angular/common';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
+
+import {ConsultantsService} from '../../../services/consultants.service';
+
 export interface DialogData {
   selectedDate: Date;
 }
@@ -48,7 +51,7 @@ export class HomeConsultantComponent implements OnInit {
 
 
   constructor(private consultationService: ConsultationsLocalJson, private dialog: MatDialog,
-              private reservationService: ReservationsLocalJson) {
+              private reservationService: ConsultantsService) {
   }
 
   ngOnInit(): void {
@@ -67,8 +70,8 @@ export class HomeConsultantComponent implements OnInit {
       }
     })
 
-    console.log(this.consultations.length);
-    console.log(this.consultations);
+    // console.log(this.consultations.length);
+    // console.log(this.consultations);
   }
 
   openDialog() {
@@ -115,7 +118,7 @@ export class HomeConsultantComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result) {
-        this.reservationService.addAbsence(101, result)
+        this.reservationService.addAbsence(result)
       }
 
     });

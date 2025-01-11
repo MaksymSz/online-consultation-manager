@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
 import {Consultation} from '../models/consultation';
 import {
   startOfDay,
+  addHours,
 } from 'date-fns';
 
 @Injectable({
@@ -29,8 +30,11 @@ export class ConsultantsService {
       .valueChanges({idField: 'id'});
   }
 
-  createAbsence(date: Date) {
-    date = startOfDay(date);
+  async addAbsence(date: Date) {
+    date = addHours(startOfDay(date), 1);
+    console.log(date.toISOString());
+    console.log('2025-01-15T00:00:00.000Z');
+    console.log(date.toISOString() === '2025-01-15T00:00:00.000Z');
     const userId = this.authService.userId.value;
     if (userId !== null) {
       const absence = {
@@ -43,61 +47,56 @@ export class ConsultantsService {
         .add(absence);
     }
 
-    const batch = this.firestore.firestore.batch();
-    // Step 2: Query all patients
-    return this.firestore.collection('patients').get().toPromise().then((querySnapshot) => {
+
+    const batchSize = 500;
+    let batchCount = 0;
+    let batch = this.firestore.firestore.batch(); // Native batch object
+
+    // Query all patients
+    const patientsSnapshot = await this.firestore.collection('patients').get().toPromise();
+
+    // Loop through all patients
+    // @ts-ignore
+    for (const patientDoc of patientsSnapshot.docs) {
+      // Get the patient's reservations for the given day
+      const reservationsRef = this.firestore
+        .collection('patients')
+        .doc(patientDoc.id)
+        .collection('reservations', (ref) => ref.where('_date', '==', date.toISOString()));
+
+      const reservationsSnapshot = await reservationsRef.get().toPromise();
+
+      // Loop through all reservations and update the desired field
       // @ts-ignore
-      querySnapshot.forEach((patientDoc) => {
-        // Step 3: Get reservations for the specific day
-        const reservationsRef = this.firestore
+      for (const reservationDoc of reservationsSnapshot.docs) {
+        // Get the reference to the reservation document
+        const reservationRef = this.firestore
           .collection('patients')
           .doc(patientDoc.id)
-          .collection('reservations', (ref) =>
-            ref.where('_date', '==', date) // Assuming the date is stored as a string
-          );
+          .collection('reservations')
+          .doc(reservationDoc.id)
+          .ref; // Access the native Firestore reference
 
-        // Step 4: Perform update for each reservation on that day
-        reservationsRef.get().toPromise().then((reservationSnapshot) => {
-          // @ts-ignore
-          reservationSnapshot.forEach((reservationDoc) => {
-            // Update the reservation status
-            const reservationRef = this.firestore
-              .collection('patients')
-              .doc(patientDoc.id)
-              .collection('reservations')
-              .doc(reservationDoc.id);
+        // Add the update operation to the batch
+        batch.update(reservationRef, {canceled: true});
+        batchCount++;
 
-            // Add the update operation to the batch
-            // @ts-ignore
-            batch.update(reservationRef, {canceled: true});
-          });
+        // Commit the batch after 500 updates
+        if (batchCount === batchSize) {
+          await batch.commit();
+          batchCount = 0;
+          batch = this.firestore.firestore.batch(); // Reset the batch
+        }
+      }
+    }
 
-          // Step 5: Commit the batch update
-          batch.commit().then(() => {
-            console.log('Reservations updated successfully!');
-          }).catch((error) => {
-            console.error('Error updating reservations: ', error);
-          });
-        });
-      });
-    });
+    // Commit any remaining updates
+    if (batchCount > 0) {
+      await batch.commit();
+    }
+
   }
 
-  // createAbsence(date: Date) {
-  //   const userId = this.authService.userId.value;
-  //   if (userId !== null) {
-  //     const absence = {
-  //       date: date.toISOString(),
-  //     }
-  //     this.firestore
-  //       .collection('consultants')
-  //       .doc(userId)
-  //       .collection('absences')
-  //       .add(absence);
-  //
-  //   }
-  //   return throwError(new Error('No uid'));
-  // }
 
   createConsultation(consultation: {}) {
     const userId = this.authService.userId.value;
