@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {PatientReservationsLocalJson} from '../../../services/patient-reservations-local-json';
+import {PatientReservationsLocalJson} from '../../../services/old/patient-reservations-local-json';
 import {Consultant} from '../../../models/consultant';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {Consultation} from '../../../models/consultation';
-import {ConsultationsLocalJson} from '../../../services/consultations-local-json';
+import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
-import {ReservationsLocalJson} from '../../../services/reservations-local-json';
+import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
 @Component({
   selector: 'app-consultants-list',

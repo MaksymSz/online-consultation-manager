@@ -12,7 +12,7 @@ import {
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
 import {Consultation} from '../../../models/consultation';
-import {ConsultationsLocalJson} from '../../../services/consultations-local-json';
+import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';
 import {CreateDialogComponent} from '../create-dialog/create-dialog.component';

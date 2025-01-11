@@ -1,6 +1,6 @@
 import {Component, computed, inject, model, OnInit} from '@angular/core';
 import {format, startOfDay} from 'date-fns';
-import {ConsultationsLocalJson} from '../../../services/consultations-local-json';
+import {ConsultationsLocalJson} from '../../../services/old/consultations-local-json';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -27,7 +27,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, provideNativeDat
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {NgForOf} from '@angular/common';
-import {ReservationsLocalJson} from '../../../services/reservations-local-json';
+import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
 export interface DialogData {
   selectedDate: Date;

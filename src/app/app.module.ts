@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {CalendarComponent} from './calendar/calendar.component';
 
 import {HttpClientModule} from '@angular/common/http';
-import {ReservationsLocalJson} from './services/reservations-local-json';
+import {ReservationsLocalJson} from './services/old/reservations-local-json';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 
 import {MatDialogModule} from '@angular/material/dialog';

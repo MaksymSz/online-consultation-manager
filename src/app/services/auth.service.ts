@@ -96,7 +96,7 @@ export class AuthService {
     try {
       await this.afAuth.signOut();
       this.userRole.next(''); // Clear role
-      this.router.navigate(['/login']); // Redirect to login
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Logout failed:', error);
     }

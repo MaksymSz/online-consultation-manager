@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {format} from 'date-fns';
-import {Consultant} from '../models/consultant';
+import {Consultant} from '../../models/consultant';
 
 @Injectable({
   providedIn: 'root',

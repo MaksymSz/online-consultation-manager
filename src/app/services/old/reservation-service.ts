@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Reservation} from '../models/reservation';
+import {Reservation} from '../../models/reservation';
 
 
 export interface ApiResponse {
