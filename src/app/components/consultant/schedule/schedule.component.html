@@ -1,42 +1,77 @@
+<body>
 <div>
   PATIENTS CALENDAR
 </div>
 <div class="calendar">
-  <div class="controls">
-    <button (click)="navigate('prev')">Previous</button>
-    <button (click)="toggleView('day')">Day View</button>
-    <button (click)="toggleView('week')">Week View</button>
-    <button (click)="navigate('next')">Next</button>
-  </div>
+  <div class="calendar-sticky-header">
+    <div class="controls">
+      <button mat-flat-button class="custom-button" (click)="navigate('prev')">Previous</button>
+      <button mat-flat-button class="custom-button" (click)="toggleView('day')">Day View</button>
+      <button mat-flat-button class="custom-button" (click)="toggleView('week')">Week View</button>
+      <button mat-flat-button class="custom-button" (click)="navigate('next')">Next</button>
+    </div>
 
-  <div class="calendar-header">
-    <h2>{{ format(currentDate, 'MMMM yyyy') }}</h2>
-  </div>
-
-  <!-- Day View -->
-  <div *ngIf="currentView === 'day'" class="day-view">
-    <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
-    <div *ngFor="let slot of objectKeys(availableSlots)" class="slot" (click)="toggleSlot(slot)">
-      <div [ngClass]="{'reserved': availableSlots[slot], 'available': !availableSlots[slot]}">
-        <!-- If the slot is reserved, display the patient's name -->
-        <span *ngIf="availableSlots[slot] as reservation">
-          {{ reservation.name }}
-        </span>
-        <!-- Otherwise, display the time -->
-        <span *ngIf="!availableSlots[slot]">
-          {{ slot }}
-        </span>
+    <div class="calendar-header">
+      <div *ngIf="currentView === 'day'">
+        <h2>{{ format(currentDate, 'MMMM yyyy') }}</h2>
+        <h3>{{ format(currentDate, 'EEEE, MMMM dd, yyyy') }}</h3>
       </div>
+
+      <div *ngIf="currentView === 'week'">
+        <h2>{{ weekHeader() }}</h2>
+      </div>
+
     </div>
   </div>
+  <!-- Day View -->
+  <div class="scrollable-area">
+    <div *ngIf="currentView === 'day'" class="day-view">
+      <div *ngFor="let slot of objectKeys(availableSlots)" class="slot" (click)="toggleSlot(slot)"
+           [ngClass]="getSlotClass(slot)">
+        <div>
+          {{ slot }}
+        </div>
 
-  <!-- Week View -->
-  <div *ngIf="currentView === 'week'" class="week-view">
-    <div *ngFor="let day of updateWeekView()">
-      <div class="day">
-        <h4>{{ format(day, 'eee, MMM dd') }}</h4>
-        <!-- You can add more details for the week here -->
+        <div>
+          <span *ngIf="availableSlots[slot] as reservation">
+          {{ reservation.genre }}
+        </span>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Week View -->
+    <div *ngIf="currentView === 'week'" class="week-view">
+      <div *ngFor="let day of dayWeekSlots">
+        <div class="day">
+          <h4>{{ format(day[0], 'eee, MMM dd') }}</h4>
+          <div *ngFor="let slot of day[1]" class="slot"
+               [ngClass]="getSlotClass(slot[0], slot[1], day[0])">
+            <div *ngIf="slot[1]" (click)="toggleSlot(slot[0], slot[1])">
+              <div>
+                {{ slot[0] }}
+              </div>
+
+              <div>
+              <span *ngIf="slot[1] as reservation">
+                                {{ reservation.genre }}
+              </span>
+              </div>
+            </div>
+
+            <div *ngIf="!slot[1]">
+              <div>
+                {{ slot[0] }}
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
       </div>
     </div>
   </div>
 </div>
+</body>

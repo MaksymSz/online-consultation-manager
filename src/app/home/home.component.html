@@ -1,1 +1,10 @@
-<p>home works!</p>
+<div *ngIf="this.authService.userRole.value === 'patient'">
+  <!-- Patient-specific calendar view -->
+  <home-patient></home-patient>
+</div>
+
+<div *ngIf="this.authService.userRole.value === 'consultant'">
+  <!-- Consultant-specific schedule view -->
+  <home-consultant></home-consultant>
+</div>
+

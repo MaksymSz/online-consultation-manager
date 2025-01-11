@@ -135,7 +135,7 @@ export class CalendarComponent implements OnInit {
 
     const yy = slot.split(':');
     let rangeLow = this.currentDate;
-    if(day_){
+    if (day_) {
       rangeLow = day_;
     }
     rangeLow.setHours(yy[0], yy[1], 0);
@@ -167,6 +167,7 @@ export class CalendarComponent implements OnInit {
   test() {
 
   }
+
   weekHeader(): string {
     const weekDays = this.dayWeekSlots;
     const format_format = 'MMMM dd, yyyy';
@@ -191,8 +192,8 @@ export class CalendarComponent implements OnInit {
   // }
 
   updateWeekView() {
-    const startOfCurrentWeek = startOfWeek(this.currentDate, { weekStartsOn: 1 }); // Assuming Monday is the start of the week
-    const weekDays = eachDayOfInterval({ start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6) });
+    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Monday is the start of the week
+    const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
 
     const weekDayObservables = weekDays.map((day) => this.weekDayInfo(day).pipe(map((slots) => [day, slots])));
 

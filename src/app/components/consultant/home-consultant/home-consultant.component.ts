@@ -34,7 +34,7 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-home-consultant',
+  selector: 'home-consultant',
   standalone: false,
 
   templateUrl: './home-consultant.component.html',
