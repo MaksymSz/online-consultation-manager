@@ -12,16 +12,16 @@ import {
   subWeeks
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
-import {Reservation} from '../models/old/reservation';
-import {ReservationsLocalJson} from '../services/old/reservations-local-json';
+import {Reservation} from '../../../models/old/reservation';
+import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';
-import {SlotDialogComponent} from '../components/slot-dialog/slot-dialog.component';
+import {SlotDialogComponent} from '../../slot-dialog/slot-dialog.component';
 import {MatButton} from '@angular/material/button';
 import {forkJoin, map, Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'patient-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
   imports: [CommonModule, MatButton],

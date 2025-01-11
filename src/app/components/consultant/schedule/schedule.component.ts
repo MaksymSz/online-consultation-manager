@@ -21,7 +21,7 @@ import {WeekdaysMap} from '../../../utils/weekdays';
 import {map} from 'rxjs';
 
 @Component({
-  selector: 'app-schedule',
+  selector: 'consultant-calendar',
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.css',
   imports: [CommonModule],

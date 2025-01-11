@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {CalendarComponent} from './calendar/calendar.component';
+import {CalendarComponent} from './components/patient/calendar/calendar.component';
 import {HomeComponent} from './home/home.component';
 import {ScheduleComponent} from './components/consultant/schedule/schedule.component';
 import {HomeConsultantComponent} from './components/consultant/home-consultant/home-consultant.component';
@@ -12,6 +12,7 @@ import {AuthGuard} from './services/auth.guard';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
+import {MetaCalendarComponent} from './meta-calendar/meta-calendar.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
     path: 'calendar',
     canActivate: [AuthGuard],
     data: {roles: ['consultant', 'patient']},
-    component: CalendarComponent
+    component: MetaCalendarComponent
   },
   {
     path: 'basket',

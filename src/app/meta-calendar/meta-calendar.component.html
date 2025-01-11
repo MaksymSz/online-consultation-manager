@@ -1,0 +1,10 @@
+<div *ngIf="this.authService.userRole.value === 'patient'">
+  <!-- Patient-specific calendar view -->
+<patient-calendar></patient-calendar>
+</div>
+
+<div *ngIf="this.authService.userRole.value === 'consultant'">
+  <!-- Consultant-specific schedule view -->
+<consultant-calendar></consultant-calendar>
+</div>
+

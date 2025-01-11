@@ -10,7 +10,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 })
 export class AuthService {
   user$: Observable<firebase.User | null>;
-  private userRole = new BehaviorSubject<string>(''); // Stores the user role
+  public userRole = new BehaviorSubject<string>(''); // Stores the user role
   public userId = new BehaviorSubject<string>(''); // Stores the user role
   currentUserRole$ = this.userRole.asObservable(); // Expose role as observable
 

@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {CalendarComponent} from './calendar/calendar.component';
+import {CalendarComponent} from './components/patient/calendar/calendar.component';
 
 import {HttpClientModule} from '@angular/common/http';
 import {ReservationsLocalJson} from './services/old/reservations-local-json';
@@ -59,6 +59,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import { MetaCalendarComponent } from './meta-calendar/meta-calendar.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
     ConsultantsListComponent,
     AdminPanelComponent,
     WelcomePageComponent,
+    MetaCalendarComponent,
   ],
   imports: [
     AngularFirestoreModule,
