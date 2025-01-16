@@ -47,6 +47,7 @@ export class BasketComponent implements OnInit {
   reservations: { [key: string]: any } = {};
 
   ngOnInit(): void {
+    this.totalPrice = 0;
     this.basketService.getUserBasket().subscribe({
       next: data => {
         data.forEach(element => {
