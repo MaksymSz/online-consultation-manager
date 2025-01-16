@@ -5,12 +5,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import {MatList, MatListItem} from '@angular/material/list';
-import {NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, KeyValuePipe, NgForOf, NgIf} from '@angular/common';
 import {MatDivider} from '@angular/material/divider';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Reservation} from '../../../models/old/reservation';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
-import {addMinutes} from 'date-fns';
+import {addMinutes, startOfDay} from 'date-fns';
+import {BasketService} from '../../../services/basket.service';
+import {AuthService} from '../../../services/auth.service';
+import {PatientsService} from '../../../services/patients.service';
+
 
 @Component({
   selector: 'app-basket',
@@ -31,32 +35,43 @@ import {addMinutes} from 'date-fns';
     MatDivider,
     NgIf,
     MatProgressSpinner,
+    KeyValuePipe,
   ]
 })
 export class BasketComponent implements OnInit {
   basket: any;
   totalPrice: number = 0;
   isLoading: boolean = true;
+  reservations: { [key: string]: any } = {};
 
   ngOnInit(): void {
-    this.basket = JSON.parse(localStorage.getItem('basket') || '[]');
-    if (!this.basket.length) {
-      this.firstFormGroup.setValue({
-        firstCtrl: ''
-      });
-    } else {
-      this.firstFormGroup.setValue({
-        firstCtrl: 'blocked'
-      });
-    }
+    this.basketService.getUserBasket().subscribe({
+      next: data => {
+        data.forEach(element => {
+          this.reservations[element.id] = element;
+        })
 
-    console.log(this.basket);
-    this.basket.forEach((item: any) => {
-      this.totalPrice += item.price * item.duration;
+        Object.values(this.reservations).forEach(item => {
+          this.totalPrice += item.price * item.duration;
+        });
+
+        if (!this.reservations) {
+          this.firstFormGroup.setValue({
+            firstCtrl: ''
+          });
+        } else {
+          this.firstFormGroup.setValue({
+            firstCtrl: 'blocked'
+          });
+        }
+
+      }
     })
   }
 
-  constructor(private reservationsService: ReservationsLocalJson,) {
+  constructor(private patientsService: PatientsService,
+              private basketService: BasketService,
+              private authService: AuthService,) {
   }
 
   private _formBuilder = inject(FormBuilder);
@@ -68,17 +83,19 @@ export class BasketComponent implements OnInit {
     secondCtrl: ['', Validators.required],
   });
 
-  deleteItem(index: number) {
-    this.totalPrice -= this.basket[index].price * this.basket[index].duration;
-
-    this.basket.splice(index, 1);
-    if (!this.basket.length) {
+  deleteItem(index: string) {
+    console.log(index);
+    this.totalPrice -= this.reservations[index].price * this.reservations[index].duration;
+    this.basketService.deleteReservationFromBasket(this.reservations[index].id);
+    delete this.reservations[index];
+    console.log("items in basket: ", Object.keys(this.reservations).length);
+    console.log("price of basket: ", this.totalPrice);
+    if (!Object.keys(this.reservations).length) {
       this.firstFormGroup.setValue({
         firstCtrl: ''
       });
     }
     console.log(this.firstFormGroup.value);
-
   }
 
   handleNextClick(): void {
@@ -87,18 +104,20 @@ export class BasketComponent implements OnInit {
       this.isLoading = false;
     }, 5000);
 
+    const userId = this.authService.userId.value;
     // add new reservations
-    this.basket.forEach((item: any) => {
+    Object.values(this.reservations).forEach(item => {
       console.log(item);
       let slotTime = item.timeSlot.split(':');
       let slotDate = new Date(item.datePicker);
       slotDate.setHours(slotTime[0], slotTime[1]);
 
       let reservation = {
-        patientId: 101,
+        patientId: userId,
         consultantId: item.consultantId,
         consultationId: item.consultationId,
         patientFullName: item.name + ' ' + item.surname,
+        _date: startOfDay(slotDate).toISOString(),
         date: slotDate.toISOString(),
         genre: item.genre,
         gender: item.gender,
@@ -109,7 +128,7 @@ export class BasketComponent implements OnInit {
 
       for (let i = 0; i < item.duration; i++) {
         console.log(reservation)
-        this.reservationsService.createReservation(reservation).subscribe({
+        this.patientsService.createReservation(reservation).subscribe({
           next: (response) => {
             console.log('Reservation created successfully:', response);
           },
@@ -121,11 +140,13 @@ export class BasketComponent implements OnInit {
         reservation.date = slotDate.toISOString();
       }
     })
-    // localStorage.setItem('basket', JSON.stringify([]));
+    this.reservations = {};
+    this.totalPrice = 0;
+    this.firstFormGroup.setValue({
+      firstCtrl: ''
+    });
   }
 
 
   isEditable = false;
 }
-
-// id, consultantId, consultationId

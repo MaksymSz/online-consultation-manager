@@ -58,7 +58,7 @@ export class ConsultantsListComponent implements OnInit {
   }
 
   openDialog(consultation: Consultation): void {
-    console.log(consultation);
+    console.log("Opened: ", consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
       data: {
@@ -77,6 +77,7 @@ export class ConsultantsListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log("Dialog result: ", result);
       if (result) {
         // console.log('Dialog data:', result);
         this.basketService.appendBasket(result);

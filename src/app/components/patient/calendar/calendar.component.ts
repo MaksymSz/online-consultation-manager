@@ -177,20 +177,6 @@ export class CalendarComponent implements OnInit {
     return 'from ' + from + ' to ' + to;
   }
 
-  //
-  // // Show week view (current week based on the current date)
-  // updateWeekView() {
-  //   const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Sunday is the start of the week
-  //   const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
-  //   // @ts-ignore
-  //   let xx = [];
-  //   weekDays.forEach(day => {
-  //     xx.push([day, this.weekDayInfo(day)]);
-  //   })
-  //   // @ts-ignore
-  //   this.dayWeekSlots = xx;
-  // }
-
   updateWeekView() {
     const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Monday is the start of the week
     const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});

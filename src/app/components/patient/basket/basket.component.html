@@ -5,11 +5,11 @@
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Order summary</ng-template>
       <mat-list>
-        <mat-list-item *ngFor="let item of basket; let i = index">
-          <button mat-raised-button color="warn" (click)="deleteItem(i)">
+        <mat-list-item *ngFor="let item of reservations | keyvalue; let i = index">
+          <button mat-raised-button color="warn" (click)="deleteItem(item.value.id)">
             Delete
           </button>
-          {{ item.name }} (Age: {{ item.age }})
+          {{ item.value.name }} (Age: {{ item.value.age }})
         </mat-list-item>
       </mat-list>
 
@@ -55,7 +55,7 @@
     </div>
 
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+<!--      <button mat-button matStepperPrevious>Back</button>-->
       <!--      <button mat-button (click)="stepper.reset()">Reset</button>-->
     </div>
   </mat-step>
