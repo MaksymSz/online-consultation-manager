@@ -23,8 +23,11 @@
   <!-- Day View -->
   <div class="scrollable-area">
     <div *ngIf="currentView === 'day'" class="day-view">
-      <div *ngFor="let slot of objectKeys(availableSlots)" class="slot" (click)="toggleSlot(slot, null)"
+      <div *ngFor="let slot of objectKeys(availableSlots); let i = index"
+           class="slot"
+           (click)="toggleSlot(slot, null)"
            [ngClass]="getSlotClass(slot, null, null)">
+<!--           [ngClass]="getSlotClass(slot, null, null)">-->
         <div>
           {{ slot }}
         </div>

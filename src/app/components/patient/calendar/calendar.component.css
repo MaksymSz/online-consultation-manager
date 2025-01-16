@@ -116,6 +116,7 @@ button {
 
 .present {
   border: 1px solid red;
+  z-index: 100;
 }
 
 /**/

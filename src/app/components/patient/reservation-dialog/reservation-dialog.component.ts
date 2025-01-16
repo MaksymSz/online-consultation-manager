@@ -86,6 +86,7 @@ export class ReservationDialogComponent {
   ) {
     this._adapter.setLocale('en-EN');
     // Initialize the form
+    console.log(data.consultation.consultantId);
     this.form = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],

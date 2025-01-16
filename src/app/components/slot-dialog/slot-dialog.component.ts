@@ -47,7 +47,7 @@ export class SlotDialogComponent {
 
   delete(): void {
     if (this.data.reservation) {
-      this.dialogRef.close({action: 'delete', reservationId: this.data.reservation.id});
+      this.dialogRef.close({action: 'delete', reservation: this.data.reservation, time: this.data.time});
       console.log("delete: ", this.data.reservation.id)
     }
   }

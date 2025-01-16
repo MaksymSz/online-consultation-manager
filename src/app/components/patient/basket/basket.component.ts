@@ -146,7 +146,7 @@ export class BasketComponent implements OnInit {
         // console.log(reservation)
         this.patientsService.createReservation(reservation).subscribe({
           next: (response) => {
-            console.log('Reservation created successfully:', response);
+            // console.log('Reservation created successfully:', response);
           },
           error: (error) => {
             console.error('Error creating reservation:', error);

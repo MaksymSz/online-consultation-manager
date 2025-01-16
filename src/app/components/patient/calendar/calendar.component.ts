@@ -115,14 +115,25 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result?.action === 'delete') {
-        console.log(`Deleted ${result.reservationId}`)
-        this.patientsService.deleteReservation(result.reservationId);
+        // self.document.getElementById()
+        // console.log()
+        const dateKey = startOfDay(result.reservation.date)
+        let dayKey = dateKey.getDay() - 1
+        if (dayKey === -1) {
+          dayKey = 0
+        }
+
+        this.dayWeekSlots[dayKey][1][1][result.time] = null
+
+        console.log(`Deleted ${result.reservation.id}`)
+        this.patientsService.deleteReservation(result.reservation.id);
       }
     });
   }
 
   getSlotClass(slot: any, xx_: any, day_: any): string {
     let xx;
+    // console.log(day_)
     if (!xx_) {
       xx = this.availableSlots[slot];
     } else {
@@ -148,15 +159,18 @@ export class CalendarComponent implements OnInit {
 
     if (!xx) {
       className += 'available';
+
       return className;
     }
     // @ts-ignore
     if (xx.canceled) {
       className += 'canceled';
+
       return className;
     }
     // @ts-ignore
     className += xx.genre.toLowerCase().replace(' ', '-');
+
     return className;
   }
 
@@ -195,7 +209,6 @@ export class CalendarComponent implements OnInit {
 
 
   weekDayInfo(day: Date) {
-    console.log("rendered: ", day)
     const startOfCurrentDay = startOfDay(day);
     let availableSlots: Record<string, Reservation | null> = {};
     availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);

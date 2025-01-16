@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <p>Time: {{ data.time }}</p>
   <p *ngIf="data.reservation">Consultation type: {{ data.reservation.genre }}</p>
-  <p *ngIf="data.reservation">Consultant: {{ consultantName }}</p>
+<!--  <p *ngIf="data.reservation">Consultant: {{ consultantName }}</p>-->
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Close</button>
