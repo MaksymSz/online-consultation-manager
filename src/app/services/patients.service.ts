@@ -44,9 +44,9 @@ export class PatientsService {
   // Fetch reservations for a specific patient on a specific day
   getPatientReservationsByDay(date: Date): Observable<Reservation[]> {
     const patientId = this.authService.userId.value;
-    console.log(date);
+    // console.log(date);
     const formattedDate = addHours(startOfDay(date), 1).toISOString();
-    console.log(formattedDate);
+    // console.log(formattedDate);
     return this.firestore
       .collection('patients')
       .doc(patientId)

@@ -23,8 +23,8 @@
   <!-- Day View -->
   <div class="scrollable-area">
     <div *ngIf="currentView === 'day'" class="day-view">
-      <div *ngFor="let slot of objectKeys(availableSlots)" class="slot" (click)="toggleSlot(slot)"
-           [ngClass]="getSlotClass(slot)">
+      <div *ngFor="let slot of objectKeys(availableSlots)" class="slot" (click)="toggleSlot(slot, null)"
+           [ngClass]="getSlotClass(slot, null, null)">
         <div>
           {{ slot }}
         </div>
@@ -43,26 +43,25 @@
       <div *ngFor="let day of dayWeekSlots">
         <div class="day">
           <h4>{{ format(day[0], 'eee, MMM dd') }}</h4>
-          <div *ngFor="let slot of day[1]" class="slot"
-               [ngClass]="getSlotClass(slot[0], slot[1], day[0])">
-            <div *ngIf="slot[1]" (click)="toggleSlot(slot[0], slot[1])">
+          <div *ngFor="let slot of day[1][1] | keyvalue" class="slot"
+               [ngClass]="getSlotClass(slot.key, slot.value, day[0])">
+            <div *ngIf="slot.value" (click)="toggleSlot(slot.key, slot.value)">
               <div>
-                {{ slot[0] }}
+                {{ slot.key }}
               </div>
 
               <div>
-              <span *ngIf="slot[1] as reservation">
-                                {{ reservation.genre }}
-              </span>
-              </div>
-            </div>
-
-            <div *ngIf="!slot[1]">
-              <div>
-                {{ slot[0] }}
+<!--              <span *ngIf="slot.value">-->
+<!--                                {{  }}-->
+<!--              </span>-->
               </div>
             </div>
 
+            <div *ngIf="!slot.value">
+              <div>
+                {{ slot.key }}
+              </div>
+            </div>
           </div>
 
 
