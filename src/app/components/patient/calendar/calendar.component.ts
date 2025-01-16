@@ -69,13 +69,13 @@ export class CalendarComponent implements OnInit {
     if (this.currentView === 'day') {
       this.updateDayView();
     } else if (this.currentView === 'week') {
-      // this.updateWeekView();
+      this.updateWeekView();
     }
   }
 
   // Show day view (only the current date)
   updateDayView(): void {
-    console.log(this.currentDate);
+    // console.log(this.currentDate);
     const startOfCurrentDay = startOfDay(this.currentDate);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
     let serviceResponse = this.patientsService.getPatientReservationsByDay(this.currentDate);
@@ -84,7 +84,7 @@ export class CalendarComponent implements OnInit {
         let reservedSlotsKey = format(res.date, 'HH:mm');
         this.availableSlots[reservedSlotsKey] = res;
       })
-      console.log(reservation);
+      // console.log(reservation);
     });
   }
 
@@ -148,7 +148,6 @@ export class CalendarComponent implements OnInit {
     } else if (rangeLow <= now && now < rangeHigh) {
       className += 'present '
     }
-    // console.log(className, rangeLow, now, rangeHigh);
 
     if (!xx) {
       className += 'available';
@@ -159,7 +158,6 @@ export class CalendarComponent implements OnInit {
       className += 'canceled';
       return className;
     }
-    // console.log(xx.genre.toLowerCase().replace(' ', '-'));
     // @ts-ignore
     className += xx.genre.toLowerCase().replace(' ', '-');
     return className;
