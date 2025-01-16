@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -9,6 +9,7 @@ import {
 import {MatButton} from '@angular/material/button';
 import {CommonModule, NgIf} from '@angular/common';
 import {addMinutes, format, subSeconds} from 'date-fns';
+import {ConsultantsService} from '../../services/consultants.service';
 
 @Component({
   selector: 'app-create-dialog',
@@ -23,11 +24,22 @@ import {addMinutes, format, subSeconds} from 'date-fns';
   styleUrl: './slot-dialog.component.css'
 })
 export class SlotDialogComponent {
+  consultantName: string | undefined;
+
   constructor(
     public dialogRef: MatDialogRef<SlotDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { time: string; reservation: any }
+    @Inject(MAT_DIALOG_DATA) public data: { time: string; reservation: any },
+    protected consultantsService: ConsultantsService,
   ) {
+
+    this.consultantsService.getConsultant(data.reservation.consultantId).subscribe({
+      next: value => {
+        // @ts-ignore
+        this.consultantName = value.name;
+      }
+    })
   }
+
 
   close(): void {
     this.dialogRef.close();
@@ -36,6 +48,7 @@ export class SlotDialogComponent {
   delete(): void {
     if (this.data.reservation) {
       this.dialogRef.close({action: 'delete', reservationId: this.data.reservation.id});
+      console.log("delete: ", this.data.reservation.id)
     }
   }
 
@@ -47,6 +60,7 @@ export class SlotDialogComponent {
     }
     return false;
   }
+
 
 }
 

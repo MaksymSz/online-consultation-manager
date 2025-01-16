@@ -75,7 +75,6 @@ export class CalendarComponent implements OnInit {
 
   // Show day view (only the current date)
   updateDayView(): void {
-    // console.log(this.currentDate);
     const startOfCurrentDay = startOfDay(this.currentDate);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
     let serviceResponse = this.patientsService.getPatientReservationsByDay(this.currentDate);
@@ -84,7 +83,6 @@ export class CalendarComponent implements OnInit {
         let reservedSlotsKey = format(res.date, 'HH:mm');
         this.availableSlots[reservedSlotsKey] = res;
       })
-      // console.log(reservation);
     });
   }
 
@@ -124,9 +122,6 @@ export class CalendarComponent implements OnInit {
   }
 
   getSlotClass(slot: any, xx_: any, day_: any): string {
-    // console.log(slot)
-    // console.log(xx_)
-    // console.log(day_)
     let xx;
     if (!xx_) {
       xx = this.availableSlots[slot];
@@ -136,7 +131,6 @@ export class CalendarComponent implements OnInit {
 
     let className = '';
     const now = new Date();
-    // console.log(slot);
     const yy = slot.split(':');
     let rangeLow = this.currentDate;
     if (day_) {
@@ -184,32 +178,14 @@ export class CalendarComponent implements OnInit {
     const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Monday is the start of the week
     const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
 
-    // console.log('xxxx')
-    // console.log(weekDays)
 
     const weekDayObservables = weekDays.map(
       (day) => this.weekDayInfo(day)
         .pipe(map((slots) => [day, slots])));
 
-    // console.log(weekDays)
-
-    // const weekDayObservablessss = weekDays.map((day) => {
-    //   const obs = this.weekDayInfo(day);
-    //   obs.subscribe({
-    //     next: (data) => console.log(`weekDayInfo emitted for ${day}:`, data),
-    //     error: (err) => console.error(`Error in weekDayInfo(${day}):`, err),
-    //   });
-    //   return obs;
-    // });
-
-
     combineLatest(weekDayObservables).subscribe({
       next: (results) => {
-        console.log('xxxxxx')
-        // console.log(results)
         this.dayWeekSlots = results; // Each result is [day, slots]
-        console.log(typeof this.dayWeekSlots)
-        console.log(this.dayWeekSlots)
       },
       error: (err) => {
         console.error("Failed to fetch week data:", err);
@@ -219,6 +195,7 @@ export class CalendarComponent implements OnInit {
 
 
   weekDayInfo(day: Date) {
+    console.log("rendered: ", day)
     const startOfCurrentDay = startOfDay(day);
     let availableSlots: Record<string, Reservation | null> = {};
     availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);

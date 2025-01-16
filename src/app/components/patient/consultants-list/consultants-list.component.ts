@@ -33,7 +33,6 @@ export class ConsultantsListComponent implements OnInit {
     this.consultantsService.getConsultants().subscribe({
       next: data => {
         this.consultants = data;
-        // console.log(data);
 
         data.forEach(consultant => {
           if (consultant.id) {
@@ -59,7 +58,7 @@ export class ConsultantsListComponent implements OnInit {
   }
 
   openDialog(consultation: Consultation): void {
-    console.log("Opened: ", consultation);
+    // console.log("Opened: ", consultation);
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       width: '1200px',
       data: {

@@ -1,9 +1,8 @@
 <h1 mat-dialog-title>Slot Details</h1>
 <div mat-dialog-content>
   <p>Time: {{ data.time }}</p>
-  <p *ngIf="data.reservation">Reserved for: {{ data.reservation.genre }}</p>
-  <p *ngIf="data.reservation">Reserved for: {{ data.reservation.canceled }}</p>
-  <p *ngIf="!data.reservation">This slot is available.</p>
+  <p *ngIf="data.reservation">Consultation type: {{ data.reservation.genre }}</p>
+  <p *ngIf="data.reservation">Consultant: {{ consultantName }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Close</button>

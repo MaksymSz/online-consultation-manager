@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {Consultant} from '../models/consultant';
-import {Observable, throwError} from 'rxjs';
+import {firstValueFrom, Observable, throwError} from 'rxjs';
 import {AuthService} from './auth.service';
 import {Consultation} from '../models/consultation';
 import {
   startOfDay,
   addHours,
 } from 'date-fns';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,19 @@ export class ConsultantsService {
     return this.firestore.collection<Consultant>('consultants').valueChanges({idField: 'id'});
   }
 
+  async getConsultantName(consultantId: string) {
+    console.log(consultantId)
+    const docRef = this.firestore
+      .collection('consultants')
+      .doc(consultantId)
+      .valueChanges();
+    const doc = await firstValueFrom(docRef);
+    console.log(doc)
+    // @ts-ignore
+    return doc?.name || 'Unknown'; // Return the name as a string
+  }
+
   getConsultations(consultantId: string) {
-    console.log("getConsultations",consultantId);
     return this.firestore
       .collection('consultants')
       .doc(consultantId)
@@ -31,11 +43,18 @@ export class ConsultantsService {
       .valueChanges({idField: 'id'});
   }
 
+  getConsultant(consultantId: string) {
+    return this.firestore
+      .collection('consultants')
+      .doc(consultantId)
+      .valueChanges({idField: 'id'});
+  }
+
   async addAbsence(date: Date) {
     date = addHours(startOfDay(date), 1);
-    console.log(date.toISOString());
-    console.log('2025-01-15T00:00:00.000Z');
-    console.log(date.toISOString() === '2025-01-15T00:00:00.000Z');
+    // console.log(date.toISOString());
+    // console.log('2025-01-15T00:00:00.000Z');
+    // console.log(date.toISOString() === '2025-01-15T00:00:00.000Z');
     const userId = this.authService.userId.value;
     if (userId !== null) {
       const absence = {
