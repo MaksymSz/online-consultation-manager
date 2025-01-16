@@ -14,6 +14,7 @@ import {addMinutes, startOfDay} from 'date-fns';
 import {BasketService} from '../../../services/basket.service';
 import {AuthService} from '../../../services/auth.service';
 import {PatientsService} from '../../../services/patients.service';
+import {MatIcon} from '@angular/material/icon';
 
 
 @Component({
@@ -36,6 +37,7 @@ import {PatientsService} from '../../../services/patients.service';
     NgIf,
     MatProgressSpinner,
     KeyValuePipe,
+    MatIcon,
   ]
 })
 export class BasketComponent implements OnInit {
@@ -140,6 +142,10 @@ export class BasketComponent implements OnInit {
         reservation.date = slotDate.toISOString();
       }
     })
+    Object.values(this.reservations).forEach(item => {
+      this.basketService.deleteReservationFromBasket(item.id);
+    });
+
     this.reservations = {};
     this.totalPrice = 0;
     this.firstFormGroup.setValue({
