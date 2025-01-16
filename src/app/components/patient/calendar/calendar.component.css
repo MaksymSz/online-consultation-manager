@@ -90,12 +90,12 @@ button {
   border: 1px solid #ccc;
 }
 
-.first-visit {
+.first {
   background-color: #90BE6D;
   border: 1px solid #90BE6D;
 }
 
-.control-visit {
+.control {
   background-color: #F9C74F;
   border: 1px solid #F9C74F;
 }
@@ -105,7 +105,7 @@ button {
   border: 1px solid #4D908E;
 }
 
-.chronic-disease {
+.chronic {
   background-color: #F8961E;
   border: 1px solid #F8961E;
 }

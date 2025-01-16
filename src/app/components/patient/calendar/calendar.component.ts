@@ -12,13 +12,14 @@ import {
   subWeeks
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
-import {Reservation} from '../../../models/old/reservation';
+import {Reservation} from '../../../models/reservation';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
 
 import {MatDialog} from '@angular/material/dialog';
 import {SlotDialogComponent} from '../../slot-dialog/slot-dialog.component';
 import {MatButton} from '@angular/material/button';
 import {forkJoin, map, Observable} from 'rxjs';
+import {PatientsService} from '../../../services/patients.service';
 
 @Component({
   selector: 'patient-calendar',
@@ -35,7 +36,9 @@ export class CalendarComponent implements OnInit {
 
   dayWeekSlots: any;
 
-  constructor(private reservationService: ReservationsLocalJson, private dialog: MatDialog) {
+  constructor(private reservationService: ReservationsLocalJson,
+              private dialog: MatDialog,
+              private patientsService: PatientsService) {
   }
 
   ngOnInit(): void {
@@ -72,15 +75,16 @@ export class CalendarComponent implements OnInit {
 
   // Show day view (only the current date)
   updateDayView(): void {
+    console.log(this.currentDate);
     const startOfCurrentDay = startOfDay(this.currentDate);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
-    let serviceResponse = this.reservationService.getPatientReservationsByDay(101, this.currentDate);
-    // let reservedSlots: Reservation[] = [];
+    let serviceResponse = this.patientsService.getPatientReservationsByDay(this.currentDate);
     serviceResponse.forEach((reservation) => {
       reservation.forEach((res) => {
         let reservedSlotsKey = format(res.date, 'HH:mm');
         this.availableSlots[reservedSlotsKey] = res;
       })
+      console.log(reservation);
     });
   }
 
@@ -114,10 +118,7 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result?.action === 'delete') {
         console.log(`Deleted ${result.reservationId}`)
-        this.reservationService.deleteReservation(result.reservationId).subscribe({
-          next: (reservations) => this.updateCalendar(),
-          error: (err) => console.error('Error:', err),
-        })
+        this.patientsService.deleteReservation(result.reservationId);
       }
     });
   }
@@ -194,15 +195,28 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  weekDayInfo(day: Date): Observable<[string, Reservation | null][]> {
+  weekDayInfo(day: Date) {
     const startOfCurrentDay = startOfDay(day);
     let availableSlots: Record<string, Reservation | null> = {};
     availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
+
+    // this.patientsService
+    //   .getPatientReservationsByDay(this.currentDate)
+    //   .forEach((response) => {
+    //     response.forEach((res) => {
+    //       let reservedSlotsKey = format(res.date, 'HH:mm');
+    //       availableSlots[reservedSlotsKey] = res;
+    //     })
+    //   })
+    //
+    // return availableSlots;
+
 
     return this.reservationService.getPatientReservationsByDay(101, day).pipe(
       map((response) => {
         response.forEach((res) => {
           const reservedSlotsKey = format(res.date, 'HH:mm');
+          // @ts-ignore
           availableSlots[reservedSlotsKey] = res;
         });
         return Object.entries(availableSlots); // Return processed data
@@ -210,22 +224,6 @@ export class CalendarComponent implements OnInit {
     );
   }
 
-
-  // weekDayInfo(day: Date) {
-  //   const startOfCurrentDay = startOfDay(day);
-  //   let availableSlots: Record<string, Reservation | null> = {};
-  //   availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
-  //   this.reservationService.getPatientReservationsByDay(101, day).subscribe({
-  //     next: (response) => {
-  //       response.forEach((res) => {
-  //         let reservedSlotsKey = format(res.date, 'HH:mm');
-  //         availableSlots[reservedSlotsKey] = res;
-  //       });
-  //       console.log(Object.entries(availableSlots));
-  //       return Object.entries(availableSlots);
-  //     }
-  //   });
-  // }
 
   objectKeys(slots: {}) {
     return Object.keys(slots);

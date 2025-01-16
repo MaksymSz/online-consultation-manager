@@ -68,7 +68,8 @@ import {firstValueFrom} from 'rxjs';
   styleUrl: './reservation-dialog.component.css',
   providers: [provideNativeDateAdapter(),
     {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
-    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},]
+    {provide: MAT_DATE_LOCALE, useValue: 'en-EN'},
+  ]
 })
 export class ReservationDialogComponent {
   form: FormGroup;
@@ -83,7 +84,7 @@ export class ReservationDialogComponent {
     private reservationsService: ReservationsLocalJson,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this._adapter.setLocale('pl-PL');
+    this._adapter.setLocale('en-EN');
     // Initialize the form
     this.form = this.fb.group({
       name: ['', Validators.required],

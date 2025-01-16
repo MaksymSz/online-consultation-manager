@@ -10,7 +10,7 @@ import {MatDivider} from '@angular/material/divider';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Reservation} from '../../../models/old/reservation';
 import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
-import {addMinutes, startOfDay} from 'date-fns';
+import {addHours, addMinutes, startOfDay} from 'date-fns';
 import {BasketService} from '../../../services/basket.service';
 import {AuthService} from '../../../services/auth.service';
 import {PatientsService} from '../../../services/patients.service';
@@ -109,19 +109,25 @@ export class BasketComponent implements OnInit {
 
     const userId = this.authService.userId.value;
     // add new reservations
+    let slot_idx = 0;
     Object.values(this.reservations).forEach(item => {
-      console.log(item);
+      // console.log(item);
       let slotTime = item.timeSlot.split(':');
       let slotDate = new Date(item.datePicker);
       slotDate.setHours(slotTime[0], slotTime[1]);
+      slotDate = addHours(slotDate, 1);
+      // console.log(slotDate)
+      // slotDate = addMinutes(slotDate, 30 * slot_idx);
+      // slot_idx += 1;
+      // console.log(slotDate)
 
       let reservation = {
         patientId: userId,
         consultantId: item.consultantId,
         consultationId: item.consultationId,
         patientFullName: item.name + ' ' + item.surname,
-        _date: startOfDay(slotDate).toISOString(),
-        date: slotDate.toISOString(),
+        _date: addHours(startOfDay(slotDate), 1).toISOString(),
+        date: addHours(slotDate, 1).toISOString(),
         genre: item.genre,
         gender: item.gender,
         age: item.age,
@@ -129,8 +135,15 @@ export class BasketComponent implements OnInit {
         canceled: false,
       }
 
+      // console.log(reservation)
+      // console.log('xxxx')
+
+
       for (let i = 0; i < item.duration; i++) {
-        console.log(reservation)
+        reservation.date = addMinutes(slotDate, 30 * i).toISOString();
+        // console.log(addMinutes(slotDate, 30 * i))
+        // console.log(slotDate)
+        // console.log(reservation)
         this.patientsService.createReservation(reservation).subscribe({
           next: (response) => {
             console.log('Reservation created successfully:', response);
@@ -139,19 +152,19 @@ export class BasketComponent implements OnInit {
             console.error('Error creating reservation:', error);
           },
         });
-        slotDate = addMinutes(slotDate, 30);
-        reservation.date = slotDate.toISOString();
+        // slotDate = addMinutes(slotDate, 30);
+        // reservation.date = slotDate.toISOString();
       }
     })
-    Object.values(this.reservations).forEach(item => {
-      this.basketService.deleteReservationFromBasket(item.id);
-    });
-
-    this.reservations = {};
-    this.totalPrice = 0;
-    this.firstFormGroup.setValue({
-      firstCtrl: ''
-    });
+    // Object.values(this.reservations).forEach(item => {
+    //   this.basketService.deleteReservationFromBasket(item.id);
+    // });
+    //
+    // this.reservations = {};
+    // this.totalPrice = 0;
+    // this.firstFormGroup.setValue({
+    //   firstCtrl: ''
+    // });
   }
 
 

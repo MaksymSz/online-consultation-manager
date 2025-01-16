@@ -60,6 +60,11 @@ import { RegisterComponent } from './register/register.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { MetaCalendarComponent } from './meta-calendar/meta-calendar.component';
+import {registerLocaleData} from '@angular/common';
+import localeEn from '@angular/common/locales/en-GB';
+
+import { LOCALE_ID } from '@angular/core';
+// registerLocaleData(localeEn);
 
 @NgModule({
   declarations: [
@@ -104,7 +109,10 @@ import { MetaCalendarComponent } from './meta-calendar/meta-calendar.component';
     MatDialogModule,
     MatButtonModule,
   ],
-  providers: [ReservationsLocalJson, provideAnimationsAsync()],
+  providers: [ReservationsLocalJson,
+    provideAnimationsAsync(),
+    // { provide: LOCALE_ID, useValue: 'en-GB' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
 import {ConsultantsService} from '../../../services/consultants.service';
 import {BasketService} from '../../../services/basket.service';
+import {addHours} from 'date-fns';
 
 @Component({
   selector: 'app-consultants-list',
@@ -79,6 +80,7 @@ export class ConsultantsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log("Dialog result: ", result);
       if (result) {
+        result.datePicker = addHours(result.datePicker, 1).toISOString();
         // console.log('Dialog data:', result);
         this.basketService.appendBasket(result);
         // const retrievedBasket = JSON.parse(localStorage.getItem('basket') || '[]');

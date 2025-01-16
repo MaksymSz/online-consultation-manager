@@ -28,10 +28,10 @@
         <mat-label>Type of consultation</mat-label>
         <mat-select formControlName="genre" required>
           <input matInput formControlName="genre"/>
-          <mat-option value="volvo">Volvo</mat-option>
-          <mat-option value="saab">Saab</mat-option>
-          <mat-option value="mercedes">Mercedes</mat-option>
-          <mat-option value="audi">Audi</mat-option>
+          <mat-option value="volvo">first</mat-option>
+          <mat-option value="saab">control</mat-option>
+          <mat-option value="mercedes">prescription</mat-option>
+          <mat-option value="audi">chronic</mat-option>
         </mat-select>
         <mat-error *ngIf="form.get('genre')">
           Car is required.
