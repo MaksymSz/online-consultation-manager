@@ -64,6 +64,7 @@ export class HomeConsultantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.authService.userId.value);
 
     this.consultationService.getConsultations(this.authService.userId.value).subscribe({
       next: data => {
