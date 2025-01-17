@@ -1,5 +1,5 @@
 import {Component, computed, inject, model, OnInit} from '@angular/core';
-import {addHours, format, startOfDay, addMinutes} from 'date-fns';
+import {subHours, differenceInMinutes, addHours, format, startOfDay, addMinutes, parse, isAfter} from 'date-fns';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -21,12 +21,20 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
-import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, provideNativeDateAdapter} from '@angular/material/core';
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 
 
 import {ConsultantsService} from '../../../services/consultants.service';
@@ -82,11 +90,21 @@ export class HomeConsultantComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // result.end.setHours(23, 59, 59, 999);
+        console.log(result.timeFrom);
+        console.log(result.timeTo);
+
+        const differenceMinutes = differenceInMinutes(result.timeTo, result.timeFrom);
+        const intervals = Math.floor(differenceMinutes / 30);
+
+        console.log(differenceMinutes);
+        console.log(intervals);
+
         const newConsultation = {
           // id: 0, // JSON Server will auto-generate this if using auto-increment
           name: result.name, // Set default or dynamic name
-          consultantId: 101, // Set the consultantId dynamically if needed
-          slotTime: format(result.minutes, 'HH:mm'), // Use selected date or fallback
+          consultantId: this.authService.userId.value, // Set the consultantId dynamically if needed
+          slotTime: format(result.timeFrom, 'HH:mm'), // Use selected date or fallback
+          repeat: intervals, // Use selected date or fallback
           repeatFrom: addHours(result.start, 1).toISOString(), // Use start date from campaignOne
           repeatTo: addHours(startOfDay(result.end), 1).toISOString(), // Use end date from campaignOne
           price: result.amount, // Set a default or dynamic price
@@ -171,6 +189,7 @@ export class AbsenceDialog {
     MatTimepicker,
     MatTimepickerInput,
     MatCheckbox,
+    NgIf,
   ],
   providers: [
     provideNativeDateAdapter(),
@@ -194,10 +213,11 @@ export class DatepickerDialog {
     this._adapter.setLocale('pl-PL');
     this.form = this.fb.group({
       name: ['', Validators.required],  // Name field
-      minutes: ['', Validators.required],  // Timepicker field
+      timeFrom: ['', Validators.required],  // Timepicker field
+      timeTo: ['', [Validators.required, this.timeValidator.bind(this)]],  // Timepicker field
       start: ['', Validators.required],  // Start date
       end: ['', Validators.required],  // End date
-      amount: [0, Validators.required],  // Amount field
+      amount: [0, [Validators.required, Validators.min(0)]],  // Amount field
       weekdays: this.fb.group({
         monday: [false],
         tuesday: [false],
@@ -210,11 +230,22 @@ export class DatepickerDialog {
     });
   }
 
+  timeValidator(control: AbstractControl) {
+    const timeFrom = this.form?.get('timeFrom')?.value;
+    const timeTo = control.value;
+
+    if (!timeFrom || !timeTo) return null; // Skip validation if either is missing
+
+    // const fromDate = parse(timeFrom, 'HH:mm', new Date());
+    // const toDate = parse(timeTo, 'HH:mm', new Date());
+
+    return isAfter(timeTo, timeFrom) ? null : {timeInvalid: true}; // Return error if timeTo is not after timeFrom
+  }
 
   onSave(): void {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
-    }// Return all form data
+    }
   }
 
   onCancel(): void {

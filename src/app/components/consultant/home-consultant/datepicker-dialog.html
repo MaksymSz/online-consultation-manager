@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Datepicker in a Dialog</h2>
+<h2 mat-dialog-title>New Consultation</h2>
 <mat-dialog-content align="center">
   <form [formGroup]="form">
     <p>
@@ -11,10 +11,22 @@
 
     <p>
       <mat-form-field>
-        <mat-label>Every 30 minutes</mat-label>
-        <input matInput [matTimepicker]="minutesPicker" formControlName="minutes">
-        <mat-timepicker-toggle matIconSuffix [for]="minutesPicker"/>
-        <mat-timepicker interval="30min" #minutesPicker/>
+        <mat-label>Start time</mat-label>
+        <input matInput [matTimepicker]="timeFrom" formControlName="timeFrom">
+        <mat-timepicker-toggle matIconSuffix [for]="timeFrom"/>
+        <mat-timepicker interval="30min" #timeFrom/>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>End time</mat-label>
+        <input matInput [matTimepicker]="timeTo" formControlName="timeTo">
+        <mat-timepicker-toggle matIconSuffix [for]="timeTo"/>
+        <mat-timepicker interval="30min" #timeTo/>
+        <mat-error *ngIf="form.controls['timeTo'].hasError('timeInvalid')">
+          End time must be after start time!
+        </mat-error>
       </mat-form-field>
     </p>
 
@@ -36,14 +48,17 @@
     <p>
       <mat-form-field floatLabel="always">
         <mat-label>Amount</mat-label>
-        <input matInput type="number" class="example-right-align" formControlName="amount" placeholder="0"/>
+        <input matInput type="number" class="example-right-align" formControlName="amount" placeholder="0" min="0"/>
         <span matTextPrefix>$&nbsp;</span>
         <span matTextSuffix>.00</span>
+        <mat-error *ngIf="form.controls['amount'].hasError('min')">
+          Amount must be positive!
+        </mat-error>
       </mat-form-field>
     </p>
 
     <!-- Weekdays Section without Select All -->
-      <mat-label>Weekdays</mat-label>
+    <mat-label>Weekdays</mat-label>
     <div formGroupName="weekdays">
       <mat-checkbox formControlName="monday">Monday</mat-checkbox>
       <mat-checkbox formControlName="tuesday">Tuesday</mat-checkbox>
