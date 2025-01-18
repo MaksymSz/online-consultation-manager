@@ -52,15 +52,12 @@ export class ConsultantsService {
 
   async addAbsence(date: Date) {
     date = addHours(startOfDay(date), 1);
-    // console.log(date.toISOString());
-    // console.log('2025-01-15T00:00:00.000Z');
-    // console.log(date.toISOString() === '2025-01-15T00:00:00.000Z');
     const userId = this.authService.userId.value;
     if (userId !== null) {
       const absence = {
         date: date.toISOString(),
       }
-      this.firestore
+      await this.firestore
         .collection('consultants')
         .doc(userId)
         .collection('absences')
@@ -133,4 +130,19 @@ export class ConsultantsService {
   createConsultant(consultant: Consultant) {
     return throwError(new Error('Not implemented'));
   }
+
+  getConsultantAbsences() {
+    const userId = this.authService.userId.value;
+    if (userId !== null) {
+
+      return this.firestore
+        .collection('consultants')
+        .doc(userId)
+        .collection('absences')
+        .valueChanges({idField: 'id'});
+    }
+    return throwError(new Error('No uid'));
+
+  }
+
 }

@@ -52,6 +52,7 @@ export interface DialogData {
   styleUrl: './home-consultant.component.css'
 })
 export class HomeConsultantComponent implements OnInit {
+  absences$: Observable<any[]>;
   consultations: Consultation[] = [];
   displayedColumns: string[] = ['name', 'slotTime', 'repeatFrom', 'repeatTo', 'price']
   dataSource = new MatTableDataSource<Consultation>();
@@ -61,6 +62,7 @@ export class HomeConsultantComponent implements OnInit {
   constructor(private authService: AuthService,
               private consultationService: ConsultantsService,
               private dialog: MatDialog) {
+    this.absences$ = this.consultationService.getConsultantAbsences();
   }
 
   ngOnInit(): void {
@@ -80,6 +82,7 @@ export class HomeConsultantComponent implements OnInit {
         console.log('Error fetching consultations:', err);
       }
     })
+
   }
 
   openDialog() {

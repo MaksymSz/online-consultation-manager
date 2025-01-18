@@ -1,9 +1,22 @@
 <div>
   <div>
-    <button mat-flat-button color="primary" (click)="openAbsenceDialog()">Add absence</button>
-  </div>
-  <div>
-    List of planned absences
+
+    <div>
+      <button mat-flat-button color="primary" (click)="openAbsenceDialog()">Add absence</button>
+    </div>
+    <div>
+      List of planned absences
+    </div>
+
+    <div *ngIf="absences$ | async as absences">
+      <ul>
+        <li *ngFor="let absence of absences">
+          {{ absence.id }} - {{ absence.date }} ({{ absence.reason }})
+        </li>
+      </ul>
+    </div>
+
+
   </div>
 
 
