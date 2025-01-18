@@ -64,7 +64,14 @@ import {registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en-GB';
 
 import { LOCALE_ID } from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle
+} from "@angular/material/card";
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -104,7 +111,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} f
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions
   ],
   exports: [
     MatDialogModule,
