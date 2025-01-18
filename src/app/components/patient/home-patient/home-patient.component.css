@@ -1,0 +1,19 @@
+.centered-container {
+  display: flex;
+  justify-content: center; /* Centers content horizontally */
+  text-align: center; /* Centers text inside the card */
+  padding: 20px;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 600px; /* Limits the card's width */
+  margin: 10px;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column; /* Stack title and subtitle */
+  align-items: center; /* Center both title and subtitle */
+  text-align: center; /* Ensure text inside the header is centered */
+}

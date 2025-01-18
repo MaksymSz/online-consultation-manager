@@ -1,6 +1,26 @@
-<p>home-patient works!</p>
-<nav>
-  <a routerLink="/patient/schedule" routerLinkActive="active">Schedule</a>
-  <a routerLink="/patient/consultants" routerLinkActive="active">Consultants</a>
-  <a routerLink="/patient/basket" routerLinkActive="active">Basket</a>
-</nav>
+<div class="centered-container">
+
+  <div *ngIf="earliest !== null && earliest !== undefined">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Your next consultation is scheduled for:</mat-card-title>
+        <mat-card-subtitle>{{ earliest.date | date: 'medium' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ earliest.date | date: 'fullDate' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="earliest === null || earliest === undefined">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>You don't have any upcoming consultations</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+<!--        <p>You don't have any upcoming consultations.</p>-->
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

@@ -3,7 +3,7 @@ import {Reservation} from '../models/reservation';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {AuthService} from './auth.service';
 import {Consultation} from '../models/consultation';
-import {from, Observable, throwError} from 'rxjs';
+import {from, map, Observable, throwError} from 'rxjs';
 import {addHours, format, startOfDay} from 'date-fns';
 
 @Injectable({
@@ -71,6 +71,25 @@ export class PatientsService {
           console.log('Error deleting item:', error);
         });
     }
+    return throwError(new Error('No uid'));
+  }
+
+  getEarliestReservation() {
+    const userId = this.authService.userId.value;
+    console.log(userId);
+    if (userId !== null) {
+      return this.firestore
+        .collection('patients')
+        .doc(userId)
+        .collection<Reservation>('reservations', (ref) => ref.orderBy('date', 'asc').limit(1))
+        .valueChanges()
+        .pipe(
+          map((docs) => {
+            return docs[0];
+          })
+        );
+    }
+
     return throwError(new Error('No uid'));
   }
 }
