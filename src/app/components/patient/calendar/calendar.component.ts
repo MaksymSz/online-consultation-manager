@@ -36,8 +36,7 @@ export class CalendarComponent implements OnInit {
 
   dayWeekSlots: any;
 
-  constructor(private reservationService: ReservationsLocalJson,
-              private dialog: MatDialog,
+  constructor(private dialog: MatDialog,
               private patientsService: PatientsService) {
   }
 

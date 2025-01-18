@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {Consultant} from '../models/consultant';
-import {firstValueFrom, Observable, throwError} from 'rxjs';
+import {firstValueFrom, Observable, throwError, forkJoin, tap, catchError, of, combineLatest} from 'rxjs';
 import {AuthService} from './auth.service';
 import {Consultation} from '../models/consultation';
 import {
   startOfDay,
   addHours,
 } from 'date-fns';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
+import {Reservation} from '../models/reservation';
 
 @Injectable({
   providedIn: 'root'
@@ -144,5 +145,69 @@ export class ConsultantsService {
     return throwError(new Error('No uid'));
 
   }
+
+  // getConsultationsForDate(_date: Date): Observable<Reservation[]> {
+  //   const date = addHours(startOfDay(_date), 1).toISOString();
+  //   const consultantId = this.authService.userId.value;
+  //   // console.log(consultantId, date);
+  //
+  //   return this.firestore.collection('patients').get().pipe(
+  //     switchMap((patientsSnapshot) => {
+  //       const patientIds = patientsSnapshot.docs.map(doc => doc.id);
+  //
+  //       const reservationsObservables = patientIds.map(patientId =>
+  //         this.firestore
+  //           .collection(`patients/${patientId}/reservations`, ref =>
+  //             ref.where('consultantId', '==', consultantId).where('_date', '==', date)
+  //           )
+  //           .valueChanges({idField: 'id'}) as Observable<Reservation[]>
+  //       );
+  //
+  //       return forkJoin(reservationsObservables);
+  //     }),
+  //     map((reservationsArrays) => reservationsArrays.flat()) // Flatten results into a single array
+  //   );
+  // }
+
+  getConsultationsForDate(_date: Date): Observable<Reservation[]> {
+    const date = addHours(startOfDay(_date), 1).toISOString();
+    const consultantId = this.authService.userId.value;
+    // console.log('🔍 Function called with date:', date, consultantId);
+    return this.firestore.collection('patients').get().pipe(
+      switchMap((patientsSnapshot) => {
+        const patientIds = patientsSnapshot.docs.map(doc => doc.id);
+        console.log('🆔 Patient IDs:', patientIds); // ✅ Should print patient IDs
+
+        if (patientIds.length === 0) {
+          // console.warn('⚠️ No patients found! Returning empty array.');
+          return of([]);
+        }
+
+        // Convert date to Firestore ISO format
+        const formattedDate = date;
+        // console.log('📅 Formatted Date for Query:', formattedDate);
+
+        const reservationsObservables = patientIds.map(patientId =>
+          this.firestore
+            .collection(`patients/${patientId}/reservations`, ref =>
+              ref.where('_date', '==', formattedDate).where('consultantId', '==', consultantId)
+            )
+            .valueChanges({ idField: 'id' })
+            .pipe(
+              // tap(reservations => console.log(`📜 Reservations for ${patientId}:`, reservations)) // ✅ Log query result
+            ) as Observable<Reservation[]>
+        );
+
+        return reservationsObservables.length ? combineLatest(reservationsObservables) : of([]);
+      }),
+      // tap(reservationsArrays => console.log('📥 Raw reservations data:', reservationsArrays)), // ✅ Ensure reservations are fetched
+      map((reservationsArrays) => reservationsArrays.flat()),
+      catchError(error => {
+        // console.error('❌ Firestore error:', error);
+        return of([]);
+      })
+    );
+  }
+
 
 }

@@ -12,13 +12,13 @@ import {
   subWeeks
 } from 'date-fns';
 import {CommonModule} from '@angular/common';
-import {Reservation} from '../../../models/old/reservation';
-import {ReservationsLocalJson} from '../../../services/old/reservations-local-json';
+import {Reservation} from '../../../models/reservation';
 
 import {MatDialog} from '@angular/material/dialog';
 import {SlotDialogComponent} from '../../slot-dialog/slot-dialog.component';
 import {MatButton} from '@angular/material/button';
-import {forkJoin, map, Observable} from 'rxjs';
+import {catchError, combineLatest, forkJoin, map, Observable, of} from 'rxjs';
+import {ConsultantsService} from '../../../services/consultants.service';
 
 @Component({
   selector: 'consultant-calendar',
@@ -35,13 +35,24 @@ export class ScheduleComponent implements OnInit {
 
   dayWeekSlots: any;
 
-  constructor(private reservationService: ReservationsLocalJson, private dialog: MatDialog) {
+  constructor(private consultantService: ConsultantsService, private dialog: MatDialog) {
+
+    console.log('Before API Call'); // ✅ Check if this prints
+    this.consultantService.getConsultationsForDate(new Date("2025-01-22T00:00:00.000Z")).subscribe(
+      reservations => {
+        console.log('Reservations:', reservations); // ✅ Expected output
+      },
+      error => {
+        console.error('Error fetching reservations:', error); // ❌ Log any errors
+      }
+    );
+    console.log('After API Call'); // ✅ Check if this prints
   }
 
   ngOnInit(): void {
     this.updateWeekView();
     this.updateCalendar();
-    console.log('xxxxx')
+
   }
 
   // Toggle between week and day views
@@ -67,7 +78,7 @@ export class ScheduleComponent implements OnInit {
     if (this.currentView === 'day') {
       this.updateDayView();
     } else if (this.currentView === 'week') {
-      // this.updateWeekView();
+      this.updateWeekView();
     }
   }
 
@@ -75,8 +86,7 @@ export class ScheduleComponent implements OnInit {
   updateDayView(): void {
     const startOfCurrentDay = startOfDay(this.currentDate);
     this.availableSlots = this.generateTimeSlots(startOfCurrentDay, 30); // Generate 30-minute slots for the whole day
-    let serviceResponse = this.reservationService.getPatientReservationsByDay(101, this.currentDate);
-    // let reservedSlots: Reservation[] = [];
+    let serviceResponse = this.consultantService.getConsultationsForDate(this.currentDate);
     serviceResponse.forEach((reservation) => {
       reservation.forEach((res) => {
         let reservedSlotsKey = format(res.date, 'HH:mm');
@@ -101,7 +111,7 @@ export class ScheduleComponent implements OnInit {
     return slots;
   }
 
-  toggleSlot(slot: string, reservation_ = null): void {
+  toggleSlot(slot: any, reservation_: any): void {
     let reservation: Reservation | null = null;
     if (!reservation_) {
       reservation = this.availableSlots[slot];
@@ -113,18 +123,26 @@ export class ScheduleComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.action === 'delete') {
-        console.log(`Deleted ${result.reservationId}`)
-        this.reservationService.deleteReservation(result.reservationId).subscribe({
-          next: (reservations) => this.updateCalendar(),
-          error: (err) => console.error('Error:', err),
-        })
-      }
+      // if (result?.action === 'delete') {
+      //   // self.document.getElementById()
+      //   // console.log()
+      //   const dateKey = startOfDay(result.reservation.date)
+      //   let dayKey = dateKey.getDay() - 1
+      //   if (dayKey === -1) {
+      //     dayKey = 0
+      //   }
+      //
+      //   this.dayWeekSlots[dayKey][1][1][result.time] = null
+      //
+      //   console.log(`Deleted ${result.reservation.id}`)
+      //   this.patientsService.deleteReservation(result.reservation.id);
+      // }
     });
   }
 
-  getSlotClass(slot: any, xx_ = null, day_ = null): string {
+  getSlotClass(slot: any, xx_: any, day_: any): string {
     let xx;
+    // console.log(day_)
     if (!xx_) {
       xx = this.availableSlots[slot];
     } else {
@@ -133,7 +151,6 @@ export class ScheduleComponent implements OnInit {
 
     let className = '';
     const now = new Date();
-
     const yy = slot.split(':');
     let rangeLow = this.currentDate;
     if (day_) {
@@ -148,20 +165,21 @@ export class ScheduleComponent implements OnInit {
     } else if (rangeLow <= now && now < rangeHigh) {
       className += 'present '
     }
-    // console.log(className, rangeLow, now, rangeHigh);
 
     if (!xx) {
       className += 'available';
+
       return className;
     }
     // @ts-ignore
     if (xx.canceled) {
       className += 'canceled';
+
       return className;
     }
-    // console.log(xx.genre.toLowerCase().replace(' ', '-'));
     // @ts-ignore
     className += xx.genre.toLowerCase().replace(' ', '-');
+
     return className;
   }
 
@@ -170,35 +188,26 @@ export class ScheduleComponent implements OnInit {
   }
 
   weekHeader(): string {
-    const weekDays = this.dayWeekSlots;
+    // console.log("Header generated");
+    const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Monday is the start of the week
+    const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)}); //this.dayWeekSlots;
     const format_format = 'MMMM dd, yyyy';
-    const from = format(weekDays[0][0], format_format);
-    const to = format(weekDays[6][0], format_format);
+    const from = format(weekDays[0], format_format);
+    const to = format(weekDays[6], format_format);
 
     return 'from ' + from + ' to ' + to;
   }
-
-  //
-  // // Show week view (current week based on the current date)
-  // updateWeekView() {
-  //   const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Sunday is the start of the week
-  //   const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
-  //   // @ts-ignore
-  //   let xx = [];
-  //   weekDays.forEach(day => {
-  //     xx.push([day, this.weekDayInfo(day)]);
-  //   })
-  //   // @ts-ignore
-  //   this.dayWeekSlots = xx;
-  // }
 
   updateWeekView() {
     const startOfCurrentWeek = startOfWeek(this.currentDate, {weekStartsOn: 1}); // Assuming Monday is the start of the week
     const weekDays = eachDayOfInterval({start: startOfCurrentWeek, end: addDays(startOfCurrentWeek, 6)});
 
-    const weekDayObservables = weekDays.map((day) => this.weekDayInfo(day).pipe(map((slots) => [day, slots])));
 
-    forkJoin(weekDayObservables).subscribe({
+    const weekDayObservables = weekDays.map(
+      (day) => this.weekDayInfo(day)
+        .pipe(map((slots) => [day, slots])));
+
+    combineLatest(weekDayObservables).subscribe({
       next: (results) => {
         this.dayWeekSlots = results; // Each result is [day, slots]
       },
@@ -209,38 +218,28 @@ export class ScheduleComponent implements OnInit {
   }
 
 
-  weekDayInfo(day: Date): Observable<[string, Reservation | null][]> {
+  weekDayInfo(day: Date) {
     const startOfCurrentDay = startOfDay(day);
     let availableSlots: Record<string, Reservation | null> = {};
     availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
 
-    return this.reservationService.getPatientReservationsByDay(101, day).pipe(
+    return this.consultantService.getConsultationsForDate(day).pipe(
       map((response) => {
         response.forEach((res) => {
-          const reservedSlotsKey = format(res.date, 'HH:mm');
-          availableSlots[reservedSlotsKey] = res;
+          if (res.date) {
+            let reservedSlotsKey = format(new Date(res.date), 'HH:mm');
+            availableSlots[reservedSlotsKey] = res;
+          }
         });
-        return Object.entries(availableSlots); // Return processed data
+        return [day, availableSlots] as [Date, Record<string, Reservation | null>];
+      }),
+      catchError((error) => {
+        // console.error(`Error fetching reservations for ${day}:`, error);
+        return of([day, availableSlots]);
       })
     );
   }
 
-
-  // weekDayInfo(day: Date) {
-  //   const startOfCurrentDay = startOfDay(day);
-  //   let availableSlots: Record<string, Reservation | null> = {};
-  //   availableSlots = this.generateTimeSlots(startOfCurrentDay, 30);
-  //   this.reservationService.getPatientReservationsByDay(101, day).subscribe({
-  //     next: (response) => {
-  //       response.forEach((res) => {
-  //         let reservedSlotsKey = format(res.date, 'HH:mm');
-  //         availableSlots[reservedSlotsKey] = res;
-  //       });
-  //       console.log(Object.entries(availableSlots));
-  //       return Object.entries(availableSlots);
-  //     }
-  //   });
-  // }
 
   objectKeys(slots: {}) {
     return Object.keys(slots);
