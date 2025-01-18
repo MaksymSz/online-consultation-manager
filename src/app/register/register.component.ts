@@ -7,6 +7,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
+import {MatCard, MatCardTitle} from '@angular/material/card';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,9 @@ import {NgIf} from '@angular/common';
     MatOption,
     MatInput,
     MatButton,
-    NgIf
+    NgIf,
+    MatCard,
+    MatCardTitle
   ],
   styleUrls: ['./register.component.css']
 })

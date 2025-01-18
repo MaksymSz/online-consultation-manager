@@ -1,25 +1,34 @@
-<div class="register-form">
-  <h2>Register</h2>
-  <form (ngSubmit)="onRegister()">
-    <mat-form-field>
-      <input matInput type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Password" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [(ngModel)]="nickname" name="nickname" placeholder="Nickname" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select [(ngModel)]="role" name="role" placeholder="Role" required>
-        <mat-option value="patient">Patient</mat-option>
-        <mat-option value="consultant">Consultant</mat-option>
-        <mat-option value="admin">Admin</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Register</button>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  </form>
+<div class="container">
+
+
+  <mat-card class="auth-card">
+    <mat-card-title>Register</mat-card-title>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput placeholder="Email" type="email" [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput placeholder="Password" type="password" [(ngModel)]="password" name="password" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput placeholder="Nickname" type="text" [(ngModel)]="nickname" name="nickname" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-select placeholder="Role" [(ngModel)]="role" name="role" required>
+          <mat-option value="patient">Patient</mat-option>
+          <mat-option value="consultant">Consultant</mat-option>
+          <mat-option value="admin">Admin</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.form.valid">Register</button>
+    </form>
+  </mat-card>
+
+
 </div>
