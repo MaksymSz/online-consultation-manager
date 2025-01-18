@@ -52,7 +52,6 @@ const routes: Routes = [
     redirectTo: ''
   },
 
-  // {path: 'calendar', component: CalendarComponent}, // Route to CalendarComponent
   //consultant subpages
   {
     path: 'consultant',
