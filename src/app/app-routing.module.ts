@@ -13,6 +13,7 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {MetaCalendarComponent} from './meta-calendar/meta-calendar.component';
+import {CommentsComponent} from './components/admin/comments/comments.component';
 
 const routes: Routes = [
   {
@@ -68,6 +69,15 @@ const routes: Routes = [
     path: 'patient/consultants',
     component: ConsultantsListComponent
   },
+
+  //admin subpages
+  {
+    path: 'comments',
+    component: CommentsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
+  },
+
 
 ];
 

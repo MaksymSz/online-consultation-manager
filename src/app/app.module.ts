@@ -72,6 +72,7 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
+import { CommentsComponent } from './components/admin/comments/comments.component';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -86,6 +87,7 @@ import {
     AdminPanelComponent,
     WelcomePageComponent,
     MetaCalendarComponent,
+    CommentsComponent,
   ],
   imports: [
     AngularFirestoreModule,

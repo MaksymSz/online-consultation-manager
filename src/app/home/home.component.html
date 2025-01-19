@@ -1,12 +1,18 @@
 <div *ngIf="this.authService.userRole.value === 'patient'">
   <!-- Patient-specific calendar view -->
   <home-patient></home-patient>
+  <img src="/logo.png" alt="Logo Image" width="800"/>
 </div>
 
 <div *ngIf="this.authService.userRole.value === 'consultant'">
   <!-- Consultant-specific schedule view -->
   <home-consultant></home-consultant>
+  <img src="/logo.png" alt="Logo Image" width="800"/>
 </div>
 
-<img src="/logo.png" alt="Logo Image" width="800"/>
+<div *ngIf="this.authService.userRole.value === 'admin'">
+  <!-- Consultant-specific schedule view -->
+  <admin-panel></admin-panel>
+</div>
+
 

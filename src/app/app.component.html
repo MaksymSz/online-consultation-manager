@@ -6,7 +6,7 @@
     </div>
   </button>
   <!--  LOGGED USER-->
-  <div *ngIf="userRole !== ''">
+  <div *ngIf="userRole !== '' && userRole !== 'admin'">
     <button mat-button routerLink="/calendar" routerLinkActive="active" class="custom-button">
       <mat-icon>calendar_today</mat-icon>
       <div class="custom-button">
@@ -29,6 +29,22 @@
       </div>
     </button>
   </div>
+
+<!--  <div *ngIf="userRole === 'admin'">-->
+<!--    <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">-->
+<!--      <mat-icon>shopping_basket</mat-icon>-->
+<!--      <div class="custom-button">-->
+<!--        Basket-->
+<!--      </div>-->
+<!--    </button>-->
+<!--    <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">-->
+<!--      <mat-icon>people_alt</mat-icon>-->
+<!--      <div class="custom-button">-->
+<!--        Consultants-->
+<!--      </div>-->
+<!--    </button>-->
+
+<!--  </div>-->
 
   <div *ngIf="userRole !== ''">
     <!--    LOGOUT   -->

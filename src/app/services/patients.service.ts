@@ -5,6 +5,7 @@ import {AuthService} from './auth.service';
 import {Consultation} from '../models/consultation';
 import {from, map, Observable, throwError} from 'rxjs';
 import {addHours, format, startOfDay} from 'date-fns';
+import {Patient} from '../models/old/patient';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,19 @@ export class PatientsService {
 
   constructor(private firestore: AngularFirestore,
               private authService: AuthService) {
+  }
+
+  getPatients() {
+    return this.firestore
+      .collection<Patient>('patients')
+      .valueChanges({idField: 'id'});
+  }
+
+  toggleBan(patient: Patient) {
+    return this.firestore
+      .collection('patients')
+      .doc(patient.id)
+      .update({ banned: !patient.banned });
   }
 
   getReservations() {
