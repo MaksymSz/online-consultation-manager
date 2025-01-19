@@ -1,0 +1,24 @@
+<mat-card class="text-card">
+  <mat-card-header>
+    <mat-card-title>Choose Persistence Mode</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Persistence Mode</mat-label>
+
+      <div class="button-container">
+
+        <mat-select [(value)]="selectedPersistence">
+          <mat-option *ngFor="let option of persistenceOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+
+      </div>
+
+    </mat-form-field>
+    <div class="button-container">
+      <button mat-raised-button color="primary" (click)="onPersistenceChange()">Apply</button>
+    </div>
+  </mat-card-content>
+</mat-card>

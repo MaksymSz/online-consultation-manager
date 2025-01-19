@@ -78,6 +78,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import { ConsultantsSummaryComponent } from './components/admin/consultants-summary/consultants-summary.component';
 import { StarRatingComponent } from './components/patient/star-rating/star-rating.component';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
+import { PersistenceSettingsComponent } from './components/admin/persistence-settings/persistence-settings.component';
+import {MatSelect} from '@angular/material/select';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -95,6 +97,7 @@ import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/mater
     CommentsComponent,
     PatientsListComponent,
     ConsultantsSummaryComponent,
+
 
   ],
   imports: [
@@ -121,7 +124,7 @@ import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/mater
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule, StarRatingComponent, MatSidenavContent, MatSidenavContainer, MatNavList, MatSidenav
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule, StarRatingComponent, MatSidenavContent, MatSidenavContainer, MatNavList, MatSidenav, MatSelect, PersistenceSettingsComponent
   ],
   exports: [
     MatDialogModule,

@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import firebase from 'firebase/compat/app';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { getAuth, setPersistence, browserLocalPersistence, browserSessionPersistence, inMemoryPersistence } from 'firebase/auth';
+
 
 @Injectable({
   providedIn: 'root',
@@ -105,9 +107,10 @@ export class AuthService {
   }
 
   // Set Firebase Authentication persistence
-  setPersistence(): Promise<void> {
-    return this.afAuth.setPersistence('local'); // 'local', 'session', or 'none'
+  setPersistence(persistenceType: string): Promise<void> {
+    return this.afAuth.setPersistence(persistenceType.toLowerCase());
   }
+
 
   // Get the current user (optional utility function)
   getCurrentUser() {
@@ -153,5 +156,15 @@ export class AuthService {
       return throwError(error.message);
     }
     return null;
+  }
+
+  getUserName(){
+    return this.firestore
+      .collection('users')
+      .doc(this.userId.value)
+      .valueChanges()
+      .pipe(
+        map((data: any) => data?.nickname ?? null)
+      )
   }
 }
