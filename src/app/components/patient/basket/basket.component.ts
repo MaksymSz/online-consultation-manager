@@ -156,15 +156,15 @@ export class BasketComponent implements OnInit {
         // reservation.date = slotDate.toISOString();
       }
     })
-    // Object.values(this.reservations).forEach(item => {
-    //   this.basketService.deleteReservationFromBasket(item.id);
-    // });
-    //
-    // this.reservations = {};
-    // this.totalPrice = 0;
-    // this.firstFormGroup.setValue({
-    //   firstCtrl: ''
-    // });
+    Object.values(this.reservations).forEach(item => {
+      this.basketService.deleteReservationFromBasket(item.id);
+    });
+
+    this.reservations = {};
+    this.totalPrice = 0;
+    this.firstFormGroup.setValue({
+      firstCtrl: ''
+    });
   }
 
 

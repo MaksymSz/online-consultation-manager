@@ -27,18 +27,18 @@
   font-size: 16px;
   font-weight: bold;
   padding: 10px 20px;
-  background-color: #4361ee;
+  background-color: #1b8cf4;
   color: white;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 
 .action-button:hover {
-  background-color: #4361ee;
+  background-color: #1b8cf4;
 }
 
 mat-card-header {
-  background-color: #4361ee;
+  background-color: #1b8cf4;
   color: white;
   text-align: center;
   padding-bottom: 10px;

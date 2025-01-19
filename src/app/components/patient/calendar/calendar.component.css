@@ -149,7 +149,12 @@ button {
 }
 
 .custom-button {
-  background-color: #4361ee;
+  background-color: #1b8cf4;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-button:hover {
+  transform: translateY(-10px) scale(1.1);
 }
 
 body {

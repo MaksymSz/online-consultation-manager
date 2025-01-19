@@ -1,59 +1,51 @@
-<div>
-  <div>
-
-    <div>
-      <button mat-flat-button color="primary" (click)="openAbsenceDialog()">Add absence</button>
-    </div>
-    <div>
-      List of planned absences
-    </div>
+<div class="container">
+  <div class="absence-section">
+    <button mat-flat-button color="primary" (click)="openAbsenceDialog()" class="custom-button">Add Absence</button>
+    <h2>List of Planned Absences</h2>
 
     <div *ngIf="absences$ | async as absences">
-      <ul>
+      <ul class="absence-list">
         <li *ngFor="let absence of absences">
-          {{ absence.id }} - {{ absence.date }} ({{ absence.reason }})
+          <strong>{{ absence.date }}</strong> - {{ absence.reason }}
         </li>
       </ul>
     </div>
-
-
   </div>
 
-
-  <div>
-    <button mat-flat-button color="primary" (click)="openDialog()">New consultation</button>
+  <div class="consultation-section">
+    <button mat-flat-button color="accent" (click)="openDialog()" class="custom-button">New Consultation</button>
   </div>
 
-  <div>
+  <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name</th>
-        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
       </ng-container>
 
       <ng-container matColumnDef="slotTime">
-        <th mat-header-cell *matHeaderCellDef> Time</th>
-        <td mat-cell *matCellDef="let element"> {{ element.slotTime }}</td>
+        <th mat-header-cell *matHeaderCellDef> Time </th>
+        <td mat-cell *matCellDef="let element"> {{ element.slotTime }} </td>
       </ng-container>
 
       <ng-container matColumnDef="repeatFrom">
-        <th mat-header-cell *matHeaderCellDef> From</th>
-        <td mat-cell *matCellDef="let element"> {{ format(element.repeatFrom, 'dd-MM-yyyy') }}</td>
+        <th mat-header-cell *matHeaderCellDef> From </th>
+        <td mat-cell *matCellDef="let element"> {{ format(element.repeatFrom, 'dd-MM-yyyy') }} </td>
       </ng-container>
 
       <ng-container matColumnDef="repeatTo">
-        <th mat-header-cell *matHeaderCellDef> To</th>
-        <td mat-cell *matCellDef="let element"> {{ format(element.repeatTo, 'dd-MM-yyyy') }}</td>
+        <th mat-header-cell *matHeaderCellDef> To </th>
+        <td mat-cell *matCellDef="let element"> {{ format(element.repeatTo, 'dd-MM-yyyy') }} </td>
       </ng-container>
 
       <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> Price</th>
-        <td mat-cell *matCellDef="let element"> ${{ element.price }}</td>
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let element"> ${{ element.price }} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-
 </div>

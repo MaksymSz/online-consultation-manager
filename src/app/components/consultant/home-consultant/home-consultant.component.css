@@ -1,3 +1,66 @@
 table {
   width: 100%;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  margin: auto;
+}
+
+.absence-section,
+.consultation-section,
+.table-container {
+  width: 100%;
+  max-width: 2000px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.absence-list {
+  list-style: none;
+  padding: 0;
+}
+
+.absence-list li {
+  background: #f4f4f4;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.table-container table {
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background: #1b8cf4;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+}
+
+button {
+  background-color: #1b8cf4 !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 200px;
+  font-size: 16px;
+}
+
+button:hover {
+  transform: translateY(-10px) scale(1.1);
+}

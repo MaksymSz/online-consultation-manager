@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Router} from '@angular/router';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {AuthService} from '../../../services/auth.service';
 import {MatCard, MatCardTitle} from '@angular/material/card';
 import {MatOption} from '@angular/material/core';
@@ -21,12 +18,9 @@ import {NgIf} from '@angular/common';
     MatFormField,
     MatInput,
     MatButton,
-    MatLabel,
     FormsModule,
     MatCard,
     MatCardTitle,
-    MatOption,
-    MatSelect,
     NgIf
   ],
   styleUrl: './create-consultant.component.css'

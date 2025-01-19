@@ -1,0 +1,21 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+img{
+  position: absolute;
+  bottom: -30px;
+}
+
+
+img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-origin: center;
+}
+
+img:hover {
+  transform: translateY(-10px) scale(1.1); /* Move up and scale */
+}

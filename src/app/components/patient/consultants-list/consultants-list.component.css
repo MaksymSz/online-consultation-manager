@@ -6,7 +6,7 @@
   /*background-color: #f5f5f5; !* Light gray background for the accordion section *!*/
   padding: 20px;
   border-radius: 8px; /* Rounded corners */
-  max-width: 900px;
+  max-width: 2000px;
   width: 100%;
   margin: 20px auto; /* Center the accordion horizontally on the page */
   /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Subtle shadow for depth *!*/
@@ -44,13 +44,13 @@
   flex-direction: column;
   margin: 20px auto; /* Center the accordion and add top/bottom margin */
   padding: 10px; /* Padding to avoid touching the edges */
-  max-width: 900px; /* Optionally, set max-width for the entire accordion */
+  max-width: 1500px; /* Optionally, set max-width for the entire accordion */
   width: 100%; /* Allow the accordion to scale within the max-width */
 }
 
 .consultant-panel {
   margin-bottom: 15px;
-  max-width: 600px; /* Set max width for the individual panels */
+  max-width: 1000px; /* Set max width for the individual panels */
   width: 100%; /* Allow it to adjust to the container size but with max-width */
   margin-left: auto;
   margin-right: auto; /* Center the panel horizontally */
@@ -85,4 +85,8 @@ mat-card-actions {
 mat-divider {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+mat-panel-title{
+  height: 100px;
 }

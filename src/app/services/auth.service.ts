@@ -56,6 +56,12 @@ export class AuthService {
           role: role,
           nickname: nickname,
         });
+
+        await this.firestore.collection('patients').doc(user.uid).set({
+          name: nickname,
+          email: email,
+        });
+
       }
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
@@ -128,32 +134,49 @@ export class AuthService {
                            nickname: string,
                            specialization: string,
                            role: string = 'consultant',
-  ) {
+  ){
     try {
+      // 1️⃣ Get the current admin user's email & password (if known)
+      const currentUser = await this.afAuth.currentUser;
+      const adminEmail = currentUser?.email;
+
+      // 2️⃣ Create the consultant account
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
 
       if (user) {
-        // Add role to Firestore user document
+        // 3️⃣ Store consultant data in Firestore
         await this.firestore.collection('users').doc(user.uid).set({
           role: role,
           nickname: nickname,
           password: password,
         });
-        await this.firestore
-          .collection('consultants')
-          .doc(user.uid).set({
-            specialization: specialization,
-            name: nickname,
-            email: email,
-          })
+
+        await this.firestore.collection('consultants').doc(user.uid).set({
+          specialization: specialization,
+          name: nickname,
+          email: email,
+        });
+
+        // 4️⃣ Sign out the newly created consultant
+        await this.afAuth.signOut();
+
+        // 5️⃣ Re-login as the admin using their stored credentials
+        if (adminEmail) {
+          const adminPassword = "Pass1234";
+          if (adminPassword) {
+            await this.afAuth.signInWithEmailAndPassword(adminEmail, adminPassword);
+          } else {
+            console.error("Admin re-login failed. Admin must manually log in again.");
+          }
+        }
       }
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         console.error('The email address is already in use.');
-        return throwError('The email address is already in use.');
+        return throwError(() => new Error('The email address is already in use.'));
       }
-      return throwError(error.message);
+      return throwError(() => new Error(error.message));
     }
     return null;
   }

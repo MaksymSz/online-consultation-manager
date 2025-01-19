@@ -173,6 +173,7 @@ export class AbsenceDialog {
 @Component({
   selector: 'datepicker-dialog',
   templateUrl: 'datepicker-dialog.html',
+  styleUrl: './datepicker-dialog.css',
   imports: [
     MatDatepickerModule,
     MatDialogModule,
