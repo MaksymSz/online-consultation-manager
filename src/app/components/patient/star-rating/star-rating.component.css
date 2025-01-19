@@ -20,6 +20,8 @@ mat-icon {
   transition: color 0.3s ease;
   line-height: 1; /* Ensure no unwanted space around icons */
   vertical-align: middle; /* Align the stars properly */
+  height: 48px;
+  width: 48px;
 }
 
 mat-icon.filled {

@@ -78,7 +78,7 @@ export class SlotDialogComponent {
     const patientId = this.authService.userId.value;
     this.ratingService.checkIfRated(patientId, reservation.consultantId).subscribe(ratings => {
       if (ratings.length > 0) {
-        alert('You have already rated this consultant.');
+        alert('You have already rated this appointment');
         return;
       }
 
