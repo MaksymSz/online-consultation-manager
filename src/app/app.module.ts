@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -34,7 +34,7 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatLine} from '@angular/material/core';
 
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatIcon} from '@angular/material/icon';
+import {MatIcon, MatIconRegistry} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
 import {ReservationDialogComponent} from './components/patient/reservation-dialog/reservation-dialog.component';
 import {MatFormField} from "@angular/material/form-field";
@@ -60,7 +60,7 @@ import { RegisterComponent } from './register/register.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { MetaCalendarComponent } from './meta-calendar/meta-calendar.component';
-import {registerLocaleData} from '@angular/common';
+import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en-GB';
 
 import { LOCALE_ID } from '@angular/core';
@@ -68,7 +68,7 @@ import {
   MatCard,
   MatCardActions,
   MatCardContent,
-  MatCardHeader,
+  MatCardHeader, MatCardImage,
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
@@ -111,7 +111,7 @@ import {
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage
   ],
   exports: [
     MatDialogModule,
@@ -124,4 +124,11 @@ import {
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    // Register custom icon
+    iconRegistry.addSvgIcon(
+      'custom-icon', // Name of the icon
+      sanitizer.bypassSecurityTrustResourceUrl('assets/favicon.ico') // Path to the SVG
+    );
+  }
 }
