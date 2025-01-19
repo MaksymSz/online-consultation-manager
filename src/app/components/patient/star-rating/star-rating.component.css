@@ -1,0 +1,13 @@
+.stars {
+  display: flex;
+  font-size: 2rem;
+}
+
+.star-selected {
+  color: gold;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+}

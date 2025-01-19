@@ -7,4 +7,5 @@
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Close</button>
   <button mat-button color="warn" *ngIf="data.reservation && !isPast()" (click)="delete()">Cancel Reservation</button>
+  <button mat-button color="warn" *ngIf="data.reservation && isPast()" (click)="openRatingDialog(data)" >Rate Reservation</button>
 </div>

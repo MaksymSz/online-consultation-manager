@@ -48,7 +48,7 @@ import {
   MatStepperNext,
   MatStepperPrevious
 } from "@angular/material/stepper";
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatToolbar} from "@angular/material/toolbar";
 
 import {AngularFireModule} from '@angular/fire/compat';
@@ -76,6 +76,7 @@ import { CommentsComponent } from './components/admin/comments/comments.componen
 import { PatientsListComponent } from './components/admin/patients-list/patients-list.component';
 import {MatPaginator} from '@angular/material/paginator';
 import { ConsultantsSummaryComponent } from './components/admin/consultants-summary/consultants-summary.component';
+import { StarRatingComponent } from './components/patient/star-rating/star-rating.component';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -93,6 +94,7 @@ import { ConsultantsSummaryComponent } from './components/admin/consultants-summ
     CommentsComponent,
     PatientsListComponent,
     ConsultantsSummaryComponent,
+    StarRatingComponent,
   ],
   imports: [
     AngularFirestoreModule,
@@ -118,7 +120,7 @@ import { ConsultantsSummaryComponent } from './components/admin/consultants-summ
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule
   ],
   exports: [
     MatDialogModule,
