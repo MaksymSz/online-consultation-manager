@@ -165,29 +165,6 @@ export class ConsultantsService {
 
   }
 
-  // getConsultationsForDate(_date: Date): Observable<Reservation[]> {
-  //   const date = addHours(startOfDay(_date), 1).toISOString();
-  //   const consultantId = this.authService.userId.value;
-  //   // console.log(consultantId, date);
-  //
-  //   return this.firestore.collection('patients').get().pipe(
-  //     switchMap((patientsSnapshot) => {
-  //       const patientIds = patientsSnapshot.docs.map(doc => doc.id);
-  //
-  //       const reservationsObservables = patientIds.map(patientId =>
-  //         this.firestore
-  //           .collection(`patients/${patientId}/reservations`, ref =>
-  //             ref.where('consultantId', '==', consultantId).where('_date', '==', date)
-  //           )
-  //           .valueChanges({idField: 'id'}) as Observable<Reservation[]>
-  //       );
-  //
-  //       return forkJoin(reservationsObservables);
-  //     }),
-  //     map((reservationsArrays) => reservationsArrays.flat()) // Flatten results into a single array
-  //   );
-  // }
-
   getConsultationsForDate(_date: Date): Observable<Reservation[]> {
     const date = addHours(startOfDay(_date), 1).toISOString();
     const consultantId = this.authService.userId.value;

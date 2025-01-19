@@ -1,0 +1,216 @@
+/* Styling for mat-stepper container */
+mat-stepper {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Styling each step */
+mat-step {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Header for each step */
+mat-step .mat-step-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1b8cf4;
+  margin-bottom: 10px;
+}
+
+/* Order summary list styling */
+mat-list {
+  padding-left: 0;
+}
+
+mat-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border-bottom: 1px solid #ddd;
+  height: 70px !important;
+  /*border: 1px solid black;*/
+}
+
+.example-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 1000px;
+}
+
+button.mat-fab {
+  background-color: #ff5722;
+  color: white;
+  padding: 5px;
+}
+
+button.mat-fab:hover {
+  background-color: #e64a19;
+}
+
+/* Total price display */
+div {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.mat-divider {
+  margin: 20px 0;
+}
+
+/* Button styling for Next step */
+button.mat-button {
+  background-color: #1b8cf4;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.mat-button:hover {
+  background-color: #1b8cf4;
+}
+
+/* BLIK code input form field */
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field mat-label {
+  font-size: 16px;
+  color: #333;
+}
+
+mat-form-field mat-input-element {
+  padding: 10px;
+}
+
+/* Styling for Success and Loading message */
+mat-spinner {
+  margin-top: 20px;
+}
+
+div > svg {
+  margin: 20px auto;
+  display: block;
+  width: 100px;
+  height: 100px;
+}
+
+div > svg path {
+  fill: #75FB4C;
+}
+
+/* Success message */
+div {
+  text-align: center;
+  font-size: 18px;
+  color: black;
+  margin-top: 10px;
+}
+
+div.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Stepper Navigation Styling */
+button.mat-button[matStepperNext],
+button.mat-button[matStepperPrevious] {
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+mat-stepper[linear] .mat-stepper-header {
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+mat-stepper[linear] .mat-stepper-header .mat-step-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+mat-stepper[linear] .mat-step-header-active {
+  background-color: #1b8cf4;
+  color: white;
+}
+
+mat-stepper[linear] .mat-step-header-completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.example-button-container button {
+  background-color: white;
+  color: #1b8cf4;
+  box-shadow: none;
+  border: 5px solid #1b8cf4;
+  border-radius: 20px;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.example-button-container button:hover {
+  transform: scale(1.1);
+}
+
+/* Center the BLIK code input field */
+mat-step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-form-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin-top: 20px; /* Adds some space above the input field */
+}
+
+/* Custom styling for the BLIK code field to make it narrower */
+mat-form-field input {
+  width: 200px !important; /* Make the input narrower */
+}
+
+mat-form-field mat-label {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Ensuring that the label is aligned properly */
+mat-form-field .mat-form-field-label {
+  margin-bottom: 5px;
+}
+
+/* Style for stepper content */
+mat-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* General adjustments for better form field presentation */
+mat-form-field mat-label {
+  font-size: 14px;
+  color: #333;
+}
+
+mat-form-field input {
+  font-size: 14px;
+  padding: 10px;
+}
