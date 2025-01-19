@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -9,7 +9,6 @@ import {AuthService} from '../../services/auth.service';
   styleUrl: './admin-panel.component.css'
 })
 export class AdminPanelComponent {
-constructor(private authService: AuthService) {
-  console.log('AdminPanelComponent constructor');
-}
+  constructor(private authService: AuthService) {
+  }
 }

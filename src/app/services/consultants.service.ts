@@ -24,28 +24,24 @@ export class ConsultantsService {
     return this.firestore.collection<Consultant>('consultants').valueChanges({idField: 'id'});
   }
 
-  getConsultantsSummary(): Observable<(Consultant & { consultationCount: number })[]> {
+  getConsultantsSummary(): Observable<Consultant[]> {
     return this.firestore
       .collection<Consultant>('consultants')
-      .valueChanges({idField: 'id'})
+      .valueChanges({ idField: 'id' }) // Fetch consultants data
       .pipe(
-        switchMap((consultants) => {
-          if (consultants.length === 0){
-            console.log('No consultants found.');
-            return of([]);
-          }
-
-          const consultantObservables = consultants.map((consultant) =>
-            this.firestore
-              .collection(`consultants/${consultant.id}/consultations`)
-              .valueChanges()
-              .pipe(map((consultations) => ({...consultant, consultationCount: consultations.length})))
-          );
-
-          return forkJoin(consultantObservables);
+        map((consultants) => {
+          // Map consultants to remove consultationCount logic
+          return consultants.map(consultant => ({
+            name: consultant.name,
+            specialization: consultant.specialization,
+            email: consultant.email, // Include email if available
+            id: consultant.id // Keep ID for reference (if necessary)
+          }));
         })
       );
   }
+
+
 
   async getConsultantName(consultantId: string) {
     console.log(consultantId)

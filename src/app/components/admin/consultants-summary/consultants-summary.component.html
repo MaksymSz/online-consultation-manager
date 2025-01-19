@@ -1,32 +1,40 @@
 <div class="consultant-container">
-  <h2>Consultants</h2>
+  <h2>Consultants registered in system</h2>
 
-  <button mat-raised-button color="primary" (click)="goToCreateConsultant()" routerLink="/create-consultant" routerLinkActive="active">
+  <button mat-raised-button color="primary" routerLink="/create-consultant" routerLinkActive="active">
     + Add Consultant
   </button>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef><strong>ID</strong></th>
+      <td mat-cell *matCellDef="let consultant"> {{ consultant.id }}</td>
+    </ng-container>
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let consultant"> {{ consultant.name }} </td>
+      <th mat-header-cell *matHeaderCellDef><strong>Name</strong></th>
+      <td mat-cell *matCellDef="let consultant"> {{ consultant.name }}</td>
+    </ng-container>
+
+    <!-- Specialization Column -->
+    <ng-container matColumnDef="specialization">
+      <th mat-header-cell *matHeaderCellDef><strong>Specialization</strong></th>
+      <td mat-cell *matCellDef="let consultant"> {{ consultant.specialization }}</td>
     </ng-container>
 
     <!-- Email Column -->
-    <ng-container matColumnDef="specialization">
-      <th mat-header-cell *matHeaderCellDef> Specialization </th>
-      <td mat-cell *matCellDef="let consultant"> {{ consultant.specialization }} </td>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef><strong>Email</strong></th>
+      <td mat-cell *matCellDef="let consultant"> {{ consultant.email }}</td>
     </ng-container>
 
-    <!-- Consultations Count Column -->
-    <ng-container matColumnDef="consultations">
-      <th mat-header-cell *matHeaderCellDef> Consultations </th>
-      <td mat-cell *matCellDef="let consultant"> {{ consultant.consultationCount }} </td>
-    </ng-container>
-
+    <!-- Table Row and Header -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
