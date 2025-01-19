@@ -24,4 +24,13 @@ export class RatingService {
   addRating(rating: Rating): Promise<any> {
     return this.firestore.collection('ratings').add(rating);
   }
+
+  getAllRatings(): Observable<Rating[]> {
+    return this.firestore.collection<Rating>('ratings').valueChanges({ idField: 'id' });
+  }
+
+  // Delete a rating from Firestore
+  deleteRating(id: string): Promise<void> {
+    return this.firestore.collection('ratings').doc(id).delete();
+  }
 }

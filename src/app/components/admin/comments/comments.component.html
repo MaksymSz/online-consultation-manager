@@ -1,1 +1,44 @@
-<p>comments works!</p>
+<div class="rating-list-container">
+  <mat-card class="rating-card">
+    <mat-card-header>
+      <mat-card-title>Ratings List</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-table [dataSource]="ratings">
+        <ng-container matColumnDef="stars">
+          <mat-header-cell *matHeaderCellDef> Stars </mat-header-cell>
+          <mat-cell *matCellDef="let rating">
+            <mat-icon *ngFor="let star of [].constructor(rating.stars); let i = index" class="star-icon">star</mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="comment">
+          <mat-header-cell *matHeaderCellDef> Comment </mat-header-cell>
+          <mat-cell *matCellDef="let rating">{{ rating.comment }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="patientId">
+          <mat-header-cell *matHeaderCellDef> Patient ID </mat-header-cell>
+          <mat-cell *matCellDef="let rating">{{ rating.patientId }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="consultantId">
+          <mat-header-cell *matHeaderCellDef> Consultant ID </mat-header-cell>
+          <mat-cell *matCellDef="let rating">{{ rating.consultantId }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let rating">
+            <button mat-icon-button color="warn" (click)="deleteRating(rating.id!)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</div>

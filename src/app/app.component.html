@@ -30,13 +30,13 @@
     </button>
   </div>
 
-<!--  <div *ngIf="userRole === 'admin'">-->
-<!--    <button mat-button routerLink="/basket" routerLinkActive="active" class="custom-button">-->
-<!--      <mat-icon>shopping_basket</mat-icon>-->
-<!--      <div class="custom-button">-->
-<!--        Basket-->
-<!--      </div>-->
-<!--    </button>-->
+  <div *ngIf="userRole === 'admin'">
+    <button mat-button routerLink="/comments" routerLinkActive="active" class="custom-button">
+      <mat-icon>rate_review</mat-icon>
+      <div class="custom-button">
+        Comments
+      </div>
+    </button>
 <!--    <button mat-button routerLink="/consultants" routerLinkActive="active" class="custom-button">-->
 <!--      <mat-icon>people_alt</mat-icon>-->
 <!--      <div class="custom-button">-->
@@ -44,7 +44,7 @@
 <!--      </div>-->
 <!--    </button>-->
 
-<!--  </div>-->
+  </div>
 
   <div *ngIf="userRole !== ''">
     <!--    LOGOUT   -->

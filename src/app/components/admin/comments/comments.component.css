@@ -1,0 +1,31 @@
+.rating-list-container {
+  padding: 16px;
+}
+
+.rating-card {
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+.mat-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.mat-header-row, .mat-row {
+  display: flex;
+  align-items: center;
+}
+
+mat-icon.star-icon {
+  color: gold;
+  font-size: 24px;
+}
+
+mat-header-cell {
+  font-weight: bold;
+}
+
+button {
+  margin-left: 10px;
+}
