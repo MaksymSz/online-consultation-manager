@@ -3,14 +3,13 @@
 
   <mat-accordion class="example-headers-align" multi>
     <mat-expansion-panel *ngFor="let consultant of consultants" class="consultant-panel">
+
       <mat-expansion-panel-header>
+<!--        <mat-icon class="consultant-icon">account_circle</mat-icon>-->
         <mat-panel-title>
-          <mat-icon>account_circle</mat-icon>
-          <strong>
-          {{ consultant.name }}
-            </strong>
+          <strong class="consultant-name">{{ consultant.name }}</strong>
         </mat-panel-title>
-        <mat-panel-description>
+        <mat-panel-description class="consultant-specialization">
           {{ consultant.specialization }}
         </mat-panel-description>
       </mat-expansion-panel-header>

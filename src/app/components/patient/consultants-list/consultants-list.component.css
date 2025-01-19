@@ -20,7 +20,23 @@
   margin-bottom: 20px;
 }
 
-/* Center the whole accordion container */
+/* Consultant panel header styling */
+.consultant-icon {
+  font-size: 20px; /* Increase icon size */
+  /*margin-right: 10px; !* Space between icon and text *!*/
+}
+
+.consultant-name {
+  font-size: 30px; /* Make the consultant's name larger */
+  font-weight: bold;
+}
+
+.consultant-specialization {
+  font-size: 16px; /* Make specialization smaller than the name */
+  color: #777; /* Subtle color for specialization */
+}
+
+/* Rest of the layout styles */
 .example-headers-align {
   display: flex;
   justify-content: center; /* Centers the accordion horizontally */
@@ -28,11 +44,10 @@
   flex-direction: column;
   margin: 20px auto; /* Center the accordion and add top/bottom margin */
   padding: 10px; /* Padding to avoid touching the edges */
-  max-width: 800px; /* Optionally, set max-width for the entire accordion */
+  max-width: 900px; /* Optionally, set max-width for the entire accordion */
   width: 100%; /* Allow the accordion to scale within the max-width */
 }
 
-/* Narrow the individual panels */
 .consultant-panel {
   margin-bottom: 15px;
   max-width: 600px; /* Set max width for the individual panels */
@@ -41,12 +56,10 @@
   margin-right: auto; /* Center the panel horizontally */
 }
 
-/* Center the card content inside each panel */
 .consultant-panel-content {
   padding: 10px;
 }
 
-/* Narrower consultation cards */
 .consultation-card {
   margin-bottom: 15px;
   padding: 10px;
@@ -56,23 +69,19 @@
   margin-right: auto; /* Center the card horizontally */
 }
 
-/* Styling for card header */
 mat-card-header {
   background-color: #f5f5f5;
 }
 
-/* Bold styling for card title */
 mat-card-title {
   font-weight: bold;
 }
 
-/* Align the button at the right of the card */
 mat-card-actions {
   display: flex;
   justify-content: flex-end;
 }
 
-/* Divider margin for spacing */
 mat-divider {
   margin-top: 10px;
   margin-bottom: 10px;
