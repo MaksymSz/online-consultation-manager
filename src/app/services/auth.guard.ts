@@ -27,6 +27,8 @@ export class AuthGuard implements CanActivate {
           return true;
         }
 
+        console.log(role);
+
         // If the user doesn't have the right role, redirect them
         this.router.navigate(['/login']);
         return false;

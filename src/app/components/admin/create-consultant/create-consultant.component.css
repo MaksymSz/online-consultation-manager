@@ -1,0 +1,36 @@
+.auth-card {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+.full-width {
+  width: 100%;
+}
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Ensure the entire page takes full height */
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  height: calc(75vh - 20px); /* Adjust for mat-toolbar height (assuming it's 64px) */
+}
+
+.auth-card {
+  width: 400px; /* Adjust width of your login form */
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}

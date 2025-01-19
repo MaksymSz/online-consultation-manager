@@ -14,6 +14,7 @@ import {RegisterComponent} from './register/register.component';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {MetaCalendarComponent} from './meta-calendar/meta-calendar.component';
 import {CommentsComponent} from './components/admin/comments/comments.component';
+import {CreateConsultantComponent} from './components/admin/create-consultant/create-consultant.component';
 
 const routes: Routes = [
   {
@@ -48,11 +49,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: ['patient']},
   },
-  {
-    path: '**',
-    redirectTo: ''
-  },
-
   //consultant subpages
   {
     path: 'consultant',
@@ -76,6 +72,16 @@ const routes: Routes = [
     component: CommentsComponent,
     canActivate: [AuthGuard],
     data: {roles: ['admin']},
+  },
+  {
+    path: 'create-consultant',
+    component: CreateConsultantComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
+  },
+  {
+    path: '**',
+    redirectTo: ''
   },
 
 

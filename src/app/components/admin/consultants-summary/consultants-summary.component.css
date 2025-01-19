@@ -1,0 +1,19 @@
+.consultant-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  width: 200px;
+}
+
+table {
+  width: 100%;
+}

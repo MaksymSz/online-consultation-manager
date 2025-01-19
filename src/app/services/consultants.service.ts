@@ -24,6 +24,29 @@ export class ConsultantsService {
     return this.firestore.collection<Consultant>('consultants').valueChanges({idField: 'id'});
   }
 
+  getConsultantsSummary(): Observable<(Consultant & { consultationCount: number })[]> {
+    return this.firestore
+      .collection<Consultant>('consultants')
+      .valueChanges({idField: 'id'})
+      .pipe(
+        switchMap((consultants) => {
+          if (consultants.length === 0){
+            console.log('No consultants found.');
+            return of([]);
+          }
+
+          const consultantObservables = consultants.map((consultant) =>
+            this.firestore
+              .collection(`consultants/${consultant.id}/consultations`)
+              .valueChanges()
+              .pipe(map((consultations) => ({...consultant, consultationCount: consultations.length})))
+          );
+
+          return forkJoin(consultantObservables);
+        })
+      );
+  }
+
   async getConsultantName(consultantId: string) {
     console.log(consultantId)
     const docRef = this.firestore
@@ -192,7 +215,7 @@ export class ConsultantsService {
             .collection(`patients/${patientId}/reservations`, ref =>
               ref.where('_date', '==', formattedDate).where('consultantId', '==', consultantId)
             )
-            .valueChanges({ idField: 'id' })
+            .valueChanges({idField: 'id'})
             .pipe(
               // tap(reservations => console.log(`📜 Reservations for ${patientId}:`, reservations)) // ✅ Log query result
             ) as Observable<Reservation[]>

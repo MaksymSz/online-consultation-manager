@@ -118,4 +118,40 @@ export class AuthService {
     const user = await this.afAuth.currentUser;
     return user?.uid || null;
   }
+
+
+  async registerConsultant(email: string,
+                           password: string,
+                           nickname: string,
+                           specialization: string,
+                           role: string = 'consultant',
+  ) {
+    try {
+      const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+
+      if (user) {
+        // Add role to Firestore user document
+        await this.firestore.collection('users').doc(user.uid).set({
+          role: role,
+          nickname: nickname,
+          password: password,
+        });
+        await this.firestore
+          .collection('consultants')
+          .doc(user.uid).set({
+            specialization: specialization,
+            name: nickname,
+            email: email,
+          })
+      }
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        console.error('The email address is already in use.');
+        return throwError('The email address is already in use.');
+      }
+      return throwError(error.message);
+    }
+    return null;
+  }
 }

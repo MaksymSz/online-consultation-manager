@@ -75,6 +75,7 @@ import {
 import { CommentsComponent } from './components/admin/comments/comments.component';
 import { PatientsListComponent } from './components/admin/patients-list/patients-list.component';
 import {MatPaginator} from '@angular/material/paginator';
+import { ConsultantsSummaryComponent } from './components/admin/consultants-summary/consultants-summary.component';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -91,6 +92,7 @@ import {MatPaginator} from '@angular/material/paginator';
     MetaCalendarComponent,
     CommentsComponent,
     PatientsListComponent,
+    ConsultantsSummaryComponent,
   ],
   imports: [
     AngularFirestoreModule,
