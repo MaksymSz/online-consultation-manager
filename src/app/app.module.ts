@@ -73,6 +73,8 @@ import {
   MatCardTitle
 } from "@angular/material/card";
 import { CommentsComponent } from './components/admin/comments/comments.component';
+import { PatientsListComponent } from './components/admin/patients-list/patients-list.component';
+import {MatPaginator} from '@angular/material/paginator';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -88,6 +90,7 @@ import { CommentsComponent } from './components/admin/comments/comments.componen
     WelcomePageComponent,
     MetaCalendarComponent,
     CommentsComponent,
+    PatientsListComponent,
   ],
   imports: [
     AngularFirestoreModule,
@@ -113,7 +116,7 @@ import { CommentsComponent } from './components/admin/comments/comments.componen
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator
   ],
   exports: [
     MatDialogModule,
