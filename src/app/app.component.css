@@ -36,17 +36,16 @@ button{
   color: white;
   padding: 10px;
   background-color: #4361ee;  /* Optional: set a background color */
-  /*box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);  !* Optional: add shadow for separation *!*/
-  /*z-index: 1000; !* Ensure the sidebar stays above content *!*/
-  /*border-bottom-left-radius: 20px;  !* Round only the bottom-left corner *!*/
   border-top-right-radius: 0; /* Round only the bottom-right corner */
+
+  display: flex;
+  flex-direction: column;  /* Arrange buttons vertically */
+  justify-content: flex-start; /* Align items at the top */
 }
 
 /* Content area styles */
 .mat-sidenav-content {
   flex: 1;
-  /*margin-left: 250px;  !* Ensure content is pushed right for sidebar *!*/
-  /*padding: 16px;*/
 }
 
 /* Toolbar */
@@ -78,11 +77,22 @@ mat-toolbar {
   color: white;  /* Make the text color white */
   background-color: #4361ee;
   border: 2px solid white;
+  text-align: left;
   box-shadow: none;
+  width: 100%;
+
+
+  /*padding: 12px 16px;*/
+  align-content: flex-start;
+  margin-top: 10px;
 }
 
 /* Sidebar button hover effect */
 .sidenav button:hover {
   background-color: rgba(255, 255, 255, 0.1);  /* Optional: light hover effect */
+}
+
+.sidenav button + button {
+  margin-top: 10px;  /* Add space between each button */
 }
 
