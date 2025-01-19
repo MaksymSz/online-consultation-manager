@@ -94,7 +94,7 @@ import { StarRatingComponent } from './components/patient/star-rating/star-ratin
     CommentsComponent,
     PatientsListComponent,
     ConsultantsSummaryComponent,
-    StarRatingComponent,
+
   ],
   imports: [
     AngularFirestoreModule,
@@ -120,7 +120,7 @@ import { StarRatingComponent } from './components/patient/star-rating/star-ratin
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule, StarRatingComponent
   ],
   exports: [
     MatDialogModule,

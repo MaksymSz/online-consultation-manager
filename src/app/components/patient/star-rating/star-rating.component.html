@@ -1,13 +1,31 @@
-<h1 mat-dialog-title>Rate Reservation</h1>
-<div mat-dialog-content>
-  <div class="stars">
-    <button *ngFor="let star of [1, 2, 3, 4, 5]" (click)="onRate(star)">
-      <span [ngClass]="{'star-selected': stars >= star}">★</span>
-    </button>
+<div class="star-rating-container">
+  <!-- Rating Section -->
+  <mat-form-field appearance="outline" class="full-height">
+    <mat-label>Rating</mat-label>
+    <div class="stars">
+      <mat-icon *ngFor="let star of stars; let i = index"
+                [ngClass]="{
+                  'filled': rating > i,
+                  'empty': rating <= i,
+                  'hover': hoverIndex >= i
+                }"
+                (click)="setRating(i + 1)"
+                (mouseenter)="setHover(i + 1)"
+                (mouseleave)="clearHover()">
+        star
+      </mat-icon>
+    </div>
+  </mat-form-field>
+
+  <!-- Comment Section -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Comment</mat-label>
+    <textarea matInput placeholder="Write a comment..." [(ngModel)]="comment" [maxlength]="maxCommentLength"></textarea>
+    <mat-hint align="end">{{ comment?.length || 0 }} / {{ maxCommentLength }}</mat-hint>
+  </mat-form-field>
+
+  <!-- Submit Section -->
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="submitRating()" [disabled]="!rating || !comment">Submit Rating</button>
   </div>
-  <textarea [(ngModel)]="comment" placeholder="Leave a comment..." rows="4"></textarea>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button (click)="onSave()">Save</button>
 </div>

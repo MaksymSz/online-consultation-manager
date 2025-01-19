@@ -1,13 +1,45 @@
-.stars {
+.star-rating-container {
   display: flex;
-  font-size: 2rem;
+  flex-direction: column;
+  gap: 16px;
+  width: 500px;
+  height: 500px;
 }
 
-.star-selected {
-  color: gold;
+.stars {
+  display: flex;
+  gap: 8px; /* Space between the stars */
+  justify-content: center; /* Center the stars */
+  overflow: visible; /* Prevent clipping of stars */
+}
+
+mat-icon {
+  cursor: pointer;
+  font-size: 48px; /* Larger size of stars */
+  color: #ccc; /* Default empty star color */
+  transition: color 0.3s ease;
+  line-height: 1; /* Ensure no unwanted space around icons */
+  vertical-align: middle; /* Align the stars properly */
+}
+
+mat-icon.filled {
+  color: gold; /* Filled star color */
+}
+
+mat-icon.hover {
+  color: #ffeb3b; /* Highlighted star on hover */
+}
+
+mat-icon.empty {
+  color: #ccc; /* Default empty star color */
 }
 
 textarea {
   width: 100%;
-  margin-top: 10px;
+  height: 200px;
+}
+
+.actions {
+  margin-top: 16px;
+  text-align: center;
 }

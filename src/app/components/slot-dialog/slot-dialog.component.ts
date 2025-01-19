@@ -84,7 +84,7 @@ export class SlotDialogComponent {
 
       // Open the rating dialog if no rating exists
       const dialogRef = this.dialog.open(StarRatingComponent, {
-        width: '250px',
+        width: '500px',
         data: {reservationId: data.id, consultantId: reservation.consultantId}
       });
 
