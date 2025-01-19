@@ -106,4 +106,16 @@ export class PatientsService {
 
     return throwError(new Error('No uid'));
   }
+
+
+  getBannedStatus(){
+    const patientId = this.authService.userId.value;
+    return this.firestore
+      .collection('patients') // Collection name
+      .doc(patientId) // Get document by ID
+      .valueChanges() // Get document data
+      .pipe(
+        map((data: any) => data?.banned ?? null) // Access the 'banned' attribute
+      );
+  }
 }

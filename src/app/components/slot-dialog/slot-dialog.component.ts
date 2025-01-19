@@ -15,6 +15,8 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {AuthService} from '../../services/auth.service';
 import {Rating} from '../../models/rating';
 import {RatingService} from '../../services/rating.service';
+import {map} from 'rxjs';
+import {PatientsService} from '../../services/patients.service';
 
 @Component({
   selector: 'app-create-dialog',
@@ -28,8 +30,9 @@ import {RatingService} from '../../services/rating.service';
   ],
   styleUrl: './slot-dialog.component.css'
 })
-export class SlotDialogComponent {
+export class SlotDialogComponent implements OnInit {
   consultantName: string | undefined;
+  bannedStatus: boolean | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<SlotDialogComponent>,
@@ -39,6 +42,7 @@ export class SlotDialogComponent {
     private firestore: AngularFirestore,
     private authService: AuthService,
     private ratingService: RatingService,
+    private patientsService: PatientsService
   ) {
 
     this.consultantsService.getConsultant(data.reservation.consultantId).subscribe({
@@ -48,6 +52,10 @@ export class SlotDialogComponent {
       }
     })
   }
+
+  ngOnInit(): void {
+    this.getPatientBannedStatus();
+    }
 
 
   close(): void {
@@ -68,6 +76,18 @@ export class SlotDialogComponent {
       return yy < now;
     }
     return false;
+  }
+
+  getPatientBannedStatus(): void {
+    this.patientsService.getBannedStatus().subscribe(
+      (status) => {
+        this.bannedStatus = status;
+        console.log(`Patient banned status: ${this.bannedStatus}`);
+      },
+      (error) => {
+        console.error('Error fetching banned status:', error);
+      }
+    );
   }
 
 
