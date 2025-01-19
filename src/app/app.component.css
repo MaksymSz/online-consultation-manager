@@ -1,12 +1,88 @@
-mat-toolbar{
+mat-toolbar {
   background-color: #4361ee;
   color: white;
 }
 
-mat-icon{
+mat-icon {
   color: white;
 }
 
-.custom-button{
+.custom-button {
   color: white;
 }
+
+
+button{
+  color: white;
+}
+
+
+/* Make the container stretch across the whole page */
+.sidenav-container {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative; /* Ensure the content is positioned relative to the container */
+
+}
+
+/* Sidebar styles */
+.sidenav {
+  width: 250px;  /* Sidebar width */
+  position: fixed; /* Fix the sidebar on the left side of the screen */
+  top: 0;
+  left: 0;
+  height: 100%;
+  color: white;
+  padding: 10px;
+  background-color: #4361ee;  /* Optional: set a background color */
+  /*box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);  !* Optional: add shadow for separation *!*/
+  /*z-index: 1000; !* Ensure the sidebar stays above content *!*/
+  /*border-bottom-left-radius: 20px;  !* Round only the bottom-left corner *!*/
+  border-top-right-radius: 0; /* Round only the bottom-right corner */
+}
+
+/* Content area styles */
+.mat-sidenav-content {
+  flex: 1;
+  /*margin-left: 250px;  !* Ensure content is pushed right for sidebar *!*/
+  /*padding: 16px;*/
+}
+
+/* Toolbar */
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* App title styles */
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px; /* Adjust sidebar width for smaller screens */
+  }
+
+  .mat-sidenav-content {
+    margin-left: 0; /* No margin for smaller screens */
+  }
+}
+
+
+.sidenav button {
+  color: white;  /* Make the text color white */
+  background-color: #4361ee;
+  border: 2px solid white;
+  box-shadow: none;
+}
+
+/* Sidebar button hover effect */
+.sidenav button:hover {
+  background-color: rgba(255, 255, 255, 0.1);  /* Optional: light hover effect */
+}
+

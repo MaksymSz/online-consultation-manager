@@ -30,7 +30,7 @@ import {BasketComponent} from './components/patient/basket/basket.component';
 import {SchedulePatientComponent} from './components/patient/schedule-patient/schedule-patient.component';
 import {HomePatientComponent} from './components/patient/home-patient/home-patient.component';
 import {ConsultantsListComponent} from './components/patient/consultants-list/consultants-list.component';
-import {MatList, MatListItem} from "@angular/material/list";
+import {MatList, MatListItem, MatNavList} from "@angular/material/list";
 import {MatLine} from '@angular/material/core';
 
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -77,6 +77,7 @@ import { PatientsListComponent } from './components/admin/patients-list/patients
 import {MatPaginator} from '@angular/material/paginator';
 import { ConsultantsSummaryComponent } from './components/admin/consultants-summary/consultants-summary.component';
 import { StarRatingComponent } from './components/patient/star-rating/star-rating.component';
+import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 // registerLocaleData(localeEn);
 
 @NgModule({
@@ -120,7 +121,7 @@ import { StarRatingComponent } from './components/patient/star-rating/star-ratin
     MatRowDef,
     MatList,
     MatListItem,
-    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule, StarRatingComponent
+    MatLine, MatExpansionModule, MatIcon, MatDivider, ReservationDialogComponent, MatFormField, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, MatInput, MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon, ReactiveFormsModule, MatStepLabel, BasketComponent, MatToolbar, ItemListComponent, LoginComponent, RegisterComponent, MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, NgOptimizedImage, MatCardImage, MatPaginator, FormsModule, StarRatingComponent, MatSidenavContent, MatSidenavContainer, MatNavList, MatSidenav
   ],
   exports: [
     MatDialogModule,
