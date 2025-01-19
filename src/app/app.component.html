@@ -28,14 +28,28 @@
 
       <div *ngIf="userRole === 'admin'">
         <button mat-fab extended routerLink="/comments" routerLinkActive="active">
-          <mat-icon>rate_review</mat-icon>
+          <mat-icon>forum</mat-icon>
           Comments
+        </button>
+      </div>
+
+      <div *ngIf="userRole === 'admin'">
+        <button mat-fab extended routerLink="/consultants-summary" routerLinkActive="active">
+          <mat-icon>medication</mat-icon>
+          Consultants
+        </button>
+      </div>
+
+      <div *ngIf="userRole === 'admin'">
+        <button mat-fab extended routerLink="/users-summary" routerLinkActive="active">
+          <mat-icon>group</mat-icon>
+          Users
         </button>
       </div>
 
       <!-- LOGOUT -->
       <div *ngIf="userRole !== ''">
-        <button mat-fab extended (click)="onLogout()">
+        <button mat-fab extended (click)="onLogout()" style="position: absolute; bottom: 30px; width: 91%">
           <mat-icon>logout</mat-icon>
           Logout
         </button>
@@ -58,7 +72,7 @@
   <!-- Main content area -->
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <span class="app-title">My Application</span>
+      <span class="app-title">Consultify</span>
     </mat-toolbar>
 
     <router-outlet></router-outlet>

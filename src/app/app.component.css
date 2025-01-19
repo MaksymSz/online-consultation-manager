@@ -12,7 +12,7 @@ mat-icon {
 }
 
 
-button{
+button {
   color: white;
 }
 
@@ -28,19 +28,22 @@ button{
 
 /* Sidebar styles */
 .sidenav {
-  width: 250px;  /* Sidebar width */
+  width: 250px; /* Sidebar width */
   position: fixed; /* Fix the sidebar on the left side of the screen */
   top: 0;
   left: 0;
   height: 100%;
   color: white;
   padding: 10px;
-  background-color: #4361ee;  /* Optional: set a background color */
+
+  background-color: #4361ee; /* Optional: set a background color */
   border-top-right-radius: 0; /* Round only the bottom-right corner */
 
   display: flex;
-  flex-direction: column;  /* Arrange buttons vertically */
+  flex-direction: column; /* Arrange buttons vertically */
   justify-content: flex-start; /* Align items at the top */
+
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 /* Content area styles */
@@ -74,25 +77,35 @@ mat-toolbar {
 
 
 .sidenav button {
-  color: white;  /* Make the text color white */
+  color: white; /* Make the text color white */
   background-color: #4361ee;
+  font-size: 16px;
+  font-weight: bold;
   border: 2px solid white;
   text-align: left;
   box-shadow: none;
-  width: 100%;
+  width: 95%;
 
-
-  /*padding: 12px 16px;*/
-  align-content: flex-start;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
   margin-top: 10px;
+  padding-left: 30px;
 }
 
 /* Sidebar button hover effect */
 .sidenav button:hover {
-  background-color: rgba(255, 255, 255, 0.1);  /* Optional: light hover effect */
+  background-color: white;
+  color: #4361ee;
+  transform: translateX(10px);
+
+  z-index: 200;
+}
+.sidenav button:hover mat-icon {
+  color: #4361ee; /* Change icon color to yellow on hover */
 }
 
 .sidenav button + button {
-  margin-top: 10px;  /* Add space between each button */
+  margin-top: 10px; /* Add space between each button */
 }
 

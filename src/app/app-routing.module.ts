@@ -15,6 +15,8 @@ import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {MetaCalendarComponent} from './meta-calendar/meta-calendar.component';
 import {CommentsComponent} from './components/admin/comments/comments.component';
 import {CreateConsultantComponent} from './components/admin/create-consultant/create-consultant.component';
+import {PatientsListComponent} from './components/admin/patients-list/patients-list.component';
+import {ConsultantsSummaryComponent} from './components/admin/consultants-summary/consultants-summary.component';
 
 const routes: Routes = [
   {
@@ -76,6 +78,18 @@ const routes: Routes = [
   {
     path: 'create-consultant',
     component: CreateConsultantComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
+  },
+  {
+    path: 'consultants-summary',
+    component: ConsultantsSummaryComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
+  },
+  {
+    path: 'users-summary',
+    component: PatientsListComponent,
     canActivate: [AuthGuard],
     data: {roles: ['admin']},
   },
