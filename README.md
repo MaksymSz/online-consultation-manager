@@ -1,59 +1,72 @@
-# DemoCalendar
+# Online Consultation Management App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+This application is designed to manage online consultations between doctors and patients. Developed using TypeScript and Angular, the app provides an intuitive interface for doctors, patients, and admins to schedule, manage, and review consultations. The app also includes a payment simulation for booking consultations.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### For Doctors:
+- **Add Consultations**: Doctors can create new consultation appointments, specifying the date and time.
+- **Cancel Appointments**: Doctors can cancel their previously scheduled consultations.
+- **Calendar View**: A calendar view allows doctors to see all their scheduled appointments and patient registrations.
+  
+### For Patients:
+- **Register for Consultations**: Patients can view available consultations and register for one.
+- **Leave Feedback**: After attending a consultation, patients can leave reviews and comments.
+- **Self-Registration**: Patients can register themselves in the system, allowing them to view available consultations and book them.
+  
+### For Admins:
+- **Add Doctors**: Admins have the ability to add doctors to the system.
+- **Manage Users**: Admins can manage both doctors and patients, ensuring smooth operations of the platform.
+  
+### Payment Simulation:
+- **Booking and Payment Flow**: Patients can add consultations to their cart and proceed with a simulated payment process to confirm their bookings.
 
-```bash
-ng serve
-```
+## Tech Stack
+- **Frontend**: Angular (TypeScript)
+- **Backend**: (Add backend details if applicable)
+- **Database**: (Add database details if applicable)
+- **Payment Simulation**: (Add details of the simulated payment system if available)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Installation
 
-## Code scaffolding
+1. Clone this repository:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+   ```bash
+   git clone https://github.com/your-repo/online-consultation-management-app.git
+   cd online-consultation-management-app
+   ```
 
-```bash
-ng generate component component-name
-```
+2. Install dependencies:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+   ```bash
+   npm install
+   ```
 
-```bash
-ng generate --help
-```
+3. Run the application locally:
 
-## Building
+   ```bash
+   ng serve
+   ```
 
-To build the project run:
+   The app will be available at [http://localhost:4200](http://localhost:4200).
 
-```bash
-ng build
-```
+## Usage
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. **Login as a Doctor or Patient**: 
+   - Doctors can login and manage their consultations.
+   - Patients can register themselves and start booking consultations.
 
-## Running unit tests
+2. **Adding/Managing Appointments** (For Doctors):
+   - Access the calendar view to see your upcoming consultations.
+   - Use the "Add Consultation" button to schedule a new meeting.
+   - Cancel existing appointments when needed.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+3. **Booking Appointments** (For Patients):
+   - Browse available consultation slots and register for a consultation.
+   - Add consultations to the cart and proceed with payment simulation.
+   - Leave feedback after attending consultations.
 
-```bash
-ng test
-```
+4. **Admin Panel**:
+   - Admins can add doctors to the platform by filling in their details.
+   - Manage patients and consultations.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
