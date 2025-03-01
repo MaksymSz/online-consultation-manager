@@ -1,3 +1,6 @@
+![Node.js](https://img.shields.io/badge/Node.js-v14%2B-brightgreen)
+![Angular](https://img.shields.io/badge/Angular-v12%2B-brightgreen)
+
 # Online Consultation Management App
 
 This application is designed to manage online consultations between doctors and patients. Developed using TypeScript and Angular, the app provides an intuitive interface for doctors, patients, and admins to schedule, manage, and review consultations. The app also includes a payment simulation for booking consultations.
