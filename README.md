@@ -25,10 +25,8 @@ This application is designed to manage online consultations between doctors and 
 - **Booking and Payment Flow**: Patients can add consultations to their cart and proceed with a simulated payment process to confirm their bookings.
 
 ## Tech Stack
-- **Frontend**: Angular (TypeScript)
-- **Backend**: (Add backend details if applicable)
-- **Database**: (Add database details if applicable)
-- **Payment Simulation**: (Add details of the simulated payment system if available)
+- Angular (TypeScript)
+- Firebase
 
 ## Installation
 
